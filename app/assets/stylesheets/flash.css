@@ -1,3 +1,7 @@
 .error, .alert, .notice, .success, .info {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;}
 .success {background:#e6efc2;color:#264409;border-color:#c6d880;}
-.error {background:#e6efc2;color:red;border-color:#c6d880;}
+.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}

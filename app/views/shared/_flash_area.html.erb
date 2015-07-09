@@ -1,3 +1,4 @@
+<%if flash.present? %>
 <div id= "notice">
   <% flash.each do |key, value| %>
     <div class="flash <%= key %>">
@@ -5,3 +6,4 @@
     </div>
   <% end %>
 </div>
+<%end %>

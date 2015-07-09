@@ -9,10 +9,11 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body role="document">
 <%= render 'shared/home_nav' %>
 <%= render 'shared/flash_area' %>
-<%= yield %>
-
+<div class="container theme-showcase" role="main">
+  <%= yield %>
+</div>
 </body>
 </html>
