@@ -1,0 +1,16 @@
+/*宽度 高度*/
+.w-120{width: 120px}
+.h-150{height: 150px}
+.h-180{height: 180px}
+.h-200{height: 200px}
+.h-250{height: 250px}
+
+
+
+.bg-white{
+    background: white;
+}
+
+.border{
+    border-bottom: 1px solid;
+}
