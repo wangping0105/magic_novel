@@ -1,8 +1,11 @@
 # source 'https://rubygems.org'
 source 'https://ruby.taobao.org'
 
+ruby '2.2.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
+# gem 'sqlite3'
+gem 'mysql2', '~> 0.3.18'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -29,6 +32,7 @@ gem 'bcrypt', '~> 3.1.7'
 #增加一个权限认证的机制
 gem 'pundit'
 
+gem "sinatra-activerecord"
 # API 调用频率限制(Rate Limit)
 # 我们使用 redis-throttle 来实现这个功能。
 gem 'redis-throttle', git: 'git://github.com/andreareginato/redis-throttle.git'
