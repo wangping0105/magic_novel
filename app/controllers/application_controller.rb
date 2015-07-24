@@ -4,13 +4,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :default_page_title
 
-  attr_accessor :current_user
   attr_accessor :save_url
 
   def default_page_title
     @page_title = '魔书网'
   end
-
 
 
 end
