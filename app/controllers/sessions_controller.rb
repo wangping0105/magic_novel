@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_action :store_location
   layout 'layouts/sessions'
   def index
     @user = User.new
@@ -7,13 +8,18 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by(email: create_params[:email])
     if @user && @user.authenticate(create_params[:password])
-      self.current_user = @user
+      sign_in(@user)
       flash[:success] = '登录成功'
-      redirect_to root_path
     else
       flash[:error] = '账户密码不正确，请重试!'
-      render 'index'
     end
+    redirect_back_or root_path
+  end
+
+  def signout
+    sign_out
+     flash[:success] = '退出成功'
+    redirect_back_or root_path
   end
 
   private
