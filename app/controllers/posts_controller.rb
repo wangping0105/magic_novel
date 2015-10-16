@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
+
 #  before_action :authenticate_user!
+
 
   def index
 
@@ -8,8 +10,6 @@ class PostsController < ApplicationController
   def update
 
   end
-
   private
 
- 
 end
