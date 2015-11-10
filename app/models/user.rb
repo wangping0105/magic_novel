@@ -3,6 +3,10 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :microposts
 
+  acts_as_paranoid
+
+  validates_uniqueness_of :email, conditions: -> { paranoia_scope }, allow_nil: true, allow_blank: true
+
   TEAVHER_URL = "/assets/guest.jpg"
 
   def generate_authentication_token

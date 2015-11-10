@@ -35,7 +35,10 @@ gem "sinatra-activerecord"
 # API 调用频率限制(Rate Limit)
 # 我们使用 redis-throttle 来实现这个功能。
 gem 'redis-throttle', git: 'git://github.com/andreareginato/redis-throttle.git'
-
+# 图形验证码
+gem 'rucaptcha'
+# 软删除
+gem 'paranoia', '~> 2.1.0'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
