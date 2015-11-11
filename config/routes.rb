@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     end
   end
   resources :users
+  resources :books do
+
+  end
   # 主要的
   resources :posts do
 

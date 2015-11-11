@@ -14,3 +14,11 @@
 .border{
     border-bottom: 1px solid;
 }
+
+.margin-5px{
+    margin: 5px;
+}
+
+.margint-5px{
+    margin-top: 5px;
+}
