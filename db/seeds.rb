@@ -6,5 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
+User.delete_all
+Classification.delete_all
 User.create(email: "admin@mb.com", admin: true, name: 'admin', password: '111111')
+
+classification_names = %w(武侠 仙侠 玄幻 奇幻 都市 言情 网游 科幻 推理 悬疑 历史 军事 恐怖 探险 同人 拓展 讽刺)
+classification_names.each do |name|
+  Classification.create(name: name, pinyin: PinYin.of_string(name).join(""))
+end
+
+p '初始化成功'

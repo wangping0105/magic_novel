@@ -48,6 +48,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    acts_as_enum (1.2.1)
     arel (6.0.0)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
@@ -119,6 +120,9 @@ GEM
     net-ssh (2.9.2)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
+    paranoia (2.1.3)
+      activerecord (~> 4.0)
+    posix-spawn (0.3.11)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -173,6 +177,11 @@ GEM
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
+    rmmseg-cpp (0.2.9)
+    ruby-pinyin (0.4.7)
+      rmmseg-cpp (~> 0.2)
+    rucaptcha (0.3.1)
+      posix-spawn (>= 0.3.0)
     sass (3.4.15)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -235,6 +244,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_enum
   bcrypt (~> 3.1.7)
   capistrano-rails (~> 1.1.3)
   capistrano-rvm (~> 0.1.2)
@@ -245,6 +255,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   mysql2 (~> 0.3.18)
+  paranoia (~> 2.1.0)
   pry-nav
   pry-rails
   pry-remote
@@ -253,6 +264,8 @@ DEPENDENCIES
   rack-mini-profiler
   rails (= 4.2.1)
   redis-throttle!
+  ruby-pinyin (~> 0.4.5)
+  rucaptcha
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sinatra-activerecord

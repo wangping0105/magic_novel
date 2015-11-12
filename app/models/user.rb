@@ -1,7 +1,12 @@
 class User < ActiveRecord::Base
   before_create :generate_authentication_token
   has_secure_password
-  has_many :microposts
+
+  has_one :author
+
+  acts_as_paranoid
+
+  validates_uniqueness_of :email, conditions: -> { paranoia_scope }, allow_nil: true, allow_blank: true
 
   TEAVHER_URL = "/assets/guest.jpg"
 

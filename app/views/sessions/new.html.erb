@@ -1,0 +1,28 @@
+<div class="container">
+
+  <%= form_for(@user,url: sign_up_sessions_path , html:{class: "form-signin"}, method: "post") do |f|%>
+    <h2 class="form-signin-heading">魔书注册账户</h2>
+    <label for="inputEmail" class="sr-only">昵称</label>
+    <%=f.text_field :name ,class:"form-control", placeholder:"昵称", required: true%>
+    <label for="inputEmail" class="sr-only">邮箱</label>
+    <%=f.email_field :email ,class:"form-control", placeholder:"邮箱", required: true%>
+    <label for="inputPassword" class="sr-only">密码</label>
+    <%=f.password_field :password ,class:"form-control", placeholder:"密码", required: true%>
+    <%= rucaptcha_input_tag(class: 'form-control', placeholder: '验证码') %>
+    <%= rucaptcha_image_tag(alt: 'Captcha') %>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="remember-me"> 记住我
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+  <%end %>
+
+</div>
+<script>
+  $(function(){
+    $("img[class=rucaptcha-image]").on("click",function(){
+      $(this).attr("src","/rucaptcha/")
+    })
+  })
+</script>
