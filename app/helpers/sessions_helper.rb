@@ -14,7 +14,12 @@ module SessionsHelper
     authentication_token = User.encrypt(cookies[:authentication_token])
     @current_user ||= User.find_by(authentication_token: authentication_token)
   end
-  
+
+  def current_author
+    return Author.create(user_id: current_user.id, name: current_user.name) unless current_user.author.present?
+    @current_author ||= current_user.author
+  end
+
   def redirect_back_or(default)
     redirect_to (session[:return_to] || default)
     session.delete(:return_to)

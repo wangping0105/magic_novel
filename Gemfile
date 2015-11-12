@@ -39,6 +39,10 @@ gem 'redis-throttle', git: 'git://github.com/andreareginato/redis-throttle.git'
 gem 'rucaptcha'
 # 软删除
 gem 'paranoia', '~> 2.1.0'
+#enum 的一个帮助gem
+gem 'acts_as_enum'
+#
+gem 'ruby-pinyin', '~> 0.4.5'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views

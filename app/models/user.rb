@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   before_create :generate_authentication_token
   has_secure_password
-  has_many :microposts
+
+  has_one :author
 
   acts_as_paranoid
 
