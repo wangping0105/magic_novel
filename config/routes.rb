@@ -12,4 +12,12 @@ Rails.application.routes.draw do
 
   end
 
+  namespace :user_home do
+    resources :users
+    # 主要的
+    resources :posts do
+
+    end
+  end
+
 end

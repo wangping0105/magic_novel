@@ -5,7 +5,17 @@
 .h-200{height: 200px}
 .h-250{height: 250px}
 
+.w-16X{width: 16%}
+.w-84X{width: 84%}
 
+.float-l{  float: left;  }
+.float-r{  float: right;  }
+
+.pad-5{  padding: 5px;  }
+
+.border-common{
+    border: 1px solid #e1e1e8;
+}
 
 .bg-white{
     background: white;

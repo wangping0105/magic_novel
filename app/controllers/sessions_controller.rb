@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       sign_in(@user)
       flash[:success] = '登录成功'
     else
-      flash[:error] = '账户密码不正确，请重试!'
+      flash[:danger] = '账户密码不正确，请重试!'
     end
     redirect_back_or root_path
   end

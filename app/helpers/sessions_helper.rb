@@ -1,4 +1,5 @@
 module SessionsHelper
+  
   def sign_in(user)
     authentication_token = User.new_authentication_token
     cookies.permanent[:authentication_token] = authentication_token
@@ -41,4 +42,13 @@ module SessionsHelper
     end
     false
   end
+
+  def authenticate_user!
+    unless signed_in?
+      flash[:error] = "您无访问权限，请先登录！"
+      path = (session[:return_to] || root_path)
+      redirect_to root_path
+    end
+  end
+
 end

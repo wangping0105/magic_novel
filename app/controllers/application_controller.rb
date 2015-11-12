@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   attr_accessor :save_url
 
   def default_page_title
-    @page_title = '魔书网'
+    @page_title = "魔书网"
   end
 
 
