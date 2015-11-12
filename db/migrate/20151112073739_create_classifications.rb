@@ -5,7 +5,7 @@ class CreateClassifications < ActiveRecord::Migration
       t.string :name
       t.string  :pinyin, index:true
       t.string :remark
-      t.integer :book_count, default: 0
+      t.integer :books_count, default: 0
       t.datetime :dalete_at
 
       t.timestamps null: false

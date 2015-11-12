@@ -14,8 +14,8 @@ class CreateBooks < ActiveRecord::Migration
       t.integer :click_count, default:0
       t.integer :recommend_count, default:0
       t.integer :collection_count, default:0
-      t.integer :book_volume_count, default:0
-      t.integer :book_chapter_count, default:0
+      t.integer :book_volumes_count, default:0
+      t.integer :book_chapters_count, default:0
       t.datetime :deleted_at
 
       t.timestamps null: false

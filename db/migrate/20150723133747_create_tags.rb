@@ -4,7 +4,6 @@ class CreateTags < ActiveRecord::Migration
       t.string :name
       t.string :remark
       t.string  :pinyin, index:true
-      t.integer :book_count, default: 0
       t.datetime :deleted_at
 
       t.timestamps null: false

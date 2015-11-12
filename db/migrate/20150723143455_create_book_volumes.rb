@@ -3,7 +3,7 @@ class CreateBookVolumes < ActiveRecord::Migration
     create_table :book_volumes do |t|
       t.integer :book_id, index:true
       t.string :title
-      t.integer :book_chapter_count
+      t.integer :book_chapters_count
       t.integer :is_free
       t.decimal :price
       t.float :discount

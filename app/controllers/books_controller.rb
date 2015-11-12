@@ -1,10 +1,7 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show]
 #  before_action :authenticate_user!
-
-
   def index
-    binding.pry
     @books = Book.all
     @books = filter_page(@books)
   end
@@ -35,7 +32,7 @@ class BooksController < ApplicationController
   private
 
   def params_book
-    params.require(:book).permit(:title, :classification, :book_type, :introduction, :remarks)
+    params.require(:book).permit(:title, :classification_id, :book_type, :introduction, :remarks)
   end
 
   def set_book

@@ -16,8 +16,7 @@ ActiveRecord::Schema.define(version: 20151112105309) do
   create_table "authors", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.integer  "user_id",     limit: 4
-    t.integer  "book_id",     limit: 4
-    t.integer  "book_count",  limit: 4,   default: 0
+    t.integer  "books_count", limit: 4,   default: 0
     t.integer  "level",       limit: 4,   default: 0
     t.boolean  "is_identity", limit: 1,   default: false
     t.integer  "experience",  limit: 4,   default: 0
@@ -26,7 +25,6 @@ ActiveRecord::Schema.define(version: 20151112105309) do
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "authors", ["book_id"], name: "index_authors_on_book_id", using: :btree
   add_index "authors", ["user_id"], name: "index_authors_on_user_id", using: :btree
 
   create_table "book_chapters", force: :cascade do |t|
@@ -59,53 +57,53 @@ ActiveRecord::Schema.define(version: 20151112105309) do
   add_index "book_tag_relations", ["tag_id"], name: "index_book_tag_relations_on_tag_id", using: :btree
 
   create_table "book_volumes", force: :cascade do |t|
-    t.integer  "book_id",            limit: 4
-    t.string   "title",              limit: 255
-    t.integer  "book_chapter_count", limit: 4
-    t.integer  "is_free",            limit: 4
-    t.decimal  "price",                          precision: 10
-    t.float    "discount",           limit: 24
+    t.integer  "book_id",             limit: 4
+    t.string   "title",               limit: 255
+    t.integer  "book_chapters_count", limit: 4
+    t.integer  "is_free",             limit: 4
+    t.decimal  "price",                           precision: 10
+    t.float    "discount",            limit: 24
     t.datetime "deleted_at"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
   end
 
   add_index "book_volumes", ["book_id"], name: "index_book_volumes_on_book_id", using: :btree
 
   create_table "books", force: :cascade do |t|
-    t.string   "title",              limit: 255
-    t.string   "pinyin",             limit: 255
-    t.integer  "author_id",          limit: 4
-    t.integer  "book_type",          limit: 4
-    t.text     "introduction",       limit: 65535
-    t.string   "remarks",            limit: 255
-    t.integer  "status",             limit: 4,                    default: 0
-    t.decimal  "total_price",                      precision: 10
-    t.float    "discount",           limit: 24
-    t.integer  "words",              limit: 4
-    t.integer  "click_count",        limit: 4,                    default: 0
-    t.integer  "recommend_count",    limit: 4,                    default: 0
-    t.integer  "collection_count",   limit: 4,                    default: 0
-    t.integer  "book_volume_count",  limit: 4,                    default: 0
-    t.integer  "book_chapter_count", limit: 4,                    default: 0
+    t.string   "title",               limit: 255
+    t.string   "pinyin",              limit: 255
+    t.integer  "author_id",           limit: 4
+    t.integer  "book_type",           limit: 4
+    t.text     "introduction",        limit: 65535
+    t.string   "remarks",             limit: 255
+    t.integer  "status",              limit: 4,                    default: 0
+    t.decimal  "total_price",                       precision: 10
+    t.float    "discount",            limit: 24
+    t.integer  "words",               limit: 4
+    t.integer  "click_count",         limit: 4,                    default: 0
+    t.integer  "recommend_count",     limit: 4,                    default: 0
+    t.integer  "collection_count",    limit: 4,                    default: 0
+    t.integer  "book_volumes_count",  limit: 4,                    default: 0
+    t.integer  "book_chapters_count", limit: 4,                    default: 0
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                  null: false
-    t.datetime "updated_at",                                                  null: false
-    t.integer  "classification_id",  limit: 4
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
+    t.integer  "classification_id",   limit: 4
   end
 
   add_index "books", ["author_id"], name: "index_books_on_author_id", using: :btree
   add_index "books", ["book_type"], name: "index_books_on_book_type", using: :btree
 
   create_table "classifications", force: :cascade do |t|
-    t.integer  "parent_id",  limit: 4
-    t.string   "name",       limit: 255
-    t.string   "pinyin",     limit: 255
-    t.string   "remark",     limit: 255
-    t.integer  "book_count", limit: 4,   default: 0
+    t.integer  "parent_id",   limit: 4
+    t.string   "name",        limit: 255
+    t.string   "pinyin",      limit: 255
+    t.string   "remark",      limit: 255
+    t.integer  "books_count", limit: 4,   default: 0
     t.datetime "dalete_at"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "classifications", ["parent_id"], name: "index_classifications_on_parent_id", using: :btree
@@ -115,10 +113,9 @@ ActiveRecord::Schema.define(version: 20151112105309) do
     t.string   "name",       limit: 255
     t.string   "remark",     limit: 255
     t.string   "pinyin",     limit: 255
-    t.integer  "book_count", limit: 4,   default: 0
     t.datetime "deleted_at"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "tags", ["pinyin"], name: "index_tags_on_pinyin", using: :btree
