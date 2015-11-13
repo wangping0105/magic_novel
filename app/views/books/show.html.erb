@@ -1,13 +1,18 @@
 <div class="container">
   <div>
-    <h1>六道传说</h1>
-    <span>作者：小白</span>
+    <h1><%= @book.title %></h1>
+    <span>作者:<%= @book.author.name %></span>
+  </div>
+
+  <div class="">
+    <%= link_to '卷标管理', book_book_volumes_path(@book) %>
+    <%= link_to '添加新的章节', new_book_book_chapter_path(@book) %>
   </div>
 
   <div class="row bg-white">
-    <% (1..9).each do |i| %>
+    <% @book.book_chapters.each do |chapter| %>
       <div class="col-md-4 margint-5px">
-        <a> 第<%= i %>章 起源章节 </a>
+        <a> <%= chapter.title%> </a>
 
       </div>
     <% end %>

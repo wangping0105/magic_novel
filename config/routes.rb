@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   resources :users
   resources :books do
 
+    resources :book_chapters, path: :chapters do
+    end
+    resources :book_volumes, path: :volumes do
+      get :get_chapter, on: :member
+    end
   end
   # 主要的
   resources :posts do
@@ -20,9 +25,10 @@ Rails.application.routes.draw do
   namespace :user_home do
     resources :users
     # 主要的
-    resources :posts do
-
+    resources :books do
     end
+
+    resources :authors
   end
 
 end

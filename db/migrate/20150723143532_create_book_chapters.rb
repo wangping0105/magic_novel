@@ -6,6 +6,8 @@ class CreateBookChapters < ActiveRecord::Migration
       t.string :title
       t.text :content
       t.integer :word_count
+      t.integer :next_chapter_id
+      t.integer :prev_chapter_id
       t.integer :is_free
       t.integer :types
       t.decimal :price

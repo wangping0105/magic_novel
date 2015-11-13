@@ -1,0 +1,26 @@
+<div class="container">
+  <h1>卷标列表</h1>
+  <table class="table">
+    <tr><td>序号</td><td>名称</td><td>章节数</td><td>操作</td></tr>
+    <% @book_volumes.each_with_index  do |book, i| %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td><%= book.title %></td>
+        <td><%= book.book_chapters.count %></td>
+        <td>==</td>
+      </tr>
+    <% end %>
+  </table>
+  <hr class="border">
+  <div>
+    <%= form_for(@book.book_volumes.new, url: book_book_volumes_path, html:{ class: "navbar-form navbar-left"}) do |f| %>
+      <%= hidden_field_tag :book_id, @book.id  %>
+      <div class="form-group">
+        <%= f.text_field :title, class:"form-control col-sm-10 w-200", placeholder: '卷标名称' %>
+      </div>
+      <div class="form-group">
+        <%= f.submit '新增卷标', class: "btn btn-primary float-r" %>
+      </div>
+    <%end%>
+  </div>
+</div>

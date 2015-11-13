@@ -28,18 +28,20 @@ ActiveRecord::Schema.define(version: 20151112105309) do
   add_index "authors", ["user_id"], name: "index_authors_on_user_id", using: :btree
 
   create_table "book_chapters", force: :cascade do |t|
-    t.integer  "book_id",        limit: 4
-    t.integer  "book_volume_id", limit: 4
-    t.string   "title",          limit: 255
-    t.text     "content",        limit: 65535
-    t.integer  "word_count",     limit: 4
-    t.integer  "is_free",        limit: 4
-    t.integer  "types",          limit: 4
-    t.decimal  "price",                        precision: 10
-    t.float    "discount",       limit: 24
+    t.integer  "book_id",         limit: 4
+    t.integer  "book_volume_id",  limit: 4
+    t.string   "title",           limit: 255
+    t.text     "content",         limit: 65535
+    t.integer  "word_count",      limit: 4
+    t.integer  "next_chapter_id", limit: 4
+    t.integer  "prev_chapter_id", limit: 4
+    t.integer  "is_free",         limit: 4
+    t.integer  "types",           limit: 4
+    t.decimal  "price",                         precision: 10
+    t.float    "discount",        limit: 24
     t.datetime "deleted_at"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
   end
 
   add_index "book_chapters", ["book_id"], name: "index_book_chapters_on_book_id", using: :btree
