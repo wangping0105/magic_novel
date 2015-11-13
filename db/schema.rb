@@ -61,13 +61,13 @@ ActiveRecord::Schema.define(version: 20151112105309) do
   create_table "book_volumes", force: :cascade do |t|
     t.integer  "book_id",             limit: 4
     t.string   "title",               limit: 255
-    t.integer  "book_chapters_count", limit: 4
+    t.integer  "book_chapters_count", limit: 4,                  default: 0
     t.integer  "is_free",             limit: 4
     t.decimal  "price",                           precision: 10
     t.float    "discount",            limit: 24
     t.datetime "deleted_at"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
   end
 
   add_index "book_volumes", ["book_id"], name: "index_book_volumes_on_book_id", using: :btree

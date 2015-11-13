@@ -12,9 +12,9 @@ Rails.application.routes.draw do
   resources :books do
 
     resources :book_chapters, path: :chapters do
+      get :get_chapter, on: :collection
     end
     resources :book_volumes, path: :volumes do
-      get :get_chapter, on: :member
     end
   end
   # 主要的

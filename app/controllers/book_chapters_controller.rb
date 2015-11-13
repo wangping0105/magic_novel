@@ -15,13 +15,11 @@ class BookChaptersController < ApplicationController
   def show ;end
 
   def create
-    @book = Book.new(params_book.merge(author_id: current_author.id))
-    if @book.save
-      tags = params[:tag_names].split(";")
-      tags.each {|t|
-        BookTagRelation.create(tag: t, book: @book)
-      }
-      redirect_to books_path
+    @book_chapter = @book.book_chapters.new(params_book_chapter)
+    if @book_chapter.save
+      @prev_book_chapter = BookChapter.find_by(id: params_book_chapter[:prev_chapter_id])
+      @prev_book_chapter.update(next_chapter_id: @book_chapter.id) if @prev_book_chapter.present?
+      redirect_to book_path(@book)
     else
       render 'new'
     end
@@ -33,14 +31,16 @@ class BookChaptersController < ApplicationController
   def get_chapter
     set_book_volume
     @chapter = @book_volume.book_chapters.last
-
-    render json:{id: @chapter.try(:id).to_i, name: @chapter.try(:title).to_s}
+    render json:{
+               id: @chapter.try(:id),
+               name: @chapter.try(:title).to_s
+           }
   end
 
   private
 
-  def params_book
-    params.require(:book).permit(:title, :classification_id, :book_type, :introduction, :remarks)
+  def params_book_chapter
+    params.require(:book_chapter).permit(:title, :content, :book_volume_id, :prev_chapter_id)
   end
 
   def set_book_volume

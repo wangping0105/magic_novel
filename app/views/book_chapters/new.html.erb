@@ -25,7 +25,8 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">上一章</label>
         <div class="col-sm-10">
-          <%= f.text_field :prev_chapter_id, class: "form-control", readonly: true%>
+          <%= text_field_tag :prev_chapter_name, "", class: "form-control", readonly: true%>
+          <%= f.hidden_field :prev_chapter_id, class: "form-control", readonly: true%>
         </div>
       </div>
 
@@ -37,9 +38,17 @@
 <script>
   $(function(){
     $("#book_chapter_book_volume_id").on("change", function(){
-      $.ajax({
-        url:'/get_chapter'
-      })
+        if($(this).val() != ""){
+            $.ajax({
+                url: '/books/<%=@book.id %>/chapters/get_chapter?book_volume_id='+$(this).val(),
+                dataType:'json',
+                type:'get',
+                success: function(data){
+                    $("#prev_chapter_name").val(data.name)
+                    $("#book_chapter_prev_chapter_id").val(data.id)
+                }
+            })
+        }
     })
   })
 </script>
