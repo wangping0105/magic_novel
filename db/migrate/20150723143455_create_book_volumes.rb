@@ -7,6 +7,8 @@ class CreateBookVolumes < ActiveRecord::Migration
       t.integer :is_free
       t.decimal :price
       t.float :discount
+      t.integer :next_volume_id
+      t.integer :prev_volume_id
       t.datetime :deleted_at
 
       t.timestamps null: false

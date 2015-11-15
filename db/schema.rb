@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 20151112105309) do
     t.integer  "is_free",             limit: 4
     t.decimal  "price",                           precision: 10
     t.float    "discount",            limit: 24
+    t.integer  "next_volume_id",      limit: 4
+    t.integer  "prev_volume_id",      limit: 4
     t.datetime "deleted_at"
     t.datetime "created_at",                                                 null: false
     t.datetime "updated_at",                                                 null: false

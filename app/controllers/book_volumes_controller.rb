@@ -7,8 +7,10 @@ class BookVolumesController < ApplicationController
   end
 
   def create
-    book_volume = @book.book_volumes.new(params_book_volume)
+    _prev_book_volume = @book.book_volumes.last
+    book_volume = @book.book_volumes.new(params_book_volume.merge(prev_volume_id: _prev_book_volume.try(:id)))
     if book_volume.save
+      _prev_book_volume.update(next_volume_id: book_volume.id) if _prev_book_volume.present?
       flash[:success] = '保存成功'
       redirect_to book_book_volumes_path
     else

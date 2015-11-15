@@ -1,3 +1,7 @@
+
+.align-center{
+    text-align: center;
+}
 /*宽度 高度*/
 .w-120{width: 120px}
 .w-200{width: 200px}
@@ -13,6 +17,9 @@
 .float-r{  float: right;  }
 
 .pad-5{  padding: 5px;  }
+.pad-10{  padding: 10px;  }
+.padtb-5{  padding: 5px 0px;  }
+.padtb-10{  padding: 10px 0px;  }
 
 .border-common{
     border: 1px solid #e1e1e8;
@@ -26,14 +33,30 @@
     border-bottom: 1px solid;
 }
 
-.margin-5px{
+.margin-5px{  margin: 5px;  }
+.margint-5px{ margin-top: 5px; }
+
+
+.float-r{  float: right;  }
+
+h4 {
+    margin-top: 25px;
+}
+.row {
     margin: 5px;
 }
 
-.margint-5px{
-    margin-top: 5px;
+.volume [class*="col-"] {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #eee;
+    /*background-color: rgba(86,61,124,.15);*/
+    border: 1px solid #ddd;
+    border: 1px solid rgba(86,61,124,.2);
 }
 
-.float-r{
-    float: right;
+
+hr {
+    margin-top: 40px;
+    margin-bottom: 40px;
 }

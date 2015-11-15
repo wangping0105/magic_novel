@@ -17,8 +17,12 @@ module SessionsHelper
   end
 
   def current_author
-    return Author.create(user_id: current_user.id, name: current_user.name) unless current_user.author.present?
-    @current_author ||= current_user.author
+    if current_user.present?
+      return Author.create(user_id: current_user.id, name: current_user.name) unless current_user.author.present?
+      @current_author ||= current_user.author
+    else
+      nil
+    end
   end
 
   def redirect_back_or(default)

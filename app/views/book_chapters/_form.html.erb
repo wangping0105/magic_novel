@@ -1,0 +1,134 @@
+<div class="container">
+  <h1><%= @book.title %>-添加章节</h1>
+  <div>
+    <%= form_for(@book_chapter, url: book_path, html:{ class: "form-horizontal"}) do |f| %>
+        <%= hidden_field_tag :book_id, @book.id  %>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">章节名</label>
+          <div class="col-sm-11">
+            <%= f.text_field :title, class:"form-control" %>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="control-label col-sm-1 required">内容</label>
+
+          <div class="col-sm-11">
+            <div class="btn-toolbar m-b-sm btn-editor" data-role="editor-toolbar"
+                 data-target="#editor">
+              <!--<div class="btn-group"><a class="btn btn-default btn-sm dropdown-toggle"-->
+              <!--data-toggle="dropdown" title="Font"><i-->
+              <!--class="fa fa-font"></i><b class="caret"></b></a>-->
+              <!--<ul class="dropdown-menu"></ul>-->
+              <!--</div>-->
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="标签格式"> Format &nbsp;<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a data-edit="formatblock <p>">Normal</a> </li>
+                  <li><a data-edit="formatblock <p>">Paragraph</a> </li>
+                  <li><a data-edit="formatblock <h1>">H1</a> </li>
+                  <li><a data-edit="formatblock <h2>">h2</a> </li>
+                  <li><a data-edit="formatblock <h3>">h3</a> </li>
+                  <li><a data-edit="formatblock <h4>">h4</a> </li>
+                  <li><a data-edit="formatblock <h5>">h5</a> </li>
+                  <li><a data-edit="formatblock <h6>">h6</a> </li>
+                  <li><a data-edit="formatblock <address>">Address</a> </li>
+                  <li><a data-edit="formatblock <pre>">Formatted</a> </li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="字体大小"> <i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a data-edit="fontSize 5"><font size="5">大</font></a> </li>
+                  <li><a data-edit="fontSize 3"><font size="3">中</font></a> </li>
+                  <li><a data-edit="fontSize 1"><font size="1">小</font></a> </li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="strikethrough" title="中划线"><i class="fa fa-strikethrough"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+              </div>
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm" data-edit="outdent" title="缩进 (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="indent" title="撤销缩进 (Tab)"><i class="fa fa-indent"></i></a>
+              </div>
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm" data-edit="justifyleft" title="左对齐 (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="justifycenter" title="居中对齐 (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="justifyright" title="右对齐 (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="justifyfull" title="自适应 (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+              </div>
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="fa fa-link"></i></a>
+                <div class="dropdown-menu">
+                  <div class="input-group m-l-xs m-r-xs">
+                    <input class="form-control input-sm" placeholder="URL" type="text" data-edit="createLink"/>
+                    <div class="input-group-btn">
+                      <button class="btn btn-default btn-sm" type="button"> Add </button>
+                    </div>
+                  </div>
+                </div>
+                <a class="btn btn-default btn-sm" data-edit="unlink" title="清除超链接"><i class="fa fa-cut"></i></a></div>
+
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm" title="" id="pictureBtn" data-original-title="插入图片 (或者直接把图片托进来)"><i class="fa fa-picture-o"></i></a>
+                <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 35px; height: 30px;">
+              </div>
+
+              <div class="btn-group">
+                <a class="btn btn-default btn-sm" data-edit="undo" title="撤销 (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                <a class="btn btn-default btn-sm" data-edit="redo" title="反撤销 (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+              </div>
+            </div>
+            <div id="editor" class="form-control" style="height:750px;">
+              <%= raw(@book_chapter.content || '请输入内容...') %>
+            </div>
+            <%= f.text_area :content, class: 'content-field hide' %>
+          </div>
+        </div>
+
+        <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label">内容</label>-->
+        <!--<div class="col-sm-10">-->
+        <!--<%= f.text_area :content,  { class: "form-control h-250" }%>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="form-group">
+          <label class="col-sm-1 control-label">卷标</label>
+          <div class="col-sm-11">
+            <%= f.select :book_volume_id, @book_volumes, {include_blank: "说明" }, class: "form-control", require: true%>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">上一章</label>
+          <div class="col-sm-11">
+            <%= text_field_tag :prev_chapter_name, @book_chapter.prev_chapter.try(:title), class: "form-control", readonly: true%>
+            <%= f.hidden_field :prev_chapter_id, value: @book_chapter.prev_chapter_id, class: "form-control", readonly: true%>
+          </div>
+        </div>
+
+        <%= f.submit '提交', class: "btn btn-primary float-r" %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    $(function(){
+        $("#book_chapter_book_volume_id").on("change", function(){
+            if($(this).val() != ""){
+                $.ajax({
+                    url: '/books/<%=@book.id %>/chapters/get_chapter?book_volume_id='+$(this).val(),
+                    dataType:'json',
+                    type:'get',
+                    success: function(data){
+                        $("#prev_chapter_name").val(data.name)
+                        $("#book_chapter_prev_chapter_id").val(data.id)
+                    }
+                })
+            }
+        })
+    })
+</script>

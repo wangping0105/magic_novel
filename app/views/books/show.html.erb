@@ -1,20 +1,37 @@
-<div class="container">
-  <div>
+<div class="container volume">
+  <div class="book-show-volume-manage">
     <h1><%= @book.title %></h1>
+    <% if have_author_authority?(@book) %>
+    <div class="float-r ">
+        <%= link_to '卷标管理', book_book_volumes_path(@book), class: 'btn btn-sm btn-primary'%>
+        <%= link_to '添加新的章节', new_book_book_chapter_path(@book), class: 'btn btn-sm btn-primary' %>
+    </div>
+    <% end %>
     <span>作者:<%= @book.author.name %></span>
   </div>
 
-  <div class="">
-    <%= link_to '卷标管理', book_book_volumes_path(@book) %>
-    <%= link_to '添加新的章节', new_book_book_chapter_path(@book) %>
-  </div>
 
-  <div class="row bg-white">
-    <% @book.book_chapters.each do |chapter| %>
-      <div class="col-md-4 margint-5px">
-        <a> <%= chapter.title%> </a>
-
-      </div>
+  <div class="bg-white pad-5">
+    <div class="row">
+      <% @book.book_chapters.where(book_volume_id: nil).each do |chapter| %>
+          <%= link_to book_book_chapter_path(@book, chapter) do%>
+              <div class="col-md-3 margint-5px col-md-6">
+                <%= chapter.title  %>
+              </div>
+          <% end %>
+      <% end %>
+    </div>
+    <% @book_volumns.each do |volume| %>
+        <div class="row align-center"><%= volume.title %></div>
+        <div class="row">
+          <% volume.book_chapters.each do |chapter| %>
+              <%= link_to  book_book_chapter_path(@book, chapter) do%>
+                  <div class="col-md-3 margint-5px col-md-6">
+                    <%= chapter.title %>
+                  </div>
+              <% end %>
+          <% end %>
+        </div>
     <% end %>
   </div>
 </div>

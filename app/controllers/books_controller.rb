@@ -11,7 +11,9 @@ class BooksController < ApplicationController
     @classifications = Classification.all.map{|c| [c.name, c.id]}
   end
 
-  def show ;end
+  def show
+    @book_volumns = @book.book_volumes.includes(:book_chapters)
+  end
 
   def create
     @book = Book.new(params_book.merge(author_id: current_author.id))
