@@ -48,6 +48,8 @@ group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 end
+# https://github.com/Macrow/rails_kindeditor
+gem 'rails_kindeditor'
 
 # To use debugger 调试
 group :development do

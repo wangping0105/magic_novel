@@ -3,14 +3,14 @@
     <h1 class="book-title"><%= @book_chapter.title %></h1>
     <% if have_author_authority?(@book) %>
         <div class="float-r ">
-          <%= link_to '编辑', edit_book_book_chapter_path(@book, @book_chapter), class: 'btn btn-sm btn-primary'%>
+          <%= link_to '编辑', edit_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
         </div>
     <% end %>
     <p class="lead book-description">welcome to wangping .</p>
   </div>
   <div class="book-main">
     <div class="col-sm-12 bg-white pad-5 book-content">
-        <%= @book_chapter.content %>
+        <%=raw @book_chapter.content %>
     </div>
   </div>
 

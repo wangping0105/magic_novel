@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>卷标列表</h1>
+  <h1>卷标列表</h1><%= link_to '返回', book_path(@book), class: 'btn btn-primary book-volume-index' %>
   <table class="table">
     <tr><td>序号</td><td>名称</td><td>章节数</td><td>操作</td></tr>
     <% @book_volumes.each_with_index  do |book, i| %>
