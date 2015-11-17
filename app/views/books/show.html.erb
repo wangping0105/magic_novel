@@ -15,7 +15,7 @@
     <div class="row">
       <% @book.book_chapters.where(book_volume_id: nil).each do |chapter| %>
           <%= link_to book_book_chapter_path(@book, chapter) do%>
-              <div class="col-md-3 margint-5px col-md-6">
+              <div class="col-md-3 margint-5px col-md-6 h-72">
                 <%= chapter.title  %>
               </div>
           <% end %>
@@ -26,7 +26,7 @@
         <div class="row">
           <% volume.book_chapters.each do |chapter| %>
               <%= link_to  book_book_chapter_path(@book, chapter) do%>
-                  <div class="col-md-3 margint-5px col-md-6">
+                  <div class="col-md-3 margint-5px col-md-6 h-72">
                     <%= chapter.title %>
                   </div>
               <% end %>

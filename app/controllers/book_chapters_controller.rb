@@ -21,7 +21,6 @@ class BookChaptersController < ApplicationController
     prev_book_chapter = BookChapter.find_by(id: params_book_chapter[:prev_chapter_id])
     next_chapter = get_next_chapter_id(prev_book_chapter)
     @book_chapter = @book.book_chapters.new(params_book_chapter.merge(
-      prev_chapter_id: prev_book_chapter.try(:id),
       next_chapter_id: next_chapter.try(:id)
     ))
     if @book_chapter.save

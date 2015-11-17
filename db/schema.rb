@@ -14,17 +14,19 @@
 ActiveRecord::Schema.define(version: 20151112105309) do
 
   create_table "authors", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.integer  "user_id",     limit: 4
-    t.integer  "books_count", limit: 4,   default: 0
-    t.integer  "level",       limit: 4,   default: 0
-    t.boolean  "is_identity", limit: 1,   default: false
-    t.integer  "experience",  limit: 4,   default: 0
+    t.string   "name",            limit: 255
+    t.integer  "user_id",         limit: 4
+    t.integer  "reprint_user_id", limit: 4
+    t.integer  "books_count",     limit: 4,   default: 0
+    t.integer  "level",           limit: 4,   default: 0
+    t.boolean  "is_identity",     limit: 1,   default: false
+    t.integer  "experience",      limit: 4,   default: 0
     t.datetime "deleted_at"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
+  add_index "authors", ["reprint_user_id"], name: "index_authors_on_reprint_user_id", using: :btree
   add_index "authors", ["user_id"], name: "index_authors_on_user_id", using: :btree
 
   create_table "book_chapters", force: :cascade do |t|
