@@ -2,7 +2,7 @@
 require 'iconv'
 namespace :mechanize do
   desc '爬虫'
-  task :demo => :environment do
+  task :get_novels => :environment do
     p '开始！'
     web_url = "http://www.fqxsw.com"
     agent = Mechanize.new
@@ -50,11 +50,47 @@ namespace :mechanize do
     # get_book_details '莽荒纪', book_first_url
   end
 
+  desc '抓取单个小说'
+  task :single_novel => :environment do
+    book_name = '妖神记'
+    author_name = '发飙的蜗牛'
+    classification_name = '玄幻'
+    agent = Mechanize.new
+    base_url = "http://www.fqxsw.com/book/yaoshenji/"
+    web_url = "http://www.fqxsw.com/"
+    _little_page = agent.get(base_url)
+   # classification_name = _little_page.search(".//span[@class='author']/text()")[0].text[-4..-3]
+    introduction =  _little_page.search(".//div[@class='booklistt clearfix']/div[@class='list']/text()")[2].text.gsub(/\r\n\t\t简介：|顽木书友群.+\n/,'')
+    classification = Classification.where("name like ?", "%#{classification_name}%").first
+    author = Author.find_or_create_by(name: author_name)
+    Book.transaction do
+      book = Book.create({
+        title: book_name,
+        classification_id: classification.try(:id),
+        book_type: 2,
+        introduction: introduction,
+        author_id: author.id
+      })
+      book.book_volumes.new(title: '正文', book_id: book.id).save
+      first_links = _little_page.search(".//div[@class='booklist clearfix']/li//a")[0].attributes['href'].value
+      book_first_url = "#{web_url}#{first_links}"
+      get_book_details(book_first_url, book_name)
+    end
+  end
+
+  desc 'again 抓取单个小说 from'
+  task :single_novel_from_chapter => :environment do
+    book_name = '妖神记'
+    book_first_url = 'http://www.fqxsw.com/html/70005/13835946.html'
+    get_book_details(book_first_url, book_name)
+  end
+
   # 适用于断点续传
   def get_book_details  book_first_url, book_name
     agent = Mechanize.new
     page = agent.get(book_first_url)
-
+    _link = page.links.find {|l| l.text == '(快捷键:←)上一页'}.href
+    flag = true
     while page.present? do
       title= page.search(".//*[@id='bgdiv']/dl/dt/text()").to_html
       content = page.search(".//*[@id='booktext']").to_html
@@ -65,14 +101,15 @@ namespace :mechanize do
       begin
         page = page.links.find { |l| l.text == '下一页(快捷键:→)' }.click
       rescue
+        flag = false
         dir_path = "#{Rails.root.to_s}/public/novels"
         FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
         file = File.new("#{dir_path}/#{Date.today.strftime("%Y%m%d")}_error.log", "w")
-        file.write("#{book_name}-#{title}==\n")
-        return
+        file.write("#{book_name}-#{_link}-#{title}==\n")
+        break
       end
     end
-    p "#{book_name}全部完成！"
+    p "#{book_name}全部完成！" if flag
   end
 
 
