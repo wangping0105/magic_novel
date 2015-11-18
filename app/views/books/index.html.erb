@@ -1,7 +1,7 @@
 <div class="container">
   <h1>书籍列表</h1>
   <table class="table">
-    <tr><td>序号</td><td>书籍名称</td><td>作者</td><td>类型</td><td>人气</td></tr>
+    <tr><td>序号</td><td>书籍名称</td><td>作者</td><td>类型</td><td>人气</td><td>字数</td></tr>
     <% @books.each_with_index  do |book, i| %>
       <tr>
         <td><%= i+1 %></td>
@@ -9,6 +9,7 @@
         <td><%= book.author.name %></td>
         <td><%= book.classification.name rescue ""%></td>
         <td><%= book.click_count %></td>
+        <td><%= book.words %></td>
       </tr>
     <% end %>
   </table>
