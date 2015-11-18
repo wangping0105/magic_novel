@@ -25,6 +25,7 @@ namespace :mechanize do
           word_count = name_arr.fourth.to_i*1000
           status = 2 # 完本
           book_type = 1 # 转载
+
           link = page.links.select{|l| l.to_s == book_name}.first
           _little_page = link.click
           classification_name = _little_page.search(".//span[@class='author']/text()")[0].text[-4..-3]
@@ -95,7 +96,7 @@ namespace :mechanize do
   # 适用于断点续传
   def get_book_details book_first_url, book_name
     agent = Mechanize.new
-    page = agent.get(book_first_url)
+    page = (agent.get(book_first_url) rescue nil)
     flag = true
      # binding.pry
     while page.present? do

@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show]
+  before_action :set_book, only: [:show, :destroy]
 #  before_action :authenticate_user!
   def index
     @books = Book.all
@@ -29,7 +29,16 @@ class BooksController < ApplicationController
   end
 
   def update
+  end
 
+  def destroy
+    if @book.destroy
+      flash[:success] = '删除成功'
+      redirect_to books_path
+    else
+      flash[:danger] = '删除失败'
+      redirect_to books_path
+    end
   end
   private
 

@@ -4,7 +4,11 @@
     <tr><td>序号</td><td>书籍名称</td><td>作者</td><td>类型</td><td>人气</td><td>字数</td></tr>
     <% @books.each_with_index  do |book, i| %>
       <tr>
-        <td><%= i+1 %></td>
+        <td><%= i+1 %>
+          <% if current_user.admin? %>
+            <%= link_to '删除', book_path(book), method: :delete %>
+          <%end  %>
+        </td>
         <td><%=link_to book.title, book_path(book) %></td>
         <td><%= book.author.name %></td>
         <td><%= book.classification.name rescue ""%></td>
@@ -14,5 +18,6 @@
     <% end %>
   </table>
 </div>
+<%= paginate @books %>
 
 
