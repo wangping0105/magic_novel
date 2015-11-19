@@ -27,7 +27,15 @@ namespace :mechanize do
           book_type = 1 # 转载
 
           link = page.links.select{|l| l.to_s == book_name}.first
-          _little_page = link.click
+          begin
+            _little_page = link.click
+            puts "=> 开始小说 #{book_name} =========================="
+            put_logs("=> 开始小说 #{book_name} ==========================")
+          rescue
+            puts "=> 跳过小说 #{book_name} =========================="
+            put_logs("=> 跳过小说 #{book_name} ==========================")
+            next
+          end
           classification_name = _little_page.search(".//span[@class='author']/text()")[0].text[-4..-3]
           introduction =  _little_page.search(".//div[@class='booklistt clearfix']/div[@class='list']/text()")[2].text.gsub(/\r\n\t\t简介：|顽木书友群.+\n/,'')
           classification = Classification.where("name like ?", "%#{classification_name}%").first
@@ -69,19 +77,25 @@ namespace :mechanize do
     introduction =  _little_page.search(".//div[@class='booklistt clearfix']/div[@class='list']/text()")[2].text.gsub(/\r\n\t\t简介：|顽木书友群.+\n/,'')
     classification = Classification.where("name like ?", "%#{classification_name}%").first
     author = Author.find_or_create_by(name: author_name)
-    Book.transaction do
-      book = Book.create({
-        title: book_name,
-        classification_id: classification.try(:id),
-        book_type: 1,
-        status: 2,
-        introduction: introduction,
-        author_id: author.id
-      })
-      book.book_volumes.new(title: '正文', book_id: book.id).save
-      first_links = _little_page.search(".//div[@class='booklist clearfix']/li//a")[0].attributes['href'].value
-      book_first_url = "#{web_url}#{first_links}"
-      get_book_details(book_first_url, book_name)
+    book = Book.find_by(title: book_name)
+    unless book.present?
+      Book.transaction do
+        book = Book.create({
+          title: book_name,
+          classification_id: classification.try(:id),
+          book_type: 1,
+          status: 2,
+          introduction: introduction,
+          author_id: author.id
+        })
+        book.book_volumes.new(title: '正文', book_id: book.id).save
+        first_page_link = _little_page.search(".//div[@class='booklist clearfix']/li//a")[0]
+        first_links = first_page_link.blank? ? "": first_page_link.attributes['href'].value
+        book_first_url = "#{web_url}#{first_links}"
+        get_book_details(book_first_url, book_name)
+      end
+    else
+      p '妖神记存在'
     end
   end
 
@@ -116,39 +130,45 @@ namespace :mechanize do
         #_link = page.links.find {|l| l.text == '(快捷键:←)上一页'}.href
         begin
           save_in_database(book_name, title, content)
-          puts "=>#{book_name}-#{title}-#{page.uri.to_s}"
+          puts "#{Time.now.to_s}=> #{book_name} - #{title} - #{page.uri.to_s}"
           page = page.links.find { |l| l.text == '下一页(快捷键:→)' }.click
         rescue
+          # binding.pry
           flag = false
-          dir_path = "#{Rails.root.to_s}/public/novels/logs"
-          FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
-          file = File.new("#{dir_path}/#{Date.today.strftime("%Y%m%d")}_error.log", "w")
           msg = "!跳过=%s次,#{book_name}-#{title}-#{page.uri.to_s}\n"
           page_mulu = page.links.find { |l| l.text == '返回章节目录(快捷键:回车)' }.click
           _lin = page_mulu.links.find { |l| l.uri.to_s == page.uri.to_s.gsub("http://www.fqxsw.com","") }
           index = page_mulu.links.index(_lin)
-          page = skip_a_page(page_mulu, index, 1, file, msg)
+          page = skip_a_page(page_mulu, index, 1, msg)
         end
       end
     end
     p "#{book_name}全部完成！" if flag
   end
 
-  def skip_a_page page_mulu, index, i, file, msg
+  def skip_a_page page_mulu, index, i, msg
     begin
-      page = page_mulu.links[index+(rand(2)+1)*i].click
+      page = page_mulu.links[index+(rand(3)+1)*i].click
       return page
     rescue
       p msg%i
-      file.puts(msg%i)
-      skip_a_page page_mulu, index, (i+1), file, msg
+      put_logs(msg%i)
+      skip_a_page page_mulu, index, (i+1), msg
     end
+  end
+
+  def put_logs(msg)
+    dir_path = "#{Rails.root.to_s}/public/novels/logs"
+    FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
+    file = File.new("#{dir_path}/#{Date.today.strftime("%Y%m%d")}_error.log", "a+")
+    file.puts msg
+    file.close
   end
 
   def save_as_file(dir_name, title, content)
     dir_path = "#{Rails.root.to_s}/public/novels/#{dir_name}"
     FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
-    file = File.new("#{dir_path}/#{title}.html", "w")
+    file = File.new("#{dir_path}/#{title}.html", "a+")
     file.puts(content)
   end
 

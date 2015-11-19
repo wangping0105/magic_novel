@@ -70,7 +70,7 @@ class BookChaptersController < ApplicationController
   private
 
   def params_book_chapter
-    params.require(:book_chapter).permit(:title, :content, :word_count, :book_volume_id, :prev_chapter_id)
+    params_encoded params.require(:book_chapter).permit(:title, :content, :word_count, :book_volume_id, :prev_chapter_id)
   end
 
   def set_book_chapter

@@ -61,3 +61,10 @@ hr {
     margin-top: 40px;
     margin-bottom: 40px;
 }
+
+.query_area label{
+    display: inline-block;
+    max-width: 100%;
+    font-size: 15px;
+    margin-top: 5px;
+}

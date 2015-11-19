@@ -1,12 +1,25 @@
 <div class="container">
   <h1>书籍列表</h1>
+  <div class="query_area">
+    <%= form_for( books_path, method: 'GET', class: 'form-group') do %>
+      <div class="form-group">
+        <label class="col-sm-1 control-label">书籍名：</label>
+        <div class="col-sm-11">
+          <%= text_field_tag :title, "", class:"form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= submit_tag '查询', class: 'btn btn-sm btn-primary' %>
+      </div>
+    <%end %>
+  </div>
   <table class="table">
-    <tr><td>序号</td><td>书籍名称</td><td>作者</td><td>类型</td><td>人气</td><td>字数</td></tr>
+    <tr><td>序号</td><td>书籍名称</td><td>作者</td><td>类型</td><td>人气</td><td>字数</td><td>章节数</td></tr>
     <% @books.each_with_index  do |book, i| %>
       <tr>
         <td><%= i+1 %>
           <% if current_user.admin? %>
-            <%= link_to '删除', book_path(book), method: :delete %>
+            <%= link_to '删除', book_path(book), method: :delete, data:{confirm: '确认删除？'} %>
           <%end  %>
         </td>
         <td><%=link_to book.title, book_path(book) %></td>
@@ -14,10 +27,11 @@
         <td><%= book.classification.name rescue ""%></td>
         <td><%= book.click_count %></td>
         <td><%= book.words %></td>
+        <td><%= book.book_chapters_count %></td>
       </tr>
     <% end %>
   </table>
+  <%= paginate @books %>
 </div>
-<%= paginate @books %>
 
 

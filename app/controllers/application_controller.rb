@@ -4,7 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :default_page_title,  :store_location
   include SessionsHelper
-  
+  include UtilsHelper
+
   attr_accessor :save_url
 
   def default_page_title

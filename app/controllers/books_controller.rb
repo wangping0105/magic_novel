@@ -4,6 +4,8 @@ class BooksController < ApplicationController
   def index
     @books = Book.all
     @books = filter_page(@books)
+    @books = filter_params(@books)
+    @books = filter_order(@books)
   end
 
   def new
@@ -32,18 +34,20 @@ class BooksController < ApplicationController
   end
 
   def destroy
+    _book_name = @book.title
     if @book.destroy
-      flash[:success] = '删除成功'
+      flash[:success] = "#{_book_name}删除成功"
       redirect_to books_path
     else
       flash[:danger] = '删除失败'
       redirect_to books_path
     end
   end
+
   private
 
   def params_book
-    params.require(:book).permit(:title, :classification_id, :book_type, :introduction, :remarks)
+    params_encoded params.require(:book).permit(:title, :classification_id, :book_type, :introduction, :remarks)
   end
 
   def set_book
@@ -53,5 +57,17 @@ class BooksController < ApplicationController
   def filter_page(relation)
     relation = relation.page(params[:page]).per(params[:per_page])
     relation
+  end
+
+  def filter_params(relation)
+    if params[:title].present?
+      relation = relation.where("title like :title or pinyin like :title ", title: "%#{params[:title]}%")
+    end
+    relation
+  end
+
+  def filter_order(relation)
+
+    relation.order(click_count: :asc).order(id: :asc)
   end
 end

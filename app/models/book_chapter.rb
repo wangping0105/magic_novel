@@ -7,5 +7,5 @@ class BookChapter < ActiveRecord::Base
 
   validates_presence_of :content, message:'内容不能为空!'
   validates_presence_of :title, message:'标题不能为空!'
-  validates :content, presence:{ scope: [:deleted_at], message:'标题不能重复!', case_sensitive: false}
+  validates :title, uniqueness:{ scope: [:deleted_at, :book_id], message:'标题不能重复!', case_sensitive: false}
 end
