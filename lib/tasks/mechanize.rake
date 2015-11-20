@@ -2,6 +2,68 @@
 require 'iconv'
 
 namespace :mechanize do
+  desc '小说差距'
+  task :novel_chapter  => :environment do
+    p '开始！'
+    web_url = "http://www.fqxsw.com"
+    agent = Mechanize.new
+    base_url = "http://www.fqxsw.com/modules/article/index.php?fullflag=1&page=1"
+    page = agent.get(base_url)
+    _page_page = page.search( ".//*[@id='pagelink']/a[@class='last']/text()").text.to_i
+    _hash = {}
+    (1.._page_page).each do |page_i|
+      base_url = "http://www.fqxsw.com/modules/article/index.php?fullflag=1&page=#{page_i}"
+      page = agent.get(base_url)
+      all_books = page.search(".//ul[@class='articlelist']/li")
+      (1...all_books.size).each do |i|
+        name_arr = all_books[i].children.select{|c| c.name=='div'}.map{|c| c.text}
+        book_name = name_arr.first
+        link = page.links.select{|l| l.to_s == book_name}.first
+        begin
+          _little_page = link.click
+        rescue
+          print "#{book_name} "
+          next
+        end
+        if page_i%20 == 0
+          put_logs(_hash, "temp")
+          _hash = {}
+        end
+        count = _little_page.search(".//div[@class='booklist clearfix']/li//a").select{|l| /.+html/ =~ l.attributes['href'].value }.size
+        _hash[book_name] = count
+        print "#{page_i} "
+      end
+    end
+    # Book.all.each do |book|
+    #   count = book.book_chapters_count
+    #   true_count = _hash[book.title]
+    #   p "#{book.title}=>章节数的差距为#{true_count.to_i - count.to_i}"
+    # end
+  end
+
+  task :novel_chapter_1 => :environment do
+    _hash = {"仙玉尘缘"=>1513, "斗破苍穹之无上之境"=>1044, "超级武装"=>363, "新宋英烈"=>776, "不死不灭"=>243, "透视之眼"=>2507, "大秦帝师"=>461, "女特工爱上我"=>185, "极品法宝修补神"=>488, "小小仙神"=>678, "冠军教父"=>1266, "无极剑仙"=>1254, "游戏小工之元素操控师"=>717, "龙灵欲都"=>449}
+    _tag = []
+    arr = _hash.map{|k,v| k}
+    arr.each do |book_name|
+      book = Book.find_by(title: book_name)
+      if book.present?
+        count = book.book_chapters.count
+        true_count = book.book_chapters_count #_hash[book.title]
+        cc = (true_count.to_i - count.to_i)
+        pre = true_count.to_i!=0 ? (cc/true_count.to_f) * 100 : 0
+        unless pre < 5.10 && count != 0
+          # book.update(book_chapters_count: true_count)
+          puts "#{cc}  =#{book.title}=#{count}~#{true_count}=>%#{pre} "
+          _tag << book.title
+        end
+      end
+    end
+
+    # 前20页的小说需要删除的一些
+    # ["贴身高手", "重生之我要做太子", "机甲农民", "基因帅哥", "升龙道", "仙锋道骨", "韩国娱乐大亨", "铁器时代", "掌权者", "召唤恶魔妞", "超级强者", "官场新贵", "人神欲·逆天劫", "梦幻王", "宋行", "人欲", "网游之玩转宇宙", "大唐酒徒", "无耻盗贼", "恐龙大军在异界", "重生纨绔独霸隋唐", "神州豪侠传", "暗器高手", "魔机传说", "大汉之帝国再起", "小仙有毒", "重生之笑看风云起", "异界之轩辕剑魂", "问鼎记", "海王祭", "重生之完美一生", "网游之一枪飙血", "异世药王", "三国之董卓布武", "虎狼之师", "龙翔仕途", "大汉封禅", "异界之绝色锋芒", "换脸重生", "漂流王", "土佐之梦", "龙王的女婿", "截教小妖", "回到明朝做千户", "宋医", "异界之科技大时代", "宦海龙腾", "凶星", "大宋金手指", "吕氏皇朝", "黑风老妖", "官居一品", "窃明", "篮坛天王", "魔炼", "魔幻异闻录", "星河斗士", "温酒斩三国", "异界衰神"]
+  end
+
   desc '爬虫'
   task :get_novels => :environment do
     include UtilsHelper
@@ -30,10 +92,10 @@ namespace :mechanize do
           begin
             _little_page = link.click
             puts "=> 开始小说 #{book_name} =========================="
-            put_logs("=> 开始小说 #{book_name} ==========================")
+            put_logs("=> 开始小说 #{book_name} ==========================", "info")
           rescue
             puts "=> 跳过小说 #{book_name} =========================="
-            put_logs("=> 跳过小说 #{book_name} ==========================")
+            put_logs("=> 跳过小说 #{book_name} ==========================", "info")
             next
           end
           classification_name = _little_page.search(".//span[@class='author']/text()")[0].text[-4..-3]
@@ -157,10 +219,10 @@ namespace :mechanize do
     end
   end
 
-  def put_logs(msg)
+  def put_logs(msg, error_type = 'error')
     dir_path = "#{Rails.root.to_s}/public/novels/logs"
     FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
-    file = File.new("#{dir_path}/#{Date.today.strftime("%Y%m%d")}_error.log", "a+")
+    file = File.new("#{dir_path}/#{Date.today.strftime("%Y%m%d")}_#{error_type}.log", "a+")
     file.puts msg
     file.close
   end

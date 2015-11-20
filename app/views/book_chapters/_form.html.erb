@@ -45,7 +45,6 @@
 
 <script>
     $(function(){
-
       $("#book_chapter_book_volume_id").on("change", function(){
         $.ajax({
             url: '/books/<%=@book.id %>/chapters/get_chapter?book_volume_id='+$(this).val(),

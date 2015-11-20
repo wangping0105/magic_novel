@@ -53,14 +53,19 @@ class BookChaptersController < ApplicationController
   def get_chapter
     if params[:book_volume_id].present?
       set_book_volume
-      @chapter = @book_volume.book_chapters.last
+      @chapter = @book_volume.book_chapters.order(id: :asc).last
+      if @chapter.nil?
+        prev_book_volume = @book_volume.prev_volume
+        if prev_book_volume.present?
+          @chapter = prev_book_volume.book_chapters.last
+        else
+          @chapter = @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last
+        end
+      end
     else
-      @chapter = @book.book_chapters.where(book_volume_id: nil).last
+      @chapter = @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last
     end
-    if @chapter.nil?
-      prev_book_volume = @book_volume.prev_volume
-      @chapter = prev_book_volume.book_chapters.last
-    end
+
     render json:{
                id: @chapter.try(:id),
                name: @chapter.try(:title).to_s
@@ -88,12 +93,14 @@ class BookChaptersController < ApplicationController
   def get_volume_for_select
     @book_volumes = @book.book_volumes.order(id: :desc)
     if @book_volumes
-      __book_chapters = @book.book_chapters.where("book_volume_id is not null").order(book_volume_id: :asc)
+      __book_chapters = @book.book_chapters.where("book_volume_id is not null").order(book_volume_id: :asc).order(id: :asc)
       @book_chapter.prev_chapter ||= if __book_chapters.present?
          __book_chapters.last
        else
-         @book.book_chapters.where(book_volume_id: nil).last
+         @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last
        end
+    else
+      @book_chapter.prev_chapter = @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last
     end
     @book_volumes = @book_volumes.map{|k| [k.title, k.id]}
     @book_volumes << ['篇头语',nil]
