@@ -1,7 +1,7 @@
 class BookChaptersController < ApplicationController
   before_action :set_book
   before_action :authenticate_user!, only:[ :create, :new]
-  before_action :set_book_chapter, only: [:show, :edit, :update]
+  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy]
   before_action :get_volume_for_select, only: [:edit, :update]
   def index
     @books = Book.all
@@ -13,7 +13,11 @@ class BookChaptersController < ApplicationController
     get_volume_for_select
   end
 
-  def show ;end
+  def show
+    sql = "update books set click_count = click_count + 1 where id = #{@book.id}"
+    _sql = ActiveRecord::Base.connection()
+    _sql.update(sql)
+  end
 
   def edit ;end
 
@@ -47,6 +51,25 @@ class BookChaptersController < ApplicationController
     else
       flash[:danger] = '更新失败'
       render 'edit'
+    end
+  end
+
+  def destroy
+    _prev_chapter = @book_chapter.prev_chapter
+    _next_chapter = @book_chapter.next_chapter
+
+    if @book_chapter.destroy
+      if _prev_chapter.present?
+        _prev_chapter.update(next_chapter_id: _next_chapter.try(:id))
+      end
+      if _next_chapter.present?
+        _next_chapter.update(prev_chapter_id: _prev_chapter.try(:id))
+      end
+      flash[:success] = '删除成功'
+      redirect_to book_path(@book)
+    else
+      flash[:danger] = '删除失败'
+      render 'show'
     end
   end
 

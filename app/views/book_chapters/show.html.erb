@@ -4,6 +4,7 @@
     <% if have_author_authority?(@book) %>
         <div class="float-r ">
           <%= link_to '编辑', edit_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
+          <%= link_to '删除', book_book_chapter_path(@book, @book_chapter), method: :delete, 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
         </div>
     <% end %>
     <p class="lead book-description">欢迎来到王平的书城</p>
