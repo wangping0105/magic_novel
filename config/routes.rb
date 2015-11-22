@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :books do
-
+    member do
+      get :collection, :uncollection
+    end
     resources :book_chapters, path: :chapters do
       get :get_chapter, on: :collection
     end

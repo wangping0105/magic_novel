@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :destroy]
+  before_action :set_book, only: [:show, :destroy, :collection, :uncollection]
 #  before_action :authenticate_user!
   def index
     @books = Book.all
@@ -15,6 +15,7 @@ class BooksController < ApplicationController
 
   def show
     @book_volumns = @book.book_volumes.includes(:book_chapters)
+    @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
   end
 
   def create
@@ -42,6 +43,19 @@ class BooksController < ApplicationController
       flash[:danger] = '删除失败'
       redirect_to books_path
     end
+  end
+
+  def collection
+    BookRelation.find_or_create_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
+    flash[:success] = "添加收藏成功"
+    redirect_to book_path(@book)
+  end
+
+  def uncollection
+    @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
+    @collection.destroy if @collection
+    flash[:success] = "取消收藏成功"
+    redirect_to book_path(@book)
   end
 
   private

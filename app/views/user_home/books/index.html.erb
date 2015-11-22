@@ -18,18 +18,9 @@
         </span>
         <!-- Example row of columns -->
         <div class="row bg-white">
-          <% (1..9).each do  %>
-              <div class="col-md-4">
-                <h3><a href="#">[玄幻]风魔天下决</a></h3>
-                <div class="h-180">
-                  <span class="f-left">
-                    <a href="#"><%= image_tag "demo.jpg", class: "w-120 h-150" %></a>
-                  </span>
-                  <span>
-                    <a href="#">从小酷爱古玩的张天元，竟然在现实中学会了游戏里的鉴宝秘术。原本只懂得玩游戏，靠着脑补古玩满足自我的宅男，一朝翻身成了古玩鉴定界的后起之秀。赌石鉴宝，品评字画！美人倾慕，壮士归附！秘术在手，天下我有！</a>
-                  </span>
-                </div>
-                <p><a class="btn btn-default" href="#" role="button">查看更多 »</a></p>
+          <% @collection_books.each do |book|  %>
+              <div class="col-md-12">
+                <h3><a href="<%= book_path(book.book_id)  %>"><%= book.book.title  %></a></h3>
               </div>
           <%end %>
         </div>

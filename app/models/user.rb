@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
 
   TEAVHER_URL = "/assets/guest.jpg"
 
+  def collection_books
+    BookRelation.where(user_id: id,relation_type: BookRelation.relation_type_options.to_h['收藏']).includes(:book)
+  end
+
   def generate_authentication_token
     loop do
       self.authentication_token = SecureRandom.base64(64)
