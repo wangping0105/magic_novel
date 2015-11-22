@@ -57,14 +57,10 @@ class BookChaptersController < ApplicationController
   def destroy
     _prev_chapter = @book_chapter.prev_chapter
     _next_chapter = @book_chapter.next_chapter
-
     if @book_chapter.destroy
-      if _prev_chapter.present?
-        _prev_chapter.update(next_chapter_id: _next_chapter.try(:id))
-      end
-      if _next_chapter.present?
-        _next_chapter.update(prev_chapter_id: _prev_chapter.try(:id))
-      end
+      _prev_chapter.update(next_chapter_id: _next_chapter.try(:id)) if _prev_chapter.present?
+      _next_chapter.update(prev_chapter_id: _prev_chapter.try(:id)) if _next_chapter.present?
+
       flash[:success] = '删除成功'
       redirect_to book_path(@book)
     else
@@ -95,6 +91,7 @@ class BookChaptersController < ApplicationController
            }
   end
 
+  # ===============================================================================================================
   private
 
   def params_book_chapter

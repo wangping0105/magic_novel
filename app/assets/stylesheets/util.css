@@ -5,6 +5,8 @@
 /*宽度 高度*/
 .w-120{width: 120px}
 .w-200{width: 200px}
+.minw-150{min-width: 150px}
+.minw-200{min-width: 200px}
 .h-72{height: 72px}
 .h-150{height: 150px}
 .h-180{height: 180px}
