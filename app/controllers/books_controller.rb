@@ -82,6 +82,6 @@ class BooksController < ApplicationController
 
   def filter_order(relation)
 
-    relation.order(click_count: :asc).order(id: :asc)
+    relation.order(click_count: :asc).order(id: :desc)
   end
 end
