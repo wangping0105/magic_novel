@@ -1,7 +1,7 @@
 class BookChaptersController < ApplicationController
   before_action :set_book
   before_action :authenticate_user!, only:[ :create, :new]
-  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy]
+  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show]
   before_action :get_volume_for_select, only: [:edit, :update]
   def index
     @books = Book.all
@@ -17,6 +17,15 @@ class BookChaptersController < ApplicationController
     sql = "update books set click_count = click_count + 1 where id = #{@book.id}"
     _sql = ActiveRecord::Base.connection()
     _sql.update(sql)
+  end
+
+  def big_show
+    @prev_book_chapter = @book_chapter
+    @arr = [@book_chapter]
+    (1..19).each {
+      @book_chapter = @book_chapter.next_chapter
+      @arr << @book_chapter
+    }
   end
 
   def edit ;end

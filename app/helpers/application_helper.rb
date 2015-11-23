@@ -17,4 +17,11 @@ module ApplicationHelper
     end
   end
 
+  def prev_chapeter_by(count, chapter)
+    (1..count).each do
+      return chapter unless chapter.prev_chapter
+      chapter = chapter.prev_chapter
+    end
+    chapter
+  end
 end
