@@ -70,3 +70,7 @@ hr {
     font-size: 15px;
     margin-top: 5px;
 }
+
+.big_show{
+    overflow-x: hidden;
+}
