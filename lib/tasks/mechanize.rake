@@ -133,20 +133,20 @@ namespace :mechanize do
   desc '抓取单个小说'
   task :single_novel => :environment do
     include UtilsHelper
-    book_name = '妖神记'
-    author_name = '发飙的蜗牛'
+    book_name = '杀神'
+    author_name = '逆苍天'
     classification_name = '玄幻'
     agent = Mechanize.new
-    base_url = "http://www.fqxsw.com/book/yaoshenji/"
+    base_url = "http://www.fqxsw.com/book/shashen/"
     web_url = "http://www.fqxsw.com/"
     _little_page = agent.get(base_url)
    # classification_name = _little_page.search(".//span[@class='author']/text()")[0].text[-4..-3]
-    introduction =  _little_page.search(".//div[@class='booklistt clearfix']/div[@class='list']/text()")[2].text.gsub(/\r\n\t\t简介：|顽木书友群.+\n/,'')
+    introduction =  (_little_page.search(".//div[@class='booklistt clearfix']/div[@class='list']/text()")[2].text.gsub(/\r\n\t\t简介：|顽木书友群.+\n/,'') rescue "")
     classification = Classification.where("name like ?", "%#{classification_name}%").first
     author = Author.find_or_create_by(name: author_name)
     book = Book.find_by(title: book_name)
     unless book.present?
-      Book.transaction do
+      #Book.transaction do
         book = Book.create({
           title: book_name,
           classification_id: classification.try(:id),
@@ -160,9 +160,14 @@ namespace :mechanize do
         first_links = first_page_link.blank? ? "": first_page_link.attributes['href'].value
         book_first_url = "#{web_url}#{first_links}"
         get_book_details(book_first_url, book_name)
-      end
+      #end
     else
-      p '妖神记存在'
+      p "#{book_name}存在,开始下载"
+      book.book_volumes.find_or_create_by(title: '正文', book_id: book.id)
+      first_page_link = _little_page.search(".//div[@class='booklist clearfix']/li//a")[0]
+      first_links = first_page_link.blank? ? "": first_page_link.attributes['href'].value
+      book_first_url = "#{web_url}#{first_links}"
+      get_book_details(book_first_url, book_name)
     end
   end
 
@@ -241,17 +246,22 @@ namespace :mechanize do
 
   def save_in_database(book_name, title, content)
     book = Book.find_by(title: book_name)
-    if book
-      book_volume = book.book_volumes.first
-      prev_chpater = book.book_chapters.last
-      book_chapter = book.book_chapters.create(
-        {
-          title: title,
-          content: content,
-          book_volume_id: book_volume.try(:id),
-          prev_chapter_id: prev_chpater.try(:id)
-        })
-      prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
+    book_chapter = book.book_chapters.find_by(title: title)
+    if book.present?
+      unless book_chapter.present?
+        book_volume = book.book_volumes.first
+        prev_chpater = book.book_chapters.last
+        book_chapter = book.book_chapters.create(
+          {
+            title: title,
+            content: content,
+            book_volume_id: book_volume.try(:id),
+            prev_chapter_id: prev_chpater.try(:id)
+          })
+        prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
+      else
+        p "#  ==>#{title}章节存在！"
+      end
     end
   end
 
