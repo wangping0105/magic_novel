@@ -21,7 +21,7 @@ class BookChaptersController < ApplicationController
 
   def turn_js_show
     @content_arr = turn_js_deal
-    @lines = 20
+    @lines = (600/(10+params[:font_size].to_i)) + 1
     @totle_page = @content_arr.length/@lines
   end
 
@@ -175,7 +175,8 @@ class BookChaptersController < ApplicationController
   end
 
   def turn_js_deal
-    content = @book_chapter.content.gsub("<br>","&br&")+"本书还可以，请支持魔书网&br&本章结束"
+    font_size = (params[:font_size].to_i == 0 ? 14: params[:font_size].to_i)
+    content = @book_chapter.content.gsub("<br>","&br&")+"本书还可以，请支持魔书网&br&&br&本章结束"
     content = begin
       text = Nokogiri::HTML(content).text
       text.strip!
@@ -184,7 +185,7 @@ class BookChaptersController < ApplicationController
     _temp_content_arr, content_arr = content.split("&br&"), []
     # 一行的字数
     window_width = params[:width].to_i
-    _a_line_word_count = (window_width - 10)/2/14
+    _a_line_word_count = (window_width - 10)/2/font_size
     return [] if _a_line_word_count < 1
     _temp_content_arr.each{ |c|
       if c.length <= _a_line_word_count

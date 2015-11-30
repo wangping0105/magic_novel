@@ -1,7 +1,7 @@
 <div id="flipbook">
-<%(0..@totle_page).each do |i|
-  show_content, index = @content_arr[i*@lines...(i+1)*@lines].join("<br>"), 0 #content[index..index+200].gsub("&","<br>")
-%>
+  <%(0..@totle_page).each do |i|
+    show_content, index = @content_arr[i*@lines...(i+1)*@lines].join("<br>"), 0 #content[index..index+200].gsub("&","<br>")
+  %>
   <div class="content-style">
     <%=raw show_content %>
   </div>

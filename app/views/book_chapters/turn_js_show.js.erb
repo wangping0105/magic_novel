@@ -1,7 +1,40 @@
 $("#_book_chapter_content").html("<%= escape_javascript(render 'turn_js_show') %>");
 
-$("#flipbook").turn({
-  autoCenter: true,
-  height:420
-});
+$(function() {
+  var flipbook = $('#flipbook');
+  flipbook.turn({
+    autoCenter: true,
+    height:600
+  });
 
+  $(window).bind('keydown', function(e){
+  // listen for arrow keys
+    if (e.keyCode == 37){
+      if($(flipbook).turn('page') == 1){
+        $(".turn_message").html("没有上一页了")
+      }
+      flipbook.turn('previous');
+    }
+    else if (e.keyCode==39){
+//      if($(flipbook).turn('pages') == $(flipbook).turn('page')){
+//        $(".turn_message").html("没有下一页了")
+//      }
+      flipbook.turn('next');
+    }
+  })
+
+//  $(flipbook).bind('turning', function(event, page, obj){
+//    alert('Page '+ page);
+//  })
+
+  $(flipbook).bind('turned', function (e, page, pageObj) {
+    if (!$(flipbook).turn('hasPage', page + 1)) {
+      $(".turn_message").html("没有下一页了")
+    }else{
+      $(".turn_message").html("")
+    }
+//    else if(page == 0 && $(this).data('done')) {
+//      $(".turn_message").html("没有上一页了")
+//    }
+  });
+})

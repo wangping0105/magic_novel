@@ -14,42 +14,20 @@
         </div>
     <p class="lead book-description">欢迎来到王平的书城</p>
   </div>
-  <nav class="">
-    <ul class="pager">
-      <li>
-        <%= link_to '上一章', book_book_chapter_path(@book, @book_chapter.prev_chapter_id) if @book_chapter.prev_chapter_id.to_i != 0 %>
-      </li>
-      <li>
-        <%= link_to '目录', book_path(@book)%>
-      </li>
-      <li>
-        <%= link_to '下一章', book_book_chapter_path(@book, @book_chapter.next_chapter_id) if @book_chapter.next_chapter_id.to_i != 0 %>
-      </li>
-    </ul>
-  </nav>
-
+  
   <div class="book-main">
-    <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content">
+    <h4>上一页(快捷键:←) 下一页(快捷键:→)</h4>
+    <span class="turn_message color-red"></span>
+    <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content" style="font-size: <%= params[:font_size].to_i == 0 ? 14: params[:font_size].to_i  %>px">
         <%=raw @book_chapter.content %>
     </div>
   </div>
-
-  <nav class="">
-    <ul class="pager">
-      <li>
-        <%= link_to '上一章', book_book_chapter_path(@book, @book_chapter.prev_chapter_id) if @book_chapter.prev_chapter_id.to_i != 0 %>
-      </li>
-      <li>
-        <%= link_to '目录', book_path(@book)%>
-      </li>
-      <li>
-        <%= link_to '下一章', book_book_chapter_path(@book, @book_chapter.next_chapter_id) if @book_chapter.next_chapter_id.to_i != 0 %>
-      </li>
-    </ul>
-  </nav>
+  <%=render 'page'  %>
 
 </div>
-<!--<div id="flipbook">-->
+<!--
+←↑→↓↖↙↗↘↕
+<div id="flipbook">-->
   <!--<div class="hard"> Turn.js </div>-->
   <!--<div class="hard"></div>-->
   <!--<div> Page 1 </div>-->
@@ -62,8 +40,18 @@
 <script type="text/javascript">
   $(function() {
     $.ajax({
-      url: "/books/<%= @book.id %>/chapters/<%= @book_chapter.id %>/turn_js_show?width=" + $("#_book_chapter_content").css("width"),
+      url: "/books/<%= @book.id %>/chapters/<%= @book_chapter.id %>/turn_js_show?width=" + $("#_book_chapter_content").css("width")+"&font_size="+<%= params[:font_size].to_i %>+"&h_size="+$("#_book_chapter_content h2").css("height"),
       dataType: 'script'
+    })
+
+    $(window).bind('keydown', function(e){
+      // listen for arrow keys
+      if (e.keyCode == 38){
+        location.href = '<%= book_book_chapter_path(@book, @book_chapter.prev_chapter_id) if @book_chapter.prev_chapter_id.to_i != 0 %>'
+      }
+      else if (e.keyCode==40){
+        location.href = '<%= book_book_chapter_path(@book, @book_chapter.next_chapter_id) if @book_chapter.next_chapter_id.to_i != 0 %>'
+      }
     })
   })
 </script>
