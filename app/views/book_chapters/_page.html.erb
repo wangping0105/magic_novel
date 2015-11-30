@@ -1,0 +1,17 @@
+<nav>
+  <ul class="pager">
+    <li>
+      <%if @book_chapter.prev_chapter_id.to_i != 0 %>
+        <%= link_to '上一章(快捷键↑)', (book_book_chapter_path(@book, @book_chapter.prev_chapter_id) ), 'data-no-turbolink' => true %>
+      <%end %>
+    </li>
+    <li>
+      <%= link_to '目录', book_path(@book)%>
+    </li>
+    <li>
+      <%if @book_chapter.next_chapter_id.to_i != 0 %>
+        <%= link_to '下一章(快捷键↓)', (book_book_chapter_path(@book, @book_chapter.next_chapter_id) ), 'data-no-turbolink' => true%>
+      <%end %>
+    </li>
+  </ul>
+</nav>
