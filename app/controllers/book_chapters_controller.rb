@@ -2,7 +2,7 @@ class BookChaptersController < ApplicationController
   before_action :set_book
   before_action :authenticate_user!, only:[ :create, :new]
   before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show]
-  before_action :get_volume_for_select, only: [:edit, :update]
+  before_action :get_volume_for_select, only: [:update]
   def index
     @books = Book.all
     @books = filter_page(@books)
@@ -28,7 +28,9 @@ class BookChaptersController < ApplicationController
     }
   end
 
-  def edit ;end
+  def edit
+    get_volume_for_select
+  end
 
   def create
     prev_book_chapter = BookChapter.find_by(id: params_book_chapter[:prev_chapter_id])
@@ -123,13 +125,13 @@ class BookChaptersController < ApplicationController
     @book_volumes = @book.book_volumes.order(id: :desc)
     if @book_volumes
       __book_chapters = @book.book_chapters.where("book_volume_id is not null").order(book_volume_id: :asc).order(id: :asc)
-      @book_chapter.prev_chapter ||= if __book_chapters.present?
-         __book_chapters.last
+      @book_chapter.prev_chapter_id ||= if __book_chapters.present?
+         __book_chapters.last.try(:id)
        else
-         @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last
+         @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last.try(:id)
        end
     else
-      @book_chapter.prev_chapter = @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last
+      @book_chapter.prev_chapter_id = @book.book_chapters.where(book_volume_id: nil).order(id: :asc).last.try(:id)
     end
     @book_volumes = @book_volumes.map{|k| [k.title, k.id]}
     @book_volumes << ['篇头语',nil]

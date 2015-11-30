@@ -1,3 +1,5 @@
+<script src="/assets/turnjs4/lib/turn.min.js"></script>
+
 <div class="container ">
   <div class="book-header">
     <h1 class="book-title"><%= @book_chapter.title %></h1>
@@ -28,7 +30,39 @@
 
   <div class="book-main">
     <div class="col-sm-12 bg-white pad-5 book-content">
-        <%=raw @book_chapter.content %>
+      <div id="flipbook">
+        <%
+           content = @book_chapter.content.gsub("<br>","&br&")+"本书还可以，请支持魔书网&br&本章结束"
+           content = begin
+             text = Nokogiri::HTML(content).text
+             text.strip!
+             text
+           end
+           _temp_content_arr, content_arr = content.split("&br&"), []
+           # 一行的字数
+           window_width = 1140
+           _a_line_word_count = (window_width - 12)/2/14
+           _temp_content_arr.each{ |c|
+             if c.length <= _a_line_word_count
+               content_arr << c
+             else
+               _lines = c.length/_a_line_word_count
+               (0.._lines).each { |i|
+                 content_arr << c[i*_a_line_word_count...(i+1)*_a_line_word_count]
+               }
+             end
+           }
+           totle_line = content_arr.length
+           index = 0 %>
+        <%(0..totle_line/20).each do |i|
+          show_content = content_arr[i*20...(i+1)*20].join("<br>") #content[index..index+200].gsub("&","<br>")
+        %>
+          <div class="content-style">
+            <%=raw show_content %>
+          </div>
+          <%index = index+200 %>
+        <% end %>
+      </div>
     </div>
   </div>
 
@@ -47,5 +81,20 @@
   </nav>
 
 </div>
-
+<!--<div id="flipbook">-->
+  <!--<div class="hard"> Turn.js </div>-->
+  <!--<div class="hard"></div>-->
+  <!--<div> Page 1 </div>-->
+  <!--<div> Page 2 </div>-->
+  <!--<div> Page 3 </div>-->
+  <!--<div> Page 4 </div>-->
+  <!--<div class="hard"></div>-->
+  <!--<div class="hard"></div>-->
+<!--</div>-->
+<script type="text/javascript">
+  $("#flipbook").turn({
+    autoCenter: true,
+    height:420
+  });
+</script>
 
