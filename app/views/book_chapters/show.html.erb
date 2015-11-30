@@ -14,9 +14,9 @@
         </div>
     <p class="lead book-description">欢迎来到王平的书城</p>
   </div>
-  
+
   <div class="book-main">
-    <h4>上一页(快捷键:←) 下一页(快捷键:→)</h4>
+    <h4>上一页(快捷键:←) 下一页(快捷键:→) 上一章(快捷键↑) 下一章(快捷键↓)</h4>
     <span class="turn_message color-red"></span>
     <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content" style="font-size: <%= params[:font_size].to_i == 0 ? 14: params[:font_size].to_i  %>px">
         <%=raw @book_chapter.content %>

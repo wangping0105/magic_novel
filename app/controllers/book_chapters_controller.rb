@@ -20,8 +20,9 @@ class BookChaptersController < ApplicationController
   end
 
   def turn_js_show
+    params[:font_size] = params[:font_size].to_i == 0 ? 14: params[:font_size].to_i
     @content_arr = turn_js_deal
-    @lines = (600/(10+params[:font_size].to_i)) + 1
+    @lines = (600/(7+params[:font_size])) + 1
     @totle_page = @content_arr.length/@lines
   end
 
