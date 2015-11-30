@@ -1,7 +1,7 @@
 class BookChaptersController < ApplicationController
   before_action :set_book
   before_action :authenticate_user!, only:[ :create, :new]
-  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show]
+  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show, :turn_js_show]
   before_action :get_volume_for_select, only: [:update]
   def index
     @books = Book.all
@@ -17,6 +17,12 @@ class BookChaptersController < ApplicationController
     sql = "update books set click_count = click_count + 1 where id = #{@book.id}"
     _sql = ActiveRecord::Base.connection()
     _sql.update(sql)
+  end
+
+  def turn_js_show
+    @content_arr = turn_js_deal
+    @lines = 20
+    @totle_page = @content_arr.length/@lines
   end
 
   def big_show
@@ -166,5 +172,31 @@ class BookChaptersController < ApplicationController
   def book_words_count_update
     @book.words = @book.words.to_i + @book_chapter.word_count
     @book.save
+  end
+
+  def turn_js_deal
+    content = @book_chapter.content.gsub("<br>","&br&")+"本书还可以，请支持魔书网&br&本章结束"
+    content = begin
+      text = Nokogiri::HTML(content).text
+      text.strip!
+      text
+    end
+    _temp_content_arr, content_arr = content.split("&br&"), []
+    # 一行的字数
+    window_width = params[:width].to_i
+    _a_line_word_count = (window_width - 10)/2/14
+    return [] if _a_line_word_count < 1
+    _temp_content_arr.each{ |c|
+      if c.length <= _a_line_word_count
+        content_arr << c
+      else
+        _lines = c.length/_a_line_word_count
+        (0.._lines).each { |i|
+          content_arr << c[i*_a_line_word_count...(i+1)*_a_line_word_count]
+        }
+      end
+    }
+
+    content_arr || []
   end
 end
