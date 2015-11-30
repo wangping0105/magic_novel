@@ -3,7 +3,7 @@
     show_content, index = @content_arr[i*@lines...(i+1)*@lines].join("<br>"), 0 #content[index..index+200].gsub("&","<br>")
   %>
   <div class="content-style">
-    <%=raw show_content %>
+    <%=sanitize show_content %>
   </div>
   <%index = index+200 %>
 <% end %>

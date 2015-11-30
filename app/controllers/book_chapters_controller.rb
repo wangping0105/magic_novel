@@ -14,15 +14,17 @@ class BookChaptersController < ApplicationController
   end
 
   def show
+    @page_title = @book_chapter.title
     sql = "update books set click_count = click_count + 1 where id = #{@book.id}"
     _sql = ActiveRecord::Base.connection()
     _sql.update(sql)
   end
 
   def turn_js_show
-    params[:font_size] = params[:font_size].to_i == 0 ? 14: params[:font_size].to_i
+    font_size = params[:font_size].to_i == 0 ? 14: params[:font_size].to_i
+    h_size = params[:h_size].to_i == 0 ? 450: params[:h_size].to_i
     @content_arr = turn_js_deal
-    @lines = (600/(7+params[:font_size])) + 1
+    @lines = ((h_size-0.5*font_size)/(1.5*font_size))
     @totle_page = @content_arr.length/@lines
   end
 

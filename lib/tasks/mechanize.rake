@@ -65,7 +65,7 @@ namespace :mechanize do
         true_count = _hash[book.title]
         cc = (true_count.to_i - count.to_i)
         pre = true_count.to_i!=0 ? (cc/true_count.to_f) * 100 : 0
-        if pre > 4 || cc > 22 || pre < -4 || cc < -10 || count == 0
+        if pre > 4 || cc > 22 || pre < -4 || cc < -10 || count == 0 || count < 50
           # book.update(book_chapters_count: true_count)
           index = index +1
           counter_arr[0] += count
@@ -78,8 +78,8 @@ namespace :mechanize do
       end
     end
     puts "处理完毕用时 #{calculate_time(_time)}ms\n进行排序..."
-    _time = Time.now.to_f
-    all_tag = all_tag.sort_by{|c| c[0]}.reverse
+    # _time = Time.now.to_f
+    # all_tag = all_tag.sort_by{|c| c[0]}.reverse
     all_tag.each {|a| puts a[1]}
     puts "差距为负数的：#{_tag}",
          "小说总数：#{_hash.size}",
@@ -147,7 +147,6 @@ namespace :mechanize do
         end
       end
     end
-
     # get_book_details '莽荒纪', book_first_url
   end
 

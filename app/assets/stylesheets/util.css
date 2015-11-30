@@ -25,7 +25,7 @@
 .padtb-10{  padding: 10px 0px;  }
 
 .color-red{
-    color: palevioletred;
+    color: red;
 }
 
 .border-common{
@@ -42,6 +42,7 @@
 
 .margin-5px{  margin: 5px;  }
 .margint-5px{ margin-top: 5px; }
+.margint--30px{ margin-top: -30px; }
 
 
 .float-r{  float: right;  }
