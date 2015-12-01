@@ -15,6 +15,9 @@ class BookChaptersController < ApplicationController
 
   def show
     @page_title = @book_chapter.title
+    @colors = content_back_colors
+    params[:color] = cookies[:color] || "FFFFFF"
+    params[:font_size] = cookies[:font_size] || 14
     sql = "update books set click_count = click_count + 1 where id = #{@book.id}"
     _sql = ActiveRecord::Base.connection()
     _sql.update(sql)
@@ -202,5 +205,16 @@ class BookChaptersController < ApplicationController
     }
 
     content_arr || []
+  end
+
+  def content_back_colors
+    [['银河白','FFFFFF'],
+     ['杏仁黄','FAF9DE'],
+     ['秋叶褐','FFF2E2'],
+     ['胭脂红','FDE6E0'],
+     ['青草绿','E3EDCD'],
+     ['海天蓝','DCE2F1'],
+     ['葛巾紫','E9EBFE'],
+     ['极光灰','EAEAEF']]
   end
 end

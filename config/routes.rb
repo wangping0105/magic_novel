@@ -8,7 +8,11 @@ Rails.application.routes.draw do
       post :sign_up
     end
   end
-  resources :users
+  resources :users do
+    collection do
+      get :user_settings
+    end
+  end
   resources :books do
     member do
       get :collection, :uncollection

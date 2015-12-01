@@ -18,12 +18,23 @@
   <div class="book-main big_show">
     <h4>上一页(快捷键:←) 下一页(快捷键:→) 上一章(快捷键↑) 下一章(快捷键↓)</h4>
     <span class="turn_message color-red float-r margint--30px"></span>
-    <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content" style="line-height: 1.5;font-size: <%= params[:font_size].to_i == 0 ? 14: params[:font_size].to_i  %>px">
+    <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content"
+         style="line-height: 1.5;font-size: <%= params[:font_size].to_i == 0 ? 14: params[:font_size].to_i%>px;background: #<%= params[:color] %>;">
         <%=raw @book_chapter.content %>
     </div>
   </div>
   <%=render 'page'  %>
 
+  <div>
+    <h3>阅读设置</h3>
+    <%= form_for(:user, url: user_settings_users_path, method: :get) do%>
+      <%= hidden_field_tag :book_id,  @book.id %>
+      <%= hidden_field_tag :book_chapter_id,  @book_chapter.id %>
+      选择背景颜色：<%= select_tag :color,options_for_select(@colors, params[:color])%>
+      选择字体大小：<%= select_tag :font_size,options_for_select((14..30), params[:font_size])%>
+      <%= submit_tag '保存设置' %>
+    <%end %>
+  </div>
 </div>
 <!--
 ←↑→↓↖↙↗↘↕
@@ -50,15 +61,15 @@
         language:(navigator.browserLanguage || navigator.language).toLowerCase()
     }
   <%if Rails.env.development? %>
-    document.writeln("语言版本: "+browser.language);
-    document.writeln("<br>是否为移动终端: "+ browser.versions.mobile);
-    document.writeln("<br>ios终端: "+ browser.versions.ios);
-    document.writeln("<br>android终端: "+ browser.versions.android);
-    document.writeln("<br>linux终端: "+ browser.versions.linux);
-    document.writeln("<br>windows终端: "+ browser.versions.windows);
-    document.writeln("<br>是否为iPhone: "+ browser.versions.iPhone);
-    document.writeln("<br>是否iPad: "+ browser.versions.iPad);
-    document.writeln("<br>完整信息："+navigator.userAgent);
+//    document.writeln("语言版本: "+browser.language);
+//    document.writeln("<br>是否为移动终端: "+ browser.versions.mobile);
+//    document.writeln("<br>ios终端: "+ browser.versions.ios);
+//    document.writeln("<br>android终端: "+ browser.versions.android);
+//    document.writeln("<br>linux终端: "+ browser.versions.linux);
+//    document.writeln("<br>windows终端: "+ browser.versions.windows);
+//    document.writeln("<br>是否为iPhone: "+ browser.versions.iPhone);
+//    document.writeln("<br>是否iPad: "+ browser.versions.iPad);
+//    document.writeln("<br>完整信息："+navigator.userAgent);
   <%end %>
   $(function() {
       if(!browser.versions.mobile){
@@ -67,7 +78,8 @@
           data:{
               width: $("#_book_chapter_content").css("width"),
               font_size: <%= params[:font_size].to_i %>,
-              h_size: $("#_book_chapter_content h2").css("height")
+              h_size: $("#_book_chapter_content h2").css("height"),
+              color: '<%= params[:color] %>'
           },
           dataType: 'script'
         })
