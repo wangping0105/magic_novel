@@ -50,9 +50,9 @@
 h4 {
     margin-top: 25px;
 }
-.row {
-    margin: 5px;
-}
+/*.row {*/
+    /*margin: 5px;*/
+/*}*/
 
 .volume [class*="col-"] {
     padding-top: 15px;

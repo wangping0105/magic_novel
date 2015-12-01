@@ -17,12 +17,12 @@
     <span>作者:<%= @book.author.name %></span>
   </div>
 
-  <div class="bg-white pad-10">
+  <div class="bg-white pad-10 row" >
     &nbsp;&nbsp;&nbsp;&nbsp;简介：<%= @book.introduction %>
   </div>
 
-  <div class="bg-white pad-5">
-    <div class="row">
+  <div class="bg-white pad-5 row">
+    <div class="">
       <% @book.book_chapters.where(book_volume_id: nil).each do |chapter| %>
           <%= link_to book_book_chapter_path(@book, chapter) do%>
               <div class="col-md-3 margint-5px col-md-6 h-72">
@@ -32,8 +32,8 @@
       <% end %>
     </div>
     <% @book_volumns.each do |volume| %>
-        <div class="row align-center"><%= volume.title %></div>
-        <div class="row">
+        <div class=" align-center"><%= volume.title %></div>
+        <div class="">
           <% volume.book_chapters.each do |chapter| %>
               <%= link_to  book_book_chapter_path(@book, chapter) do%>
                   <div class="col-md-3 margint-5px col-md-6 h-72">

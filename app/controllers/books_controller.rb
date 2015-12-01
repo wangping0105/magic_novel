@@ -6,6 +6,7 @@ class BooksController < ApplicationController
     @books = filter_page(@books)
     @books = filter_params(@books)
     @books = filter_order(@books)
+    @classifications = Classification.all.map{|c| [c.name, c.id]}
   end
 
   def new
@@ -74,14 +75,13 @@ class BooksController < ApplicationController
   end
 
   def filter_params(relation)
-    if params[:title].present?
-      relation = relation.where("title like :title or pinyin like :title ", title: "%#{params[:title]}%")
-    end
+    relation = relation.where("title like :title or pinyin like :title ", title: "%#{params[:title]}%") if params[:title].present?
+    relation = relation.where(classification: params[:classification]) if params[:classification].present?
+
     relation
   end
 
   def filter_order(relation)
-
-    relation.order(click_count: :asc).order(id: :desc)
+    relation.order(click_count: :desc).order(id: :desc)
   end
 end

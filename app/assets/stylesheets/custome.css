@@ -9,3 +9,17 @@
 .content-style{
     background: white;
 }
+
+.book_list{
+    margin-top: 15px;
+}
+
+.book_info{
+    margin-left: -40px;
+}
+.book_info li{
+    float:left;
+    list-style-type: none;
+    font-size: 12px;
+    margin-right: 5px;
+}

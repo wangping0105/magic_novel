@@ -15,7 +15,7 @@
     <p class="lead book-description">欢迎来到王平的书城</p>
   </div>
 
-  <div class="book-main big_show">
+  <div class="book-main big_show row">
     <h4>上一页(快捷键:←) 下一页(快捷键:→) 上一章(快捷键↑) 下一章(快捷键↓)</h4>
     <span class="turn_message color-red float-r margint--30px"></span>
     <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content"
@@ -30,9 +30,23 @@
     <%= form_for(:user, url: user_settings_users_path, method: :get) do%>
       <%= hidden_field_tag :book_id,  @book.id %>
       <%= hidden_field_tag :book_chapter_id,  @book_chapter.id %>
-      选择背景颜色：<%= select_tag :color,options_for_select(@colors, params[:color])%>
-      选择字体大小：<%= select_tag :font_size,options_for_select((14..30), params[:font_size])%>
-      <%= submit_tag '保存设置' %>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">选择背景颜色：</label>
+        <div class="col-sm-4">
+          <%= select_tag :color,options_for_select(@colors, params[:color]), class:"form-control"%>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">选择字体大小：</label>
+        <div class="col-sm-4">
+          <%= select_tag :font_size,options_for_select((14..30), params[:font_size]), class:"form-control"%>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <%= submit_tag '保存设置', class: 'btn btn-sm btn-primary' %>
+        </div>
+      </div>
     <%end %>
   </div>
 </div>

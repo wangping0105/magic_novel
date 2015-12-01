@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <div class="container">
     <h1>Hello, world!</h1>
-    <p>参考 http://v3.bootcss.com/examples/theme/ 去看bootstrap的基本样式</p>
+    <p>参考 http://v3.bootcss.com/ examples/theme/ 去看bootstrap的基本样式</p>
     <p><a class="btn btn-primary btn-lg" href="http://v3.bootcss.com/examples/theme/" target="_blank" role="button">Learn more »</a></p>
   </div>
 
@@ -24,7 +24,7 @@
             <a href="<%= book_path(book) %>"><%= image_tag "demo.jpg", class: "w-120 h-150" %></a>
           </span>
           <span>
-            <a href="<%= book_path(book) %>"><%= book.introduction.length > 150 ? "#{book.introduction[0..150]}...": book.introduction %></a>
+            <a href="<%= book_path(book) %>"><%= deal_string(book.introduction, 90)%></a>
           </span>
           </div>
           <p><a class="btn btn-default" href="<%= book_path(book) %>" role="button">查看更多 »</a></p>

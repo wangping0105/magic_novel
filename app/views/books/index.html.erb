@@ -1,36 +1,59 @@
 <div class="container">
   <h1>书籍列表</h1>
-  <div class="query_area">
-    <%= form_for( books_path, method: 'GET', class: 'form-group') do %>
+  <div class="query_area row">
+    <%= form_for( books_path, method: 'GET', html: {class: 'form-group'}) do %>
       <div class="form-group">
         <label class="col-sm-1 control-label">书籍名：</label>
-        <div class="col-sm-11">
-          <%= text_field_tag :title, "", class:"form-control" %>
+        <div class="col-sm-5">
+          <%= text_field_tag :title, params[:title], class:"form-control" %>
+        </div>
+        <label class="col-sm-1 control-label">分类：</label>
+        <div class="col-sm-5">
+          <%= select_tag :classification, options_for_select(@classifications, params[:classification]) , include_blank: "全部", class:"form-control" %>
         </div>
       </div>
       <div class="form-group">
-        <%= submit_tag '查询', class: 'btn btn-sm btn-primary' %>
+        <div class="col-sm-12">
+          <%= submit_tag '搜索', class: 'btn btn-sm btn-primary' %>
+        </div>
       </div>
     <%end %>
   </div>
-  <table class="table">
-    <tr><td>序号</td><td class="minw-150">书籍名称</td><td>作者</td><td>类型</td><td>人气</td><td>字数</td><td>章节数</td></tr>
-    <% @books.each_with_index  do |book, i| %>
+  <div class="book_list row">
+    <table class="table">
       <tr>
-        <td><%= i+1 %>
-          <% if current_user && current_user.admin? %>
-            <%= link_to '删除', book_path(book), method: :delete, data:{confirm: '确认删除？'} %>
-          <%end  %>
-        </td>
-        <td><%=link_to book.title, book_path(book) %></td>
-        <td><%= book.author.name %></td>
-        <td><%= book.classification.name rescue ""%></td>
-        <td><%= book.click_count %></td>
-        <td><%= book.words %></td>
-        <td><%= book.book_chapters_count %></td>
+        <td>书籍名称</td>
+        <% if have_admin_authority?%>
+          <td>操作</td>
+        <%end  %>
+        <!--<td>作者</td><td>类型</td><td>人气</td><td>字数</td><td>章节数</td>-->
       </tr>
-    <% end %>
-  </table>
+      <% @books.each_with_index  do |book, i| %>
+        <tr>
+          <td>
+            <%=link_to book.title, book_path(book) %>
+            <ul class="book_info">
+              <li>人气: <%= book.click_count %></li>
+              <li>作者: <%= book.author.name %></li>
+              <li>类型: <%= book.classification.name rescue "其他"%></li>
+              <li>章节数: <%= book.book_chapters_count %></li>
+              <li>字数: <%= book.words %></li>
+            </ul>
+          </td>
+          <% if have_admin_authority?%>
+            <td>
+              <%= link_to '删除', book_path(book), method: :delete, data:{confirm: '确认删除？'} %>
+            </td>
+          <%end  %>
+          <!--<td><%= book.author.name %></td>-->
+          <!--<td><%= book.classification.name rescue ""%></td>-->
+          <!--<td><%= book.click_count %></td>-->
+          <!--<td><%= book.words %></td>-->
+          <!--<td><%= book.book_chapters_count %></td>-->
+        </tr>
+      <% end %>
+    </table>
+  </div>
   <%= paginate @books %>
 </div>
 
