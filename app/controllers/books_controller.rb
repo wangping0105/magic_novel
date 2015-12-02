@@ -15,7 +15,8 @@ class BooksController < ApplicationController
   end
 
   def show
-    @book_volumns = @book.book_volumes.includes(:book_chapters)
+    @book_chapters = @book.book_chapters.includes(:book_volume).order(book_volume_id: :asc).order(id: :asc).page(params[:page]).per(32)
+    # @book_volumns = @book.book_volumes.includes(:book_chapters)
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
   end
 
@@ -82,6 +83,7 @@ class BooksController < ApplicationController
   end
 
   def filter_order(relation)
-    relation.order(click_count: :desc).order(id: :desc)
+    relation = relation.order("#{params[:sort]} desc") if params[:sort].present?
+    relation
   end
 end
