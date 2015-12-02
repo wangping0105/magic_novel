@@ -23,3 +23,12 @@
     font-size: 12px;
     margin-right: 5px;
 }
+
+.author_book_info {
+    margin-left: -30px;
+}
+.author_book_info li{
+    list-style-type: none;
+    font-size: 12px;
+    margin-right: 5px;
+}

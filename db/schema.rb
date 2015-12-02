@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151122070035) do
+ActiveRecord::Schema.define(version: 20151202084253) do
 
   create_table "authors", force: :cascade do |t|
     t.string   "name",            limit: 255
@@ -48,6 +48,18 @@ ActiveRecord::Schema.define(version: 20151122070035) do
 
   add_index "book_chapters", ["book_id"], name: "index_book_chapters_on_book_id", using: :btree
   add_index "book_chapters", ["book_volume_id"], name: "index_book_chapters_on_book_volume_id", using: :btree
+
+  create_table "book_marks", force: :cascade do |t|
+    t.integer  "user_id",         limit: 4
+    t.integer  "book_id",         limit: 4
+    t.integer  "book_chapter_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "book_marks", ["book_chapter_id"], name: "index_book_marks_on_book_chapter_id", using: :btree
+  add_index "book_marks", ["book_id"], name: "index_book_marks_on_book_id", using: :btree
+  add_index "book_marks", ["user_id"], name: "index_book_marks_on_user_id", using: :btree
 
   create_table "book_relations", force: :cascade do |t|
     t.integer  "book_id",       limit: 4

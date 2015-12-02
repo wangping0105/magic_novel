@@ -1,24 +1,30 @@
-<div class="container">
-  <div class=" main_class w-16X float-l" >
+<div class="container margint-20">
+  <div class="row col-sm-12" >
     <%= render 'user_home/shared/nav' %>
   </div>
-  <div class="main_class w-84X float-l ">
-    <div class="pad-5">
+  <div class="row">
+    <div class="col-sm-12">
       <div>
         <span>我的作者名：<%= current_author.name %></span>
       </div>
       <div>
         <span>我的书籍</span>
         <table class="table">
-          <tr><td>书籍名称</td><td>类型</td><td>人气</td><td>创建时间</td><td>更新时间</td><td>状态</td><td>操作</td></tr>
+          <tr><td>书籍名称</td>
+            <!--<td>类型</td><td>人气</td><td>创建时间</td><td>更新时间</td><td>状态</td>-->
+            <td>操作</td></tr>
           <% current_author.books.order(id: :desc).each_with_index  do |book, i| %>
             <tr>
-              <td><%=link_to book.title, book_path(book) %></td>
-              <td><%= book.classification.name rescue ""%></td>
-              <td><%= book.click_count %></td>
-              <td><%= standard_time book.created_at %></td>
-              <td><%= standard_time book.updated_at %></td>
-              <td><%= book.status_name %></td>
+              <td>
+                <%=link_to"[#{ book.classification.name rescue "其他"}] #{ book.title}", book_path(book) %>
+                <ul class="author_book_info">
+                  <li>人气: <%= book.click_count%></li>
+                  <li>状态: <%= book.status_name %></li>
+                  <li>创建时间:<%= standard_time book.created_at %></li>
+                  <li>更新时间:<%= standard_time book.updated_at %></li>
+                  <li>字数: <%= book.words %></li>
+                </ul>
+              </td>
               <td> 申请上线</td>
             </tr>
           <% end %>

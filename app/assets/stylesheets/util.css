@@ -42,8 +42,13 @@
 
 .margin-5px{  margin: 5px;  }
 .margint-5px{ margin-top: 5px; }
+.margint-20{ margin-top: 20px; }
 .margint--30px{ margin-top: -30px; }
 
+.margin-bt{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
 .float-r{  float: right;  }
 

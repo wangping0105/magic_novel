@@ -1,20 +1,22 @@
 <div class="container volume">
   <div class="book-show-volume-manage">
     <h1><%= @book.title %></h1>
-    <div class="float-r ">
-    <% if have_author_authority?(@book) %>
+    <div class='row '>
+      作者:<%= @book.author.name %>
+    </div>
+    <div class="row ">
+      <% if have_author_authority?(@book) %>
         <%= link_to '卷标管理', book_book_volumes_path(@book), class: 'btn btn-sm btn-primary'%>
         <%= link_to '添加新的章节', new_book_book_chapter_path(@book), class: 'btn btn-sm btn-primary', 'data-no-turbolink' => true %>
-    <% end %>
-    <% if have_do_authority?(@book) %>
-          <% if @collection.present? %>
-            <%= link_to '取消收藏', uncollection_book_path(@book), class: 'btn btn-sm btn-primary'%>
-          <% else %>
-            <%= link_to '收藏本书', collection_book_path(@book), class: 'btn btn-sm btn-primary'%>
-          <% end %>
-    <% end %>
+      <% end %>
+      <% if have_do_authority?(@book) %>
+        <% if @collection.present? %>
+          <%= link_to '取消收藏', uncollection_book_path(@book), class: 'btn btn-sm btn-primary'%>
+        <% else %>
+          <%= link_to '收藏本书', collection_book_path(@book), class: 'btn btn-sm btn-primary'%>
+        <% end %>
+      <% end %>
     </div>
-    <span>作者:<%= @book.author.name %></span>
   </div>
 
   <div class="bg-white pad-10 row" >
@@ -24,7 +26,7 @@
   <div class="bg-white pad-5 row">
     <!--<div class=" align-center">正文</div>-->
     <% @book_chapters.each do |chapter| %>
-      <%= link_to book_book_chapter_path(@book, chapter) do%>
+      <%= link_to book_book_chapter_path(@book, chapter), 'data-no-turbolink' => true do%>
         <div class="col-md-3 margint-5px col-md-6 h-72">
           [<%= chapter.book_volume.try(:title) || '卷首语' %>] <%= chapter.title  %>
         </div>

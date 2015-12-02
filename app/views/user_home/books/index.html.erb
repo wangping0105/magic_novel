@@ -1,30 +1,31 @@
-<div class="container">
-  <div class=" main_class w-16X float-l" >
+<div class="container margint-20">
+  <div class="row col-sm-12" >
     <%= render 'user_home/shared/nav' %>
   </div>
-  <div class="main_class w-84X float-l ">
-    <div class="pad-5">
-      <div>
-        <span>昵称：<%= current_user.name %></span>
-      </div>
-      <div>
-        <hr class="border">
-        <span><h2>TOP9</h2>
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#">我的收藏</a></li>
-          <li role="presentation"><a href="#">原创</a></li>
-          <li role="presentation"><a href="#">转载</a></li>
-        </ul>
-        </span>
-        <!-- Example row of columns -->
-        <div class="row bg-white">
-          <% @collection_books.each do |book|  %>
-              <div class="col-md-12">
-                <h3><a href="<%= book_path(book.book_id)  %>"><%= book.book.title  %></a></h3>
-              </div>
-          <%end %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row col-sm-12">
+          <table class="table table-condensed">
+            <tr><th>书籍名称</th><th>操作</th></tr>
+            <% @collection_books.each_with_index do |book_relation, i|
+                 book = book_relation.book
+            %>
+              <tr>
+                <td>
+                  <%=link_to "[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
+                  <ul class="author_book_info">
+                    <% book_chapter = book.chapter_of_book_mark_by(current_user)
+                      if book_chapter
+                    %>
+                      <li>书签: <%=link_to book_chapter.title, book_book_chapter_path(book, book_chapter) %></li>
+                    <%end %>
+                  </ul>
+                </td>
+                <td><%= link_to '取消收藏', uncollection_book_path(book), class: 'btn btn-sm btn-primary'%></td>
+              </tr>
+            <%end %>
+          </table>
         </div>
-      </div>
     </div>
   </div>
 </div>
