@@ -22,21 +22,28 @@ class BooksController < ApplicationController
 
   def create
     _params_book =  params_book.merge(author_id: current_author.id)
-    if params_book[:book_type] == 1
+    if params_book['book_type'].to_i == 1
       author = Author.find_or_create_by(name: params[:author_name])
       _params_book[:author_id] = author.id
-      # _params_book[]
+      _params_book[:operator_id] = current_author.id
     end
     @book = Book.new(_params_book)
+
+    raise_error(params[:author_name].blank? , "作者名不能为空！")
     if @book.save
       tags = params[:tag_names].split(";")
-      tags.each {|t|
-        BookTagRelation.create(tag: t, book: @book)
-      }
+      tags.each {|t| BookTagRelation.create(tag: t, book: @book) }
+      flash[:success] = "创建成功"
       redirect_to books_path
     else
+      @classifications = Classification.all.map{|c| [c.name, c.id]}
+      flash[:danger] = "创建失败, #{simple_error_message(@book)}"
       render 'new'
     end
+  rescue Exception => e #如果上面的代码执行发生异常就捕获
+    @classifications = Classification.all.map{|c| [c.name, c.id]}
+    flash[:danger] = e.message
+    render 'new'
   end
 
   def update

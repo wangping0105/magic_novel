@@ -18,4 +18,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def simple_error_message(entity)
+    entity.errors.messages.map{|k,v| v.join(":")}.join(",")
+  end
 end
