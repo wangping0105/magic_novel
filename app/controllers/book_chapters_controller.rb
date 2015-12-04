@@ -125,7 +125,8 @@ class BookChaptersController < ApplicationController
   end
 
   def book_marks
-    @book.book_marks.find_or_create_by(user: current_user, book_chapter: @book_chapter)
+    book_mark = @book.book_marks.find_or_create_by(user: current_user)
+    book_mark.update(book_chapter: @book_chapter)
     flash[:success] = '添加书签成功'
     redirect_to book_book_chapter_path(@book, @book_chapter)
   end
