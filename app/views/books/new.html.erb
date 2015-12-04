@@ -20,6 +20,12 @@
           <%= f.select :book_type, Book.book_types_options, { include_blank: "选择类型" }, class: "form-control", require: true%>
         </div>
       </div>
+      <div class="form-group book_type_reprint" style="display: none;">
+        <label class="col-sm-2 control-label">作者名</label>
+        <div class="col-sm-10">
+          <%= text_field_tag :author_name, "", class: "form-control", require: false%>
+        </div>
+      </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">简介</label>
         <div class="col-sm-10">
@@ -41,3 +47,15 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  $(function(){
+    $("#book_book_type").on("change",function(){
+      if($(this).val() == 1){
+        $(".book_type_reprint").show();
+      }else{
+        $(".book_type_reprint").hide();
+      }
+    })
+  })
+</script>

@@ -21,7 +21,13 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.new(params_book.merge(author_id: current_author.id))
+    _params_book =  params_book.merge(author_id: current_author.id)
+    if params_book[:book_type] == 1
+      author = Author.find_or_create_by(name: params[:author_name])
+      _params_book[:author_id] = author.id
+      # _params_book[]
+    end
+    @book = Book.new(_params_book)
     if @book.save
       tags = params[:tag_names].split(";")
       tags.each {|t|
@@ -77,6 +83,7 @@ class BooksController < ApplicationController
 
   def filter_params(relation)
     relation = relation.where("title like :title or pinyin like :title ", title: "%#{params[:title]}%") if params[:title].present?
+    relation = relation.joins(:author).where("authors.name like :name", name: "%#{params[:author_name]}%").distinct if params[:author_name].present?
     relation = relation.where(classification: params[:classification]) if params[:classification].present?
 
     relation

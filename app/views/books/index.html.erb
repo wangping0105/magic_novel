@@ -2,7 +2,7 @@
   <h1>书籍列表</h1>
   <div class="query_area row">
     <%= form_for( books_path, method: 'GET', html: {class: 'form-group'}) do %>
-      <div class="form-group">
+      <div class="form-group row">
         <label class="col-sm-1 control-label">书籍名：</label>
         <div class="col-sm-3">
           <%= text_field_tag :title, params[:title], class:"form-control" %>
@@ -13,12 +13,19 @@
         </div>
         <label class="col-sm-1 control-label">排序：</label>
         <div class="col-sm-3">
-          <%= select_tag :sort, options_for_select([[ '最新书籍', 'id'], ['热门书籍排行', 'click_count']], (params[:sort]|| 'id')) , class:"form-control" %>
+          <%= select_tag :sort, options_for_select([[ '最新书籍', 'id'], ['书籍热门排行', 'click_count'], ['书籍收藏排行', 'collection_count'], ['书籍推荐排行', 'recommend_count']], (params[:sort]|| 'id')) , class:"form-control" %>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
+        <label class="col-sm-1 control-label">作者名：</label>
+        <div class="col-sm-3">
+          <%= text_field_tag :author_name, params[:author_name], class:"form-control" %>
+        </div>
+      </div>
+      <div class="form-group row">
         <div class="col-sm-12">
           <%= submit_tag '搜索', class: 'btn btn-sm btn-primary' %>
+          <%= button_tag '清空', type: 'button',class: 'form_reset btn btn-sm btn-primary' %>
         </div>
       </div>
     <%end %>
