@@ -32,3 +32,12 @@
     font-size: 12px;
     margin-right: 5px;
 }
+
+.book_marks {
+    margin-left: -30px;
+}
+.book_marks li{
+    list-style-type: none;
+    font-size: 14px;
+    margin-right: 5px;
+}

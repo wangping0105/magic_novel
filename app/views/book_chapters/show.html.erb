@@ -32,12 +32,10 @@
           <% end %>
           <%if have_do_authority?(@book) %>
               <%= link_to '查看大章', big_show_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
+              <%= link_to '添加书签', book_marks_book_book_chapter_path(@book, @book_chapter), class: 'btn btn-sm btn-primary'%>
           <% end %>
         </div>
     <p class="lead book-description">欢迎来到王平的书城</p>
-  </div>
-  <div class="row ">
-    <%= link_to '添加书签', book_path(@book), class: 'btn btn-sm btn-primary'%>
   </div>
 
   <div class="book-main big_show row">

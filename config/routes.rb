@@ -18,9 +18,11 @@ Rails.application.routes.draw do
       get :collection, :uncollection
     end
     resources :book_chapters, path: :chapters do
-      get :get_chapter, on: :collection
+      collection do
+        get :get_chapter
+      end
       member do
-        get :big_show, :turn_js_show
+        get :big_show, :turn_js_show, :book_marks
       end
     end
     resources :book_volumes, path: :volumes do

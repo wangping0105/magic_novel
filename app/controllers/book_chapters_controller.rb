@@ -1,7 +1,7 @@
 class BookChaptersController < ApplicationController
   before_action :set_book
   before_action :authenticate_user!, only:[ :create, :new]
-  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show, :turn_js_show]
+  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show, :turn_js_show, :book_marks]
   before_action :get_volume_for_select, only: [:update]
   def index
     @books = Book.all
@@ -35,8 +35,12 @@ class BookChaptersController < ApplicationController
     @prev_book_chapter = @book_chapter
     @arr = [@book_chapter]
     (1..19).each {
-      @book_chapter = @book_chapter.next_chapter
-      @arr << @book_chapter
+      if @book_chapter && @book_chapter.next_chapter
+        @book_chapter = @book_chapter.next_chapter
+        @arr << @book_chapter
+      else
+        break
+      end
     }
   end
 
@@ -50,6 +54,8 @@ class BookChaptersController < ApplicationController
     @book_chapter = @book.book_chapters.new(params_book_chapter.merge(
       next_chapter_id: next_chapter.try(:id)
     ))
+    raise_error(params_book_chapter['word_count'].to_i > 15000 , "小说字数不能大于15000")
+
     if @book_chapter.save
       update_prev_chapter_next_chapter prev_book_chapter
       update_next_chapter next_chapter
@@ -62,6 +68,10 @@ class BookChaptersController < ApplicationController
       flash[:danger] = @book_chapter.errors.messages.map{|k,v| v.join("")}.join(", ")
       render 'new'
     end
+  rescue Exception => e #如果上面的代码执行发生异常就捕获
+    flash[:danger] = e.message
+    get_volume_for_select
+    render 'new'
   end
 
   def update
@@ -112,6 +122,12 @@ class BookChaptersController < ApplicationController
                id: @chapter.try(:id),
                name: @chapter.try(:title).to_s
            }
+  end
+
+  def book_marks
+    @book.book_marks.find_or_create_by(user: current_user, book_chapter: @book_chapter)
+    flash[:success] = '添加书签成功'
+    redirect_to book_book_chapter_path(@book, @book_chapter)
   end
 
   # ===============================================================================================================

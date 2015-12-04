@@ -50,11 +50,11 @@ end
 # https://github.com/Macrow/rails_kindeditor
 gem 'rails_kindeditor'
 
-
 gem 'mechanize'
 
 gem "iconv", "~> 1.0.3"
-
+# emoji表情
+gem 'emojimmy'
 # To use debugger 调试
 group :development do
   gem 'pry-rails'

@@ -13,7 +13,7 @@
               <tr>
                 <td>
                   <%=link_to "[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
-                  <ul class="author_book_info">
+                  <ul class="book_marks">
                     <% book_chapter = book.chapter_of_book_mark_by(current_user)
                       if book_chapter
                     %>

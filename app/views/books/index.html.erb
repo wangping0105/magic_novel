@@ -13,7 +13,7 @@
         </div>
         <label class="col-sm-1 control-label">排序：</label>
         <div class="col-sm-3">
-          <%= select_tag :sort, options_for_select([[ '最新书籍', 'id'], ['热门书籍', 'click_count']], (params[:sort]|| 'id')) , class:"form-control" %>
+          <%= select_tag :sort, options_for_select([[ '最新书籍', 'id'], ['热门书籍排行', 'click_count']], (params[:sort]|| 'id')) , class:"form-control" %>
         </div>
       </div>
       <div class="form-group">
@@ -30,12 +30,12 @@
         <% if have_admin_authority?%>
           <td>操作</td>
         <%end  %>
-        <!--<td>作者</td><td>类型</td><td>人气</td><td>字数</td><td>章节数</td>-->
+      <% index = 1 + ((params[:page]||1).to_i-1) * (params[:per]||30).to_i %>
       </tr>
       <% @books.each_with_index  do |book, i| %>
         <tr>
           <td>
-            <%=link_to "[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
+            <%=link_to "#{index}.[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
             <ul class="book_info">
               <li>人气: <%= book.click_count %></li>
               <li>作者: <%= book.author.name %></li>
@@ -49,11 +49,7 @@
               <%= link_to '删除', book_path(book), method: :delete, data:{confirm: '确认删除？'} %>
             </td>
           <%end  %>
-          <!--<td><%= book.author.name %></td>-->
-          <!--<td><%= book.classification.name rescue ""%></td>-->
-          <!--<td><%= book.click_count %></td>-->
-          <!--<td><%= book.words %></td>-->
-          <!--<td><%= book.book_chapters_count %></td>-->
+          <% index += 1 %>
         </tr>
       <% end %>
     </table>

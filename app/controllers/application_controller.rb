@@ -12,5 +12,10 @@ class ApplicationController < ActionController::Base
     @page_title = "魔书网"
   end
 
+  def raise_error(flag, message)
+    if flag
+      raise StandardError.new(message)
+    end
+  end
 
 end

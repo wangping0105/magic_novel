@@ -43,10 +43,8 @@ module UtilsHelper
         if v.is_a?(String) and ! v.encoding.to_s.eql?("UTF-8")
           regex = get_regex
           v = v.scrub.force_encoding("UTF-8")
-          v = v.gsub regex, ''
-          v = filterEmoji(v)
-        elsif v.is_a?(String)
-          v = filterEmoji(v)
+          # v = v.gsub regex, ''
+          v = Emojimmy.strip(v)
         end
       @params_encoded[k] = v
       }

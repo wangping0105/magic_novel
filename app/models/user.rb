@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   before_create :generate_authentication_token
   has_secure_password
-
   has_one :author
+  has_many :book_marks, dependent: :destroy
 
   acts_as_paranoid
 
