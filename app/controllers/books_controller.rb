@@ -25,7 +25,7 @@ class BooksController < ApplicationController
     if params_book['book_type'].to_i == 1
       author = Author.find_or_create_by(name: params[:author_name])
       _params_book[:author_id] = author.id
-      _params_book[:operator_id] = current_author.id
+      _params_book[:operator_id] = current_user.id
     end
     @book = Book.new(_params_book)
 

@@ -5,8 +5,10 @@ class Book < ActiveRecord::Base
   has_many :book_volumes, dependent: :destroy
   has_many :book_marks, dependent: :destroy
 
+  belongs_to :operator, class_name: 'User', foreign_key: 'operator_id'
   belongs_to :author, counter_cache: true
   belongs_to :classification, counter_cache: true
+
 
   acts_as_enum :book_types, :in => [ ['custom', 0, '原创'], ['reprint', 1, '转载'] ]
   acts_as_enum :status, :in => [ ['unline', 0, '未上线'], ['online', 1, '连载'], ['over', 2, '完本'] ]

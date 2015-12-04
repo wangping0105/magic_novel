@@ -198,7 +198,7 @@ class BookChaptersController < ApplicationController
 
   def turn_js_deal
     font_size = (params[:font_size].to_i == 0 ? 14: params[:font_size].to_i)
-    content = @book_chapter.content.gsub("<br>","&br&")+"本书还可以，请支持魔书网&br&&br&本章结束"
+    content = @book_chapter.content.gsub("<br>","&br&")+"&br&是否本书还可以？，请支持魔书网&br&&br&本章结束"
     content = begin
       text = Nokogiri::HTML(content).text
       text.strip!

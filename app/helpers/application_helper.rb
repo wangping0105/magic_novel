@@ -2,7 +2,7 @@ module ApplicationHelper
   # 具有作者权限
   def have_author_authority?(book)
     if current_user
-      book.author == current_author
+      book.author == current_author || book.operator == current_user
     else
       false
     end

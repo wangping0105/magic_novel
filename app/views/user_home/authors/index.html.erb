@@ -4,11 +4,11 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <div>
-        <span>我的作者名：<%= current_author.name %></span>
+      <div class="col-sm-12 row">
+        <h3>我的作者名: <%= current_author.name %></h3>
       </div>
-      <div>
-        <span>我的书籍</span>
+      <div class="col-sm-12 row">
+        <div class="col-sm-12 row margin-bt">我的书籍 <%= link_to '添加新书', new_book_path, class: 'btn btn-sm btn-primary', 'data-no-turbolink' => true %></div>
         <table class="table">
           <tr><td>书籍名称</td>
             <!--<td>类型</td><td>人气</td><td>创建时间</td><td>更新时间</td><td>状态</td>-->
