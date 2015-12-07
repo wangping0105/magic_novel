@@ -18,5 +18,6 @@
 /.idea
 /config/*.yml
 /public/files/*
+/public/books/*
 /test
 /public/novels/logs/*
