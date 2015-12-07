@@ -43,6 +43,8 @@ gem 'acts_as_enum'
 #
 gem 'ruby-pinyin', '~> 0.4.5'
 
+gem 'sidekiq', '~> 3.4.1'
+
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

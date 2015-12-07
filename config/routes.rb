@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     member do
       get :collection, :uncollection
     end
+    collection do
+      get :csv_export
+    end
+
     resources :book_chapters, path: :chapters do
       collection do
         get :get_chapter

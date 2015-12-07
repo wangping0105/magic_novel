@@ -7,6 +7,10 @@ class BooksController < ApplicationController
     @books = filter_params(@books)
     @books = filter_order(@books)
     @classifications = Classification.all.map{|c| [c.name, c.id]}
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def new
@@ -73,6 +77,11 @@ class BooksController < ApplicationController
     redirect_to book_path(@book)
   end
 
+  def csv_export
+    ExportWorker.perform_async(params)
+    render json: {data:0}
+  end
+  # ======================================================================================
   private
 
   def params_book
