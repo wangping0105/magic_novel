@@ -11,7 +11,7 @@ class CsvExport
       unless File.exist?("#{file_path}/#{book.title}.csv")
         puts "#{book.title}开始导出~"
         book_classification = book.classification.name rescue "其他"
-        
+
         CSV.open("#{file_path}/#{book.title}.csv", "a+") do |csv|
           csv << [book.title, book_classification, book.author.name, book.introduction, book.words, book.status_names, book.book_types_names]
           book.book_chapters.each do |book_chapter|
