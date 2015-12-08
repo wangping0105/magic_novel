@@ -26,7 +26,16 @@
         <div class="col-sm-12">
           <%= submit_tag '搜索', class: 'btn btn-sm btn-primary' %>
           <%= button_tag '清空', type: 'button',class: 'form_reset btn btn-sm btn-primary' %>
-          <%= link_to '导出本页小说', csv_export_books_path(page: params[:page]), remote: true %>
+          <%if have_admin_authority? %>
+            <%= link_to '导出本页小说',
+                        csv_export_books_path(
+                          title: params[:title],
+                          classification: params[:classification],
+                          author_name: params[:author_name],
+                          page: params[:page]
+                        ),
+                        class: 'btn btn-sm btn-primary', remote: true %>
+          <%end %>
         </div>
       </div>
     <%end %>
