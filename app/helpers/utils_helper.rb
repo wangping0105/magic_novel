@@ -46,7 +46,7 @@ module UtilsHelper
           # v = v.gsub regex, ''
           v = Emojimmy.strip(v)
         end
-      @params_encoded[k] = v
+      @params_encoded[k.to_sym] = v
       }
     end
     @params_encoded

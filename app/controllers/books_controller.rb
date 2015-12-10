@@ -26,14 +26,15 @@ class BooksController < ApplicationController
 
   def create
     _params_book =  params_book.merge(author_id: current_author.id)
+    @book = Book.new(_params_book)
+
     if params_book['book_type'].to_i == 1
+      raise_error(params[:author_name].blank? , "作者名不能为空！")
       author = Author.find_or_create_by(name: params[:author_name])
       _params_book[:author_id] = author.id
       _params_book[:operator_id] = current_user.id
     end
-    @book = Book.new(_params_book)
 
-    raise_error(params[:author_name].blank? , "作者名不能为空！")
     if @book.save
       tags = params[:tag_names].split(";")
       tags.each {|t| BookTagRelation.create(tag: t, book: @book) }
