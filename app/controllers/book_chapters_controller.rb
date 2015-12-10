@@ -9,7 +9,6 @@ class BookChaptersController < ApplicationController
   end
 
   def new
-    @book_chapter = @book.book_chapters.new
     get_volume_for_select
   end
 
@@ -45,7 +44,9 @@ class BookChaptersController < ApplicationController
   end
 
   def edit
-    get_volume_for_select
+    @book_volumes = @book.book_volumes.order(id: :desc)
+    @book_volumes = @book_volumes.map{|k| [k.title, k.id]}
+    @book_volumes << ['篇头语',nil]
   end
 
   def create
