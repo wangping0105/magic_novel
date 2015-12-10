@@ -24,7 +24,7 @@ class BookChaptersController < ApplicationController
 
   def turn_js_show
     font_size = params[:font_size].to_i == 0 ? 14: params[:font_size].to_i
-    h_size = params[:h_size].to_i == 0 ? 450: params[:h_size].to_i
+    h_size = params[:h_size].to_i <= 450 ? 450: params[:h_size].to_i
     @content_arr = turn_js_deal
     @lines = ((h_size-0.5*font_size)/(1.5*font_size))
     @totle_page = @content_arr.length/@lines
@@ -206,6 +206,7 @@ class BookChaptersController < ApplicationController
       text.strip!
       text
     end
+
     _temp_content_arr, content_arr = content.split("&br&"), []
     # 一行的字数
     window_width = params[:width].to_i
