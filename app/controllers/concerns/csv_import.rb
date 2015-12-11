@@ -3,7 +3,7 @@ class CsvImport
   require 'csv'
   DefaultPath = "#{Rails.root.to_s}/public/books"
 
-  def self.book_csv(from_path = DefaultPath, skip_check_book = false )
+  def self.book_csv(skip_check_book = false, from_path = DefaultPath )
     Dir[from_path + '/*.csv'].each do |file_path|
       index, flag, book_title, book = 0, true, "", nil
 
