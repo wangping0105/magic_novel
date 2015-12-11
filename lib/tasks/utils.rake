@@ -12,4 +12,9 @@ namespace :utils do
     Book.where(classification_id: classification.id).update_all(classification_id: ct1.id)
     puts '更新完毕'
   end
+
+  desc '从csv上传小说'
+  task :upload_csv => :environment do
+    CsvImport.book_csv
+  end
 end

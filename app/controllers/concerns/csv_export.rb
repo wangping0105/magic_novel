@@ -1,4 +1,5 @@
 class CsvExport
+  extend ActiveSupport::Concern
   require 'csv'
   DefaultPath = "#{Rails.root.to_s}/public/books"
 
