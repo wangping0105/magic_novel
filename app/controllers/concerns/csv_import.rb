@@ -5,16 +5,16 @@ class CsvImport
 
   def self.book_csv(from_path = DefaultPath )
     Dir[from_path + '/*.csv'].each do |file_path|
+      index, flag, book_title, book = 0, true, "", nil
+
       # CSV.foreach(file_path, headers: true) do |row|
-      index = 0
-      book_title = ""
-      book = nil
       CSV.foreach(file_path) do |row|
         if index == 0
           book_title, classification_name, author_name, introduction, words, status, book_types = row
           book = Book.find_by(title: book_title)
           if book.present?
-            put_logs "#{book_title}已经存在", "import_book_exist"
+            put_logs "#{book_title}已经存在", "import_book"
+            flag = false
             break
           else
             book = add_a_book(book_title, classification_name, author_name, introduction, words, book_types, status)
@@ -25,7 +25,7 @@ class CsvImport
         end
         index +=1
       end
-      put_logs "#{book_title}导入完毕"
+      put_logs "#{book_title}导入完毕", "import_book" if flag
     end
   end
 
@@ -59,8 +59,9 @@ class CsvImport
             prev_chapter_id: prev_chpater.try(:id)
           })
         prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
+        put_logs("#{book.title}, #{title}章节添加完毕！")
       else
-        put_logs("#{book.title}, #{title}章节存在！", error_type = 'import_chapter_exist')
+        put_logs("#{book.title}, #{title}章节存在！")
       end
     end
   end
