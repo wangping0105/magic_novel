@@ -8,6 +8,7 @@ class CsvImport
       # CSV.foreach(file_path, headers: true) do |row|
       index = 0
       book_title = ""
+      book = nil
       CSV.foreach(file_path) do |row|
         if index == 0
           book_title, classification_name, author_name, introduction, words, status, book_types = row
@@ -28,7 +29,7 @@ class CsvImport
     end
   end
 
-  def add_a_book(book_title, classification_name, author_name, introduction, words, book_types, status)
+  def self.add_a_book(book_title, classification_name, author_name, introduction, words, book_types, status)
     book_types = Book.book_types_options.to_h[book_types]
     status = Book.status_options.to_h[status]
     classification = Classification.where("name like ?", "%#{classification_name}%").first
@@ -44,7 +45,7 @@ class CsvImport
      })
   end
 
-  def add_a_chapter(book, title, content)
+  def self.add_a_chapter(book, title, content)
     book_chapter = book.book_chapters.find_by(title: title)
     if book.present?
       if book_chapter.blank?
@@ -64,7 +65,7 @@ class CsvImport
     end
   end
 
-  def put_logs(msg, error_type = 'import_log')
+  def self.put_logs(msg, error_type = 'import_log')
     dir_path = "#{Rails.root.to_s}/public/novels/logs"
     FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
     file = File.new("#{dir_path}/#{Date.today.strftime("%Y%m%d")}_#{error_type}.log", "a+")
