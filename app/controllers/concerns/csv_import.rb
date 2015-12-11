@@ -12,10 +12,14 @@ class CsvImport
         if index == 0
           book_title, classification_name, author_name, introduction, words, status, book_types = row
           book = Book.find_by(title: book_title)
-          if book.present? && !skip_check_book
-            put_logs "#{book_title}已经存在", "import_book"
-            flag = false
-            break
+          if book.present?
+            if !skip_check_book
+              put_logs "#{book_title}已经存在", "import_book"
+              flag = false
+              break
+            else
+              put_logs "#{book_title}已经存在,开始更新"
+            end
           else
             book = add_a_book(book_title, classification_name, author_name, introduction, words, book_types, status)
           end
@@ -51,13 +55,13 @@ class CsvImport
       if book_chapter.blank?
         book_volume = book.book_volumes.first
         prev_chpater = book.book_chapters.last
-        book_chapter = book.book_chapters.create(
-          {
-            title: title,
-            content: content,
-            book_volume_id: book_volume.try(:id),
-            prev_chapter_id: prev_chpater.try(:id)
-          })
+        chapter_attr = {
+          title: title,
+          content: content,
+          book_volume_id: book_volume.try(:id),
+          prev_chapter_id: prev_chpater.try(:id)
+        }
+        book_chapter = book.book_chapters.create(chapter_attr)
         prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
         put_logs("#{book.title}, #{title}章节添加完毕！")
       else

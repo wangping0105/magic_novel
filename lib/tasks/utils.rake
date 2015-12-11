@@ -15,6 +15,6 @@ namespace :utils do
 
   desc '从csv上传小说'
   task :upload_csv => :environment do
-    CsvImport.book_csv
+    CsvImport.book_csv(true)
   end
 end
