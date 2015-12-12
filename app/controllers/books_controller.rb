@@ -2,6 +2,7 @@ class BooksController < ApplicationController
   before_action :set_book, only: [:show, :destroy, :collection, :uncollection]
 #  before_action :authenticate_user!
   def index
+    params[:sort] ||= "id"
     @books = Book.all
     @books = filter_page(@books)
     @books = filter_params(@books)

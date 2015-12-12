@@ -40,6 +40,7 @@ namespace :mechanize do
     # end
   end
 
+  desc 'clean_up'
   task :novel_chapter_clean_up => :environment do
     puts "载入Hash..."
     _time = Time.now.to_f
@@ -65,8 +66,12 @@ namespace :mechanize do
         true_count = _hash[book.title]
         cc = (true_count.to_i - count.to_i)
         pre = true_count.to_i!=0 ? (cc/true_count.to_f) * 100 : 0
-        if pre > 4 || cc > 22 || pre < -4 || cc < -10 || count == 0 || count < 50
+        if pre > 4 || cc > 20 || pre < -4 || cc < -10 || count == 0 || count < 50
           # book.update(book_chapters_count: true_count)
+          puts "开始删除#{book.title}"
+          book.destroy # book_chapters.destroy_all
+          puts "删除#{book.title}完毕 ,用时#{calculate_time(_time)}ms"
+          _time = Time.now.to_f
           index = index +1
           counter_arr[0] += count
           [cc, pre.round(1), book.title, count, true_count]

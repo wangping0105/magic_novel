@@ -17,4 +17,10 @@ namespace :utils do
   task :upload_csv => :environment do
     CsvImport.book_csv(true)
   end
+
+  desc '全部小说夏哀哉'
+  task :download_csv => :environment do
+    @books = Book.all
+    CsvExport.book_csv(@books)
+  end
 end
