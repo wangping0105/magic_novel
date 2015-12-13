@@ -7,25 +7,35 @@ namespace :_58country do
 
     # base_url = "http://sh.58.com/zufang/0/j2/?minprice=2000_3500&PGTID=0d300008-0000-2957-0131-2c24be8dc88c&ClickID=3"
     page = agent.get(base_url)
-    page_pages = page.search(".//*[@id='infolist']/table//tr/td/div/a[1]")
-    page_pages.each do |a|
-      begin
-        page_url = a.attributes['href'].value
-        little_page = agent.get(page_url)
-        infos = little_page.search(".//*[@id='main']/div[1]/div[2]/div[2]/ul/li")
-        price = infos[0].text.gsub(/\t|\r|\n| /,"")
-        price_i = infos[0].search("//span[@class='bigpri arial']").text.to_i
-        address =  infos[4].search("div[2]/text()").text.gsub(/\t|\r|\n| /,"")
-        puts "%4s=>%9s\n      地址:#{address}\n===="% [price_i, price]
-        address_url = "file:///home/wangping/资源列表.html"
-        address_page = agent.get(address_url)
-        address_page.search(".//*[@id='text_']")[0].set_attribute(:value,address)
+    # page_pages = page.search(".//*[@id='infolist']/table//tr/td/div/a[1]")
 
-        binding.pry
-        save_in_file(price_i, address, page_url, price)
-      rescue
-        next
+    next_link, index = true, 0
+    while(page.present? && index < 5)
+      page_pages = page.search(".//*[@id='infolist']/table//tr/td/div/a[1]")
+      page_pages.each do |a|
+        begin
+          page_url = a.attributes['href'].value
+          little_page = agent.get(page_url)
+          infos = little_page.search(".//*[@id='main']/div[1]/div[2]/div[2]/ul/li")
+          price = infos[0].text.gsub(/\t|\r|\n| /,"")
+          price_i = infos[0].search("//span[@class='bigpri arial']").text.to_i
+          address =  infos[4].search("div[2]/text()").text.gsub(/\t|\r|\n| /,"")
+          puts "%4s=>%9s\n      地址:#{address}\n===="% [price_i, price]
+          # address_url = "file:///home/wangping/资源列表.html"
+          # address_page = agent.get(address_url)
+          # address_page.search(".//*[@id='text_']")[0].set_attribute(:value,address)
+
+          save_in_file(price_i, address, page_url, price)
+        rescue
+          next
+        end
       end
+
+      # =下一页的按钮
+      next_link = page.search(".//*[@id='infolist']/div[3]/a[@class='next']")[0]
+
+      page = (agent.get(next_link.attributes['href'].text) rescue nil)
+      index += 1
     end
 
   end
