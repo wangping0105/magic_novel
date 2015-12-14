@@ -20,7 +20,10 @@
                overflow:hidden;">
   </div>
 </div>
+<div id='address' style="width:450px; overflow: auto;max-height: 600px;">
+</div>
 </body>
+<script src="/assets/jquery.self-d03a5518f45df77341bdbe6201ba3bfa547ebba8ed64f0ea56bfa5f96ea7c074.js?body=1" data-turbolinks-track="true"></script>
 <script type="text/javascript">
     var map = new BMap.Map("container");
     map.centerAndZoom("上海", 12);
@@ -61,14 +64,13 @@
         var r = window.location.search.substr(1).match(reg);
         if(r!=null)return  unescape(r[2]); return null;
     }
-
     <%
      require 'csv'
      file_path = "#{Rails.root.to_s}/public/58country"
      CSV.foreach("#{file_path}/addresses.csv") do |row|
     %>
         searchByStationName("<%= row[1] %>","<%= row[2] %>");
-
+        $("#address").append("<div style='position: relative'>价格：<%= row[0] %>元 地址：<%= row[1] %> ， <a href='<%= row[2] %>' target='_blank'>查看详情</a> </div>");
     <% end %>
 
 </script>
