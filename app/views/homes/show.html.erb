@@ -67,7 +67,7 @@
     <% @info_arr.each do |row| %>
         searchByStationName("<%= row[1] %>","<%= row[2] %>");
         $("#address").append("<div style='position: relative'>价格：<%= row[0] %>元 地址：<%= row[1] %> ， <a href='<%= row[2] %>' target='_blank'>查看详情</a> </div>");
-    <% end %>
+    <% end if File.exist?("#{file_path}/addresses.csv") %>
 
 </script>
 </html>

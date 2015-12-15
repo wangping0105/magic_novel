@@ -33,11 +33,11 @@ namespace :search_home do
           puts "%4s=>%9s\n      地址:#{address}\n===="% [price_i, price]
 
           save_in_file(price_i, address, page_url, price)
+          sleep 6
         rescue
           next
         end
       end
-
       # =下一页的按钮
       next_link = page.search(".//*[@id='infolist']/div[3]/a[@class='next']")[0]
       page = (agent.get(next_link.attributes['href'].text) rescue nil)
