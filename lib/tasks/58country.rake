@@ -19,7 +19,7 @@ namespace :search_home do
     remove_addresses_file(@file_path)
 
     index = 0
-    while(page.present? && index < 7)
+    while(page.present? && index < 4)
       page_pages = page.search(".//*[@id='infolist']/table//tr/td/div/a[1]")
       page_pages.each do |a|
         begin
@@ -63,7 +63,7 @@ namespace :search_home do
     remove_addresses_file(@file_path)
 
     index = 0
-    while(page.present? && index < 7)
+    while(page.present? && index < 4)
       page_pages = page.search(".//*[@class='leftBox']/div[@class='listBox']/ul/li/div/a[1]")
       page_pages.each do |a|
         begin
