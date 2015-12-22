@@ -15,7 +15,7 @@ namespace :search_home do
     page = agent.get(base_url)
 
     # =删除原先的文件
-    @file_path = "#{Rails.root.to_s}/public/58country#{FILE_BEHINE}"
+    @file_path = "#{Rails.root.to_s}/public/hourses/58country#{FILE_BEHINE}"
     remove_addresses_file(@file_path)
 
     index = 0
@@ -59,7 +59,7 @@ namespace :search_home do
     page = agent.get(base_url)
 
     # =删除原先的文件
-    @file_path = "#{Rails.root.to_s}/public/ganjin#{FILE_BEHINE}"
+    @file_path = "#{Rails.root.to_s}/public/hourses/ganjin#{FILE_BEHINE}"
     remove_addresses_file(@file_path)
 
     index = 0

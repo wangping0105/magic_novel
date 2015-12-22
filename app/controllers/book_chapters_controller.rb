@@ -17,6 +17,7 @@ class BookChaptersController < ApplicationController
     @colors = content_back_colors
     params[:color] = cookies[:color] || "FFFFFF"
     params[:font_size] = cookies[:font_size] || 14
+    params[:book_reading] = cookies[:book_reading] || ''
     sql = "update books set click_count = click_count + 1 where id = #{@book.id}"
     _sql = ActiveRecord::Base.connection()
     _sql.update(sql)

@@ -90,7 +90,7 @@
 //    document.writeln("<br>完整信息："+navigator.userAgent);
   <%end %>
 
-    if(!browser.versions.mobile){
+    if('<%= params[:book_reading]%>'=='open' && !browser.versions.mobile){
       $.ajax({
         url: "/books/<%= @book.id %>/chapters/<%= @book_chapter.id %>/turn_js_show" ,
         data:{
