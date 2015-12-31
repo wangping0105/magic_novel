@@ -22,7 +22,6 @@
 /test
 /public/novels/logs/*
 public/hourses/*
-public/assets/*
 
 #config/database.yml
 #config/chewy.yml
