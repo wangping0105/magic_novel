@@ -47,11 +47,21 @@ set :linked_dirs, fetch(:linked_dirs, []).push(*%W{
 
 
 namespace :deploy do
-  desc 'Restart application'
+  ddesc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
+      # invoke 'unicorn:restart'
+      # invoke 'unicorn:duplicate'
+      # invoke 'unicorn:legacy_restart'
+    end
+  end
+  #
+  desc 'cp assets/images to public/assets'
+  before :restart, :cp_assets do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute :cp, '-R', release_path.join('app/assets/images/*'), release_path.join('public/assets/')
     end
   end
 
@@ -66,14 +76,40 @@ namespace :deploy do
     end
   end
 
+  desc "run rake task on remote server 'cap development deploy:runrake task=stats'"
+  task :runrake do
+    on roles(:db), in: :groups, limit: 1, wait: 10 do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          rake ENV['task']
+        end
+      end
+    end
+  end
+
   desc 'upload setup_config for application'
   task :upload_config do
     on roles(:web), in: :sequence, wait: 5 do
-      invoke "deploy:check:make_linked_dirs"
-
       fetch(:linked_files).each do |file_path|
         unless test "[ -f #{shared_path}/#{file_path} ]"
           upload!("#{file_path}", "#{shared_path}/#{file_path}", via: :scp)
+        end
+      end
+    end
+  end
+
+  desc 'update git remote repo url'
+  task :update_git_repo do
+    on release_roles :all do
+      with fetch(:git_environmental_variables) do
+        within repo_path do
+          current_repo_url = execute :git, :config, :'--get', :'remote.origin.url'
+          unless repo_url == current_repo_url
+            execute :git, :remote, :'set-url', 'origin', repo_url
+            execute :git, :remote, :update
+
+            execute :git, :config, :'--get', :'remote.origin.url'
+          end
         end
       end
     end
