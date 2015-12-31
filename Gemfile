@@ -50,7 +50,7 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
 end
 # https://github.com/Macrow/rails_kindeditor
-gem 'rails_kindeditor'
+# gem 'rails_kindeditor'
 
 gem 'mechanize'
 
