@@ -9,6 +9,7 @@ class BookChaptersController < ApplicationController
   end
 
   def new
+    @book_chapter = @book.book_chapters.new
     get_volume_for_select
   end
 
