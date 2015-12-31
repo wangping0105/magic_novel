@@ -45,6 +45,9 @@ set :linked_dirs, fetch(:linked_dirs, []).push(*%W{
   vendor/bundle public/system
 })
 
+set :unicorn_rack_env, -> { fetch(:rails_env) || "deployment" }
+
+set :unicorn_restart_sleep_time, 5
 
 namespace :deploy do
   desc 'Restart application'
