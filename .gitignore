@@ -22,3 +22,12 @@
 /test
 /public/novels/logs/*
 public/hourses/*
+
+#config/database.yml
+#config/chewy.yml
+config/secrets.yml
+config/nginx.conf
+config/unicorn/*.rb
+#config/logrotate.conf
+#config/newrelic.yml
+#config/app.god

@@ -78,3 +78,9 @@ group :development do
   gem 'capistrano-rvm', '~> 0.1.2'
   gem 'capistrano-sidekiq'
 end
+
+# Use unicorn as the app server
+group :production do
+  gem 'unicorn'
+  gem "unicorn-worker-killer"
+end

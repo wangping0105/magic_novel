@@ -28,5 +28,12 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: ordering_ik
+  pool: 5
+
+  username: ikcrm
+  password: ikcrm123
+  host: 10.163.96.66
