@@ -216,12 +216,12 @@ var _INLINE_TAG_MAP = _toMap('a,abbr,acronym,b,basefont,bdo,big,br,button,cite,c
 	_VALUE_TAG_MAP = _toMap('input,button,textarea,select');
 // Begining of modification by Macrow
 function _getBasePath() {
-	var refPath = '/system/kindeditor/';
+	var refPath = '/assets/kindeditor/';
 	var els = document.getElementsByTagName('script'), src;
 	for (var i = 0, len = els.length; i < len; i++) {
 		src = els[i].src || '';
 		if (/(kindeditor|application)[\w\-\.]*\.js/.test(src)) {
-			return src.substring(0, src.indexOf('system')) + refPath;
+			return src.substring(0, src.indexOf('assets')) + refPath;
 		}
 	}
 	return refPath;
