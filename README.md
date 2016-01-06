@@ -3,6 +3,9 @@
 
 
 # c9.io 添加数据库用户
+# run the MySQL interactive shell
+$ mysql-ctl cli
+
 SHOW GRANTS FOR 'root'@'localhost';
 DROP USER 'root'localhost'%';
 CREATE USER 'root'@'%' IDENTIFIED BY 'root';
