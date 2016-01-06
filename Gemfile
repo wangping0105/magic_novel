@@ -44,6 +44,8 @@ gem 'acts_as_enum'
 gem 'ruby-pinyin', '~> 0.4.5'
 
 gem 'sidekiq', '~> 3.4.1'
+# 地理位置相关的处理
+gem 'geocoder'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
