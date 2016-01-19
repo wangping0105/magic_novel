@@ -11,7 +11,8 @@ namespace :search_home do
         "http://sh.58.com/pudongxinqu/zufang/0/j2/?minprice=2000_3500&PGTID=0d300008-0058-3de1-0d82-5a55f0a93072&ClickID=1",# 浦东 个人
         "http://sh.58.com/zufang/0/j2/?minprice=2000_3500&PGTID=0d300008-0000-2957-0131-2c24be8dc88c&ClickID=3", # 全部 个人
 	"http://sh.58.com/zufang/sub/l236724/j2/?minprice=2500_3000&PGTID=0d300008-0000-267f-2263-45c2c0a43bec&ClickID=1`", #4号线沿线
-	"http://sh.58.com/baoshan/zufang/b12j2/?PGTID=0d300008-0182-48c8-60bf-a5320f76e847&ClickID=1"
+	"http://sh.58.com/baoshan/zufang/b12j2/?PGTID=0d300008-0182-48c8-60bf-a5320f76e847&ClickID=1",
+	"http://sh.58.com/gaojingsh/zufang/j2/?minprice=2000_3200&sourcetype=5" #高境
     ]
     base_url = url_arr.last
     FILE_BEHINE = '' #"_single"
@@ -57,9 +58,10 @@ namespace :search_home do
     agent = Mechanize.new
     url_arr = [
         "http://sh.ganji.com/fang1/b2000e3500h2m1/",
-        "http://sh.ganji.com/fang1/pudongxinqu/b2000e3500h2m1/" # 浦东 全部
+        "http://sh.ganji.com/fang1/pudongxinqu/b2000e3500h2m1/", # 浦东 全部
+        "http://sh.ganji.com/fang1/gaojing/b2000e3200h2m1/"
     ]
-    base_url = url_arr[0]
+    base_url = url_arr[2]
     FILE_BEHINE = ""
     page = agent.get(base_url)
 
