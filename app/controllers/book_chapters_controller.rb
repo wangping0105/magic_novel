@@ -80,7 +80,7 @@ class BookChaptersController < ApplicationController
   def update
     prev_words = @book_chapter.word_count
     if @book_chapter.update(params_book_chapter)
-      @book.words = @book.words.to_i - prev_words + @book_chapter.word_count
+      @book.words = @book.words.to_i - prev_words.to_i + @book_chapter.word_count.to_i
       @book.save
       flash[:success] = '更新成功'
       redirect_to book_book_chapter_path(@book, @book_chapter)
