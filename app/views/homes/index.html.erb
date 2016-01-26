@@ -9,27 +9,14 @@
     <hr class="border">
     <span><h2>TOP9</h2>
     <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#">所有小说</a></li>
-      <li role="presentation"><a href="#">原创</a></li>
-      <li role="presentation"><a href="#">转载</a></li>
+      <li role="presentation" class="active"><%=link_to '所有小说', tab_books_homes_path(book_type: ""), remote: true %></li>
+      <li role="presentation"><%=link_to '原创', tab_books_homes_path(book_type: Book::CUSTOM), remote: true %></li>
+      <li role="presentation"><%=link_to '转载', tab_books_homes_path(book_type: Book::REPRINT), remote: true %></li>
     </ul>
     </span>
     <!-- Example row of columns -->
-    <div class="row bg-white">
-      <% @books.each do |book|  %>
-        <div class="col-md-4">
-          <h3><a href="#">[<%=  book.classification.try(:name) || "其他" %>]<%= book.title %></a></h3>
-          <div class="h-180">
-          <span class="f-left">
-            <a href="<%= book_path(book) %>"><%= image_tag "none.jpg", class: "w-120 h-120" %></a>
-          </span>
-          <span>
-            <a href="<%= book_path(book) %>"><%= deal_string(book.introduction, 90)%></a>
-          </span>
-          </div>
-          <p><a class="btn btn-default" href="<%= book_path(book) %>" role="button">查看更多 »</a></p>
-        </div>
-      <%end %>
+    <div id="tab_books" class="row bg-white">
+      <%=render 'tab_books', books: @books%>
     </div>
   </div>
 
@@ -39,7 +26,10 @@
       <p>© Company 2014</p>
     </footer>
   </div>
-
 </div>
-
-
+<script>
+  $(".nav-tabs li").on("click",function(){
+    $(".nav-tabs li").removeClass("active");
+    $(this).addClass("active");
+  })
+</script>

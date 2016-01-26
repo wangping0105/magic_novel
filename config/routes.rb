@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   root to: "homes#index"
   get '/58countries'=> "homes#show"
 
+  resource :homes do
+    collection do
+      get :tab_books
+    end
+  end
   resources :sessions do
     collection do
       get :signout

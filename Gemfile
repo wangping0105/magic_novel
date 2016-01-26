@@ -46,6 +46,8 @@ gem 'ruby-pinyin', '~> 0.4.5'
 gem 'sidekiq', '~> 3.4.1'
 # 地理位置相关的处理
 gem 'geocoder'
+# param! 参数检测
+gem 'rails_param'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views

@@ -189,6 +189,7 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
+    rails_param (0.9.0)
     railties (4.2.1)
       actionpack (= 4.2.1)
       activesupport (= 4.2.1)
@@ -303,6 +304,7 @@ DEPENDENCIES
   quiet_assets
   rack-mini-profiler
   rails (= 4.2.1)
+  rails_param
   redis-throttle!
   ruby-pinyin (~> 0.4.5)
   rucaptcha

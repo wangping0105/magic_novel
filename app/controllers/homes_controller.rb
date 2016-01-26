@@ -17,4 +17,10 @@ class HomesController < ApplicationController
     @info_arr = @info_arr.sort
     render layout: false
   end
+
+  def tab_books
+    param! :book_type, String, required: false
+
+    @books = Book.book_type(params[:book_type]).order("click_count desc").limit(9)
+  end
 end
