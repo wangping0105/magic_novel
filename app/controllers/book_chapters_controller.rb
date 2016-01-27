@@ -14,7 +14,7 @@ class BookChaptersController < ApplicationController
   end
 
   def show
-    @page_title = @book_chapter.title
+    @page_title = "#{@book_chapter.title}-#{@book.title}"
     @colors = content_back_colors
     params[:color] = cookies[:color] || "FFFFFF"
     params[:font_size] = cookies[:font_size] || 14

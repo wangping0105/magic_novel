@@ -1,6 +1,6 @@
 <% books.each do |book|  %>
   <div class="col-md-4">
-    <h3><a href="#">[<%=  book.classification.try(:name) || "其他" %>]<%= book.title %></a></h3>
+    <h3><a href="<%= book_path(book) %>">[<%=  book.classification.try(:name) || "其他" %>]<%= book.title %></a></h3>
     <div class="h-180">
     <span class="f-left">
       <a href="<%= book_path(book) %>"><%= image_tag "none.jpg", class: "w-120 h-120" %></a>

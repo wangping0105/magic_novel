@@ -102,6 +102,9 @@ GEM
     hitimes (1.2.2)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     iconv (1.0.4)
     jbuilder (2.3.0)
@@ -134,6 +137,7 @@ GEM
     mini_portile (0.6.2)
     minitest (5.7.0)
     multi_json (1.11.1)
+    multi_xml (0.5.5)
     mysql2 (0.3.18)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
@@ -290,6 +294,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   emojimmy
   geocoder
+  httparty (~> 0.13.5)
   iconv (~> 1.0.3)
   jbuilder (~> 2.0)
   jquery-rails
