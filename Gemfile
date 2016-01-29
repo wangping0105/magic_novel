@@ -63,6 +63,8 @@ gem "iconv", "~> 1.0.3"
 # emoji表情
 gem 'emojimmy'
 # To use debugger 调试
+
+gem 'alidayu_sms', git: 'git@github.com:wangping0105/alidayu_sms.git'
 group :development do
   gem 'pry-rails'
   gem 'pry-remote'

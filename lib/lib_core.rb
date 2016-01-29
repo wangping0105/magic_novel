@@ -1,2 +1,2 @@
 # encoding: utf-8
-require 'alidayu_sms'
+require 'magic_sms'
