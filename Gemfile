@@ -1,4 +1,4 @@
-# source 'https://rubygems.org'
+#source 'https://rubygems.org'
 source 'https://ruby.taobao.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -64,7 +64,7 @@ gem "iconv", "~> 1.0.3"
 gem 'emojimmy'
 # To use debugger 调试
 
-gem 'alidayu_sms', git: 'git@github.com:wangping0105/alidayu_sms.git'
+gem 'alidayu_sms'
 group :development do
   gem 'pry-rails'
   gem 'pry-remote'

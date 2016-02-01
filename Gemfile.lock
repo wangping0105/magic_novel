@@ -10,13 +10,6 @@ GIT
       redis
       redis-namespace
 
-GIT
-  remote: git@github.com:wangping0105/alidayu_sms.git
-  revision: 0e81815a74cb521c296abf2d97dff5c4865a0eac
-  specs:
-    alidayu_sms (0.1.0)
-      i18n
-
 GEM
   remote: https://ruby.taobao.org/
   specs:
@@ -56,6 +49,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     acts_as_enum (1.2.1)
+    alidayu_sms (0.1.0)
+      i18n
     arel (6.0.0)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
@@ -293,7 +288,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_enum
-  alidayu_sms!
+  alidayu_sms
   bcrypt (~> 3.1.7)
   capistrano-rails (~> 1.1.3)
   capistrano-rvm (~> 0.1.2)
