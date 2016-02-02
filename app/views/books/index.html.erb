@@ -12,15 +12,15 @@
         <div class="col-sm-3">
           <%= text_field_tag :author_name, params[:author_name], class:"form-control" %>
         </div>
-
-
       </div>
 
       <div class="form-group row">
         <label class="col-sm-1 control-label">分类：</label>
         <div class="col-sm-11">
-          <% @classifications.insert(0, ["全部", ""]).each do |theme| %>
-            <%= radio_button_tag 'classification', theme[1], params[:classification] == theme[1].to_s %> <%= theme[0] %>
+          <% @classifications.insert(0, ["全部", "", @all_book_count]).each do |theme| %>
+            <% if theme[2] > 0 %>
+              <%= radio_button_tag 'classification', theme[1], params[:classification].to_s == theme[1].to_s %> <%= theme[0] %>(<span class="color-darkgreen"><%= theme[2] %></span>)&nbsp;
+            <% end %>
           <% end %>
         </div>
       </div>

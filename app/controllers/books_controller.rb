@@ -7,8 +7,11 @@ class BooksController < ApplicationController
     @books = filter_page(@books)
     @books = filter_params(@books)
     @books = filter_order(@books)
-    @classifications = Classification.all.map{|c| [c.name, c.id]}
-
+    @all_book_count = 0
+    @classifications = Classification.all.map{|c|
+      @all_book_count += c.books_count
+      [c.name, c.id, c.books_count]
+    }
     respond_to do |format|
       format.html
     end

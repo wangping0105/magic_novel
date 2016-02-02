@@ -25,9 +25,9 @@
 .padtb-5{  padding: 5px 0px;  }
 .padtb-10{  padding: 10px 0px;  }
 
-.color-red{
-    color: red;
-}
+.color-red{color: red;}
+.color-darkgreen{color: darkgreen;}
+.color-mediumseagreen{color: mediumseagreen;}
 
 .border-common{
     border: 1px solid #e1e1e8;
