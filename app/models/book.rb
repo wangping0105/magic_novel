@@ -25,7 +25,7 @@ class Book < ActiveRecord::Base
   end
 
   def chapter_of_book_mark_by(user)
-    book_mark = book_marks.find_by(user_id: user.id)
+    book_mark = book_marks.select{|m| m.user_id = user.id}.first
     book_mark.present? ? book_mark.book_chapter: nil
   end
 

@@ -3,7 +3,7 @@ class BooksController < ApplicationController
 #  before_action :authenticate_user!
   def index
     params[:sort] ||= "id"
-    @books = Book.all
+    @books = Book.all.includes(:author, :classification)
     @books = filter_page(@books)
     @books = filter_params(@books)
     @books = filter_order(@books)

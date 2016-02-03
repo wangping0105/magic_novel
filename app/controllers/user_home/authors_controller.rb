@@ -3,12 +3,10 @@ class UserHome::AuthorsController < ApplicationController
   skip_before_action :store_location
 
   def index
-
   end
 
   def show
     @user = User.find(params[:id])
-
   end
 
   def update

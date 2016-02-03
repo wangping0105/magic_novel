@@ -1,6 +1,6 @@
 class HomesController < ApplicationController
   def index
-    @books = Book.order("click_count desc").limit(9)
+    @books = Book.includes(:classification).order("click_count desc").limit(9)
   end
 
   def show
@@ -21,6 +21,6 @@ class HomesController < ApplicationController
   def tab_books
     param! :book_type, String, required: false
 
-    @books = Book.book_type(params[:book_type]).order("click_count desc").limit(9)
+    @books = Book.includes(:classification).book_type(params[:book_type]).order("click_count desc").limit(9)
   end
 end

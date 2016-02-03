@@ -13,7 +13,7 @@
           <tr><td>书籍名称</td>
             <!--<td>类型</td><td>人气</td><td>创建时间</td><td>更新时间</td><td>状态</td>-->
             <td>操作</td></tr>
-          <% current_author.books.order(id: :desc).each_with_index  do |book, i| %>
+          <% current_author.books.includes(:classification).order(id: :desc).each_with_index  do |book, i| %>
             <tr>
               <td>
                 <%=link_to"[#{ book.classification.name rescue "其他"}] #{ book.title}", book_path(book) %>
