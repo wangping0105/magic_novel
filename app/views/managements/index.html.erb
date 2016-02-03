@@ -1,0 +1,68 @@
+<div class="container">
+  <h1>书籍列表</h1>
+  <div class="book_list row">
+    <table class="table">
+      <tr>
+        <td>书籍名称</td>
+        <td>操作</td>
+        <% index = 1 + ((params[:page]||1).to_i-1) * (params[:per]||30).to_i %>
+      </tr>
+      <% if @books.blank?  %>
+        <tr><td align="center" colspan="2">
+          暂无书籍申请哦～
+        </td></tr>
+      <%end%>
+      <% @books.each_with_index  do |book, i| %>
+        <tr>
+          <td>
+            <%=link_to "#{index}.[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
+            <ul class="book_info">
+              <li>人气: <%= book.click_count %></li>
+              <li>作者: <%= book.author.name %></li>
+              <li>章节数: <%= book.book_chapters_count %></li>
+              <li>字数: <%= book.words %></li>
+            </ul>
+          </td>
+            <td>
+              <%= button_tag "", name: :approve_pass, type: :button, class: 'btn btn-sm btn-info' do%>
+                <%= hidden_field_tag :book_id, book.id %>
+                通过申请
+              <%end%>
+              <%= button_tag "", name: :approve_failure, type: :button, class: 'btn btn-sm btn-info' do%>
+                <%= hidden_field_tag :book_id, book.id %>
+                拒绝申请
+              <%end%>
+            </td>
+          <% index += 1 %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+  <%= paginate @books %>
+</div>
+<script>
+  $("button[name='approve_pass']").on("click", function(){
+    approve(this, "approve_pass")
+  })
+  $("button[name='approve_failure']").on("click", function(){
+    approve(this, "approve_failure")
+  })
+
+  function approve(obj, name){
+    var id = $(obj).find("[name='book_id']").val();
+    var _this = $(obj)
+    $.ajax({
+      url: "/books/"+id+"/"+name,
+      type: 'put',
+      dataType: 'json',
+      success: function(data){
+        if(data.code==0){
+          alert("审核成功！");
+          $(_this).parent().html("");
+        }else{
+          alert(data.message)
+        }
+      }
+    })
+  }
+</script>

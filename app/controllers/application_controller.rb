@@ -26,4 +26,15 @@ class ApplicationController < ActionController::Base
   def simple_error_message(entity)
     entity.errors.messages.map{|k,v| v.join(":")}.join(",")
   end
+
+  def filter_page(relation)
+    relation = relation.page(params[:page]).per(params[:per_page])
+    relation
+  end
+
+  def admin_authority?(user = current_user)
+    unless user && user.admin?
+      render :file => "#{Rails.root}/public/no_auth", :layout => false, :status => :not_found
+    end
+  end
 end

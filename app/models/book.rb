@@ -10,9 +10,14 @@ class Book < ActiveRecord::Base
   belongs_to :classification, counter_cache: true
 
   scope :book_type, ->(book_type){book_type.present? ? where(book_type: book_type): nil}
+  scope :online_books, ->{where(status: [1, 2])}
+  scope :unline_books, ->{where(status: 0)} # 这个基本不回用到
+  scope :serial_books, ->{where(status: 1)}
+  scope :over_books, ->{where(status: 2)}
+  scope :pending_books, ->{where(status: 3)}
 
   acts_as_enum :book_types, :in => [ ['custom', 0, '原创'], ['reprint', 1, '转载'] ]
-  acts_as_enum :status, :in => [ ['unline', 0, '未上线'], ['online', 1, '连载'], ['over', 2, '完本'] ]
+  acts_as_enum :status, :in => [ ['unline', 0, '未上线'], ['serial', 1, '连载'], ['over', 2, '完本'], ['pending', 3, '待审核'], ['failure', 4, '未通过'] ]
   # Book.statuses
   # 软删除
   acts_as_paranoid

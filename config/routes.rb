@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :books do
     member do
       get :collection, :uncollection
+      put :commit_pending, :approve_pass, :approve_failure
     end
     collection do
       get :csv_export
@@ -38,9 +39,8 @@ Rails.application.routes.draw do
     resources :book_volumes, path: :volumes do
     end
   end
-  # 主要的
-  resources :posts do
 
+  resources :managements do
   end
 
   namespace :user_home do

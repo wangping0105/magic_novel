@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   TEAVHER_URL = "/assets/guest.jpg"
 
   def collection_books
-    BookRelation.where(user_id: id,relation_type: BookRelation.relation_type_options.to_h['收藏']).includes(:book)
+    BookRelation.where(user_id: id, relation_type: BookRelation::COLLECTION).includes(:book)
   end
 
   def generate_authentication_token
@@ -20,11 +20,15 @@ class User < ActiveRecord::Base
       break if !User.find_by(authentication_token: authentication_token)
     end
   end
-  
- def self.new_authentication_token
-    SecureRandom.urlsafe_base64
+
+  def readable_books(klass = Book)
+    if admin?
+      klass.all
+    else
+      klass.no_unline
+    end
   end
-  
+
   def User.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
   end
@@ -35,12 +39,17 @@ class User < ActiveRecord::Base
     end
     false
   end
+
+  def self.new_authentication_token
+    SecureRandom.urlsafe_base64
+  end
+
   private
-    def create_authentication_token
-      self.authentication_token = User.encrypt(User.authentication_token)
-      #self.avatar_url = TEAVHER_URL
-      #self.status = 0
-    end
-  
+  def create_authentication_token
+    self.authentication_token = User.encrypt(User.authentication_token)
+    #self.avatar_url = TEAVHER_URL
+    #self.status = 0
+  end
+
 
 end

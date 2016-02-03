@@ -41,3 +41,9 @@
     font-size: 14px;
     margin-right: 5px;
 }
+
+.book_status-0{}
+.book_status-1{color: #419641;}
+.book_status-2{color: #419641;}
+.book_status-3{color: #eb9316;}
+.book_status-4{color: red;}

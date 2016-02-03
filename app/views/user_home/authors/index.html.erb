@@ -19,13 +19,26 @@
                 <%=link_to"[#{ book.classification.name rescue "其他"}] #{ book.title}", book_path(book) %>
                 <ul class="author_book_info">
                   <li>人气: <%= book.click_count%></li>
-                  <li>状态: <%= book.status_name %></li>
+                  <li>状态: <span class="book_status-<%= book.status %>"><%= book.status_name %></span></li>
                   <li>创建时间:<%= standard_time book.created_at %></li>
                   <li>更新时间:<%= standard_time book.updated_at %></li>
                   <li>字数: <%= book.words %></li>
                 </ul>
               </td>
-              <td> 申请上线</td>
+              <td>
+                <% if book.unline? %>
+                  <%= button_tag "", name: :commit_online, type: :button, class: 'btn btn-sm btn-info' do%>
+                    <%= hidden_field_tag :book_id, book.id %>
+                    申请上线
+                  <%end%>
+                <%end%>
+                <% if book.failure? %>
+                  <%= button_tag "", name: :commit_online, type: :button, class: 'btn btn-sm btn-info' do%>
+                    <%= hidden_field_tag :book_id, book.id %>
+                    再次申请
+                  <%end%>
+                <%end%>
+              </td>
             </tr>
           <% end %>
         </table>
@@ -33,4 +46,22 @@
     </div>
   </div>
 </div>
-
+<script>
+  $("button[name='commit_online']").on("click", function(){
+    var id = $(this).find("[name='book_id']").val();
+    var _this = $(this)
+    $.ajax({
+      url: "/books/"+id+"/commit_pending",
+      type: 'put',
+      dataType: 'json',
+      success: function(data){
+        if(data.code==0){
+          alert("提交成功，请等待审核！");
+          $(_this).parent().html("<span class='color-red'>待审核</span>")
+        }else{
+          alert(data.message)
+        }
+      }
+    })
+  })
+</script>
