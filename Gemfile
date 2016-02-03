@@ -63,8 +63,11 @@ gem "iconv", "~> 1.0.3"
 # emoji表情
 gem 'emojimmy'
 # To use debugger 调试
-
+# 我自己的一个gem
 gem 'alidayu_sms'
+# 时间统计
+gem 'rack-mini-profiler'
+
 group :development do
   gem 'pry-rails'
   gem 'pry-remote'
@@ -74,7 +77,6 @@ group :development do
   gem "quiet_assets"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'rack-mini-profiler', require: false
 end
 
 # Use Capistrano for deployment 自动化部署
