@@ -64,12 +64,12 @@
       <% @books.each_with_index  do |book, i| %>
         <tr>
           <td>
-            <%=link_to "#{index}.[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
+            <%=link_to "#{index}.[#{ book.classification.try(:name) || "其他"}] #{book.title}", book_path(book) %>
             <ul class="book_info">
               <li>人气: <%= book.click_count %></li>
               <li>作者: <%= book.author.name %></li>
               <li>章节数: <%= book.book_chapters_count %></li>
-              <li>字数: <%= book.words %></li>
+              <li>字数: <%= book_words_style book.words %></li>
             </ul>
           </td>
           <% if have_admin_authority?%>

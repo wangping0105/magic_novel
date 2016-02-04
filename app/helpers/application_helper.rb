@@ -19,7 +19,8 @@ module ApplicationHelper
 
   # 具有操作权限
   def have_admin_authority?
-     current_user && current_user.admin?
+     @have_admin_authority ||= (current_user && current_user.admin?)
+     @have_admin_authority
   end
 
   def prev_chapeter_by(count, chapter)

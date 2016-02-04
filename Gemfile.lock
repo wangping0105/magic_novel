@@ -208,6 +208,7 @@ GEM
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
+    request_store (1.2.1)
     rmmseg-cpp (0.2.9)
     ruby-pinyin (0.4.7)
       rmmseg-cpp (~> 0.2)
@@ -314,6 +315,7 @@ DEPENDENCIES
   rails (= 4.2.1)
   rails_param
   redis-throttle!
+  request_store
   ruby-pinyin (~> 0.4.5)
   rucaptcha
   sass-rails (~> 5.0)

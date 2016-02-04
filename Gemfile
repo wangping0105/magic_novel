@@ -67,6 +67,8 @@ gem 'emojimmy'
 gem 'alidayu_sms'
 # 时间统计
 gem 'rack-mini-profiler'
+#
+gem 'request_store'
 
 group :development do
   gem 'pry-rails'

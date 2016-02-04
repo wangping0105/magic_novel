@@ -100,13 +100,19 @@ class BooksController < ApplicationController
 
   def collection
     BookRelation.find_or_create_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
+    count_change("collection", "+")
+
     flash[:success] = "添加收藏成功"
     redirect_to book_path(@book)
   end
 
   def uncollection
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
-    @collection.destroy if @collection
+    if @collection
+      @collection.destroy
+      count_change("collection", "-")
+    end
+
     flash[:success] = "取消收藏成功"
     redirect_to book_path(@book)
   end
@@ -147,7 +153,6 @@ class BooksController < ApplicationController
   end
   # ======================================================================================
   private
-
   def params_book
     params_encoded params.require(:book).permit(:title, :classification_id, :book_type, :introduction, :remarks)
   end
@@ -171,5 +176,10 @@ class BooksController < ApplicationController
   def filter_order(relation)
     relation = relation.order("#{params[:sort]} desc") if params[:sort].present?
     relation
+  end
+
+  def count_change(attr_name, operation)
+    sql = "update books set #{attr_name}_count = collection_count #{operation} 1 where id = #{@book.id}"
+    ActiveRecord::Base.connection.execute(sql)
   end
 end
