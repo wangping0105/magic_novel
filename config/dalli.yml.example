@@ -1,0 +1,41 @@
+# config/dalli.yml
+# https://github.com/mperham/dalli#configuration
+# parse the dalli.yml
+# dalli_config = YAML.load_file(Rails.root.join('config/dalli.yml'))[Rails.env]
+# memcached_hosts = dalli_config['servers']
+# pass the servers to dalli setup
+# config.cache_store = :dalli_store, *memcached_hosts, dalli_config["options"]
+defaults: &defaults
+  expires_in: 7 * 24 * 3600
+  compress: true
+  pool_size: 5
+
+development:
+  options:
+    <<: *defaults
+    namespace: vcooline_ikcrm_development
+    pool_size: 5
+  servers:
+    - 127.0.0.1:11211
+
+test:
+  options:
+    <<: *defaults
+    namespace: vcooline_ikcrm_test
+  servers:
+    - 127.0.0.1:11211
+
+
+staging:
+  options:
+    <<: *defaults
+    namespace: vcooline_ikcrm_staging
+  servers:
+    - 127.0.0.1:11211
+
+production:
+  options:
+    <<: *defaults
+    namespace: vcooline_ikcrm_production
+  servers:
+    - 127.0.0.1:11211

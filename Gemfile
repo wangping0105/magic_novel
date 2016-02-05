@@ -69,6 +69,8 @@ gem 'alidayu_sms'
 gem 'rack-mini-profiler'
 #
 gem 'request_store'
+# memberchche
+gem 'dalli', '~> 2.7.4',   :platforms => :ruby
 
 group :development do
   gem 'pry-rails'

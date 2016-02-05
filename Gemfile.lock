@@ -87,6 +87,7 @@ GEM
     colorize (0.7.5)
     connection_pool (2.2.0)
     daemons (1.2.3)
+    dalli (2.7.5)
     debug_inspector (0.0.2)
     domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
@@ -296,6 +297,7 @@ DEPENDENCIES
   capistrano-sidekiq
   capistrano3-unicorn (~> 0.2.1)
   coffee-rails (~> 4.1.0)
+  dalli (~> 2.7.4)
   emojimmy
   geocoder
   httparty (~> 0.13.5)

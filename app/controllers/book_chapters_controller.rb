@@ -142,7 +142,10 @@ class BookChaptersController < ApplicationController
   end
 
   def set_book_chapter
-    @book_chapter = @book.book_chapters.find(params[:id])
+    _cache_key = "cached_book_#{@book.id}_book_chapter_#{params[:id]}"
+    @book_chapter = fetch_memberchace(_cache_key, 30.minutes) do
+       @book.book_chapters.find(params[:id])
+    end
   end
 
   def set_book_volume
@@ -150,7 +153,10 @@ class BookChaptersController < ApplicationController
   end
 
   def set_book
-    @book = Book.find(params[:book_id])
+    _cache_key = "cached_book_#{params[:book_id]}"
+    @book = fetch_memberchace(_cache_key, 30.minutes) do
+      Book.find(params[:book_id])
+    end
   end
 
   def get_volume_for_select

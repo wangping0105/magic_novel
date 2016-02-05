@@ -37,4 +37,12 @@ class ApplicationController < ActionController::Base
       render :file => "#{Rails.root}/public/no_auth", :layout => false, :status => :not_found
     end
   end
+
+  def fetch_memberchace(_cache_key, expires_in, &block)
+    $dalli_store.read(_cache_key) || $dalli_store.fetch(_cache_key, expires_in: expires_in) do
+      puts "存入membercache!"
+      yield
+    end
+  end
+
 end
