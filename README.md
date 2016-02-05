@@ -16,5 +16,6 @@ rake db:create
 rake db:migrate
 rake db:seed
 
+# 安装 membercache
 
 注意，图形验证码依赖于 ImageMagic， 没有请加上
