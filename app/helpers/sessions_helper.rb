@@ -14,8 +14,11 @@ module SessionsHelper
   end
 
   def current_user
+    return unless session[:authentication_token]
     authentication_token = User.encrypt(session[:authentication_token])
     @current_user ||= User.find_by(authentication_token: authentication_token)
+    session.delete(:authentication_token) if @current_user.nil?
+    @current_user
   end
 
   def current_author

@@ -19,9 +19,12 @@ class BookChaptersController < ApplicationController
     params[:color] = cookies[:color] || "FFFFFF"
     params[:font_size] = cookies[:font_size] || 14
     params[:book_reading] = cookies[:book_reading] || ''
-    sql = "update books set click_count = click_count + 1 where id = #{@book.id}"
-    _sql = ActiveRecord::Base.connection()
-    _sql.update(sql)
+
+    # 使用悲观锁
+    @book.with_lock do
+      @book.click_count += 1
+      @book.save!
+    end
   end
 
   def turn_js_show
