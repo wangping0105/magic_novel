@@ -39,10 +39,11 @@ class ApplicationController < ActionController::Base
   end
 
   def fetch_memberchace(_cache_key, expires_in, &block)
+    return yield if $dalli_store.nil?
+
     $dalli_store.read(_cache_key) || $dalli_store.fetch(_cache_key, expires_in: expires_in) do
       puts "存入membercache!"
       yield
     end
   end
-
 end
