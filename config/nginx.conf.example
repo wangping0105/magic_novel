@@ -1,14 +1,14 @@
-upstream ordering_ik_production_unicorn {
-  server unix:/tmp/unicorn.ordering_ik_production_unicorn.sock fail_timeout=0;
+upstream magic_novel_production_unicorn {
+  server unix:/tmp/unicorn.magic_novel_production_unicorn.sock fail_timeout=0;
 }
 server {
-	listen 80;
-	server_name test.dc.ikcrm.com;
+	listen 888;
+	#server_name test.dc.ikcrm.com;
 
-  root /data/dyne/ordering_ik_production/current/public;
-  # individual nginx logs for this ordering_ik vhost
-  access_log  /var/nginx/log/ordering_ik_production_access.log;
-  error_log   /var/nginx/log/ordering_ik_production_error.log;
+  root /dyne/wp_apps/magic_novel_production/current/public;
+  # individual nginx logs for this magic_novel vhost
+  access_log  /var/log/nginx/magic_novel_production_access.log;
+  error_log   /var/log/nginx/magic_novel_production_error.log;
 
   location ^~ /assets/ {
     gzip_static on;
@@ -22,7 +22,7 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_redirect off;
-    proxy_pass http://ordering_ik_production_unicorn;
+    proxy_pass http://magic_novel_production_unicorn;
   }
 
   error_page 500 502 503 504 /500.html;
@@ -30,8 +30,9 @@ server {
   keepalive_timeout 10;
 }
 
+# 步骤
 # include /etc/nginx/conf.d/*.conf;
-# sudo ln -nfs /dyne/apps/ordering_ik_production/shared/config/nginx.conf /etc/nginx/conf.d/ordering_ik_production.config
+# sudo ln -nfs /dyne/wp_apps/magic_novel_production/shared/config/nginx.conf /etc/nginx/conf.d/magic_novel_production.config
 #sudo /etc/init.d/nginx reload
 
 

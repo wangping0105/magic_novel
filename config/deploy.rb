@@ -42,7 +42,7 @@ set :linked_files, fetch(:linked_files, []).push(*%W{
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, fetch(:linked_dirs, []).push(*%W{
   config/unicorn log tmp/pids tmp/cache tmp/sockets
-  vendor/bundle public/system
+  vendor/bundle public/system public/books
 })
 
 set :unicorn_rack_env, -> { fetch(:rails_env) || "deployment" }
@@ -117,5 +117,23 @@ namespace :deploy do
         end
       end
     end
+  end
+
+  desc 'upload books'
+  task :upload_books do
+    on roles(:web), in: :sequence, wait: 5 do
+      Dir.foreach("public/books") do |file|
+        next if file.gsub(/\./,"") == ""
+
+	File.delete("public/books/#{file}")
+	puts "删除#{file}"
+	save_as_file(file.gsub(/\.csv/,""))
+      end
+    end
+  end
+
+  def save_as_file(content)
+    file = File.new("public/novels/have_uploaded.txt", "a+")
+    file.print(",#{content}")
   end
 end
