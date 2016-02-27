@@ -123,11 +123,17 @@ namespace :deploy do
   task :upload_books do
     on roles(:web), in: :sequence, wait: 5 do
       Dir.foreach("public/books") do |file|
-        next if file.gsub(/\./,"") == ""
+        file_path = "public/books/#{file}"
+        p file_path,file.gsub(/\./,"") == ""
+        unless file.gsub(/\./,"") == ""
+          upload!("#{file_path}", "#{shared_path}/#{file_path}", via: :scp)
+        else
+          next
+        end
 
-	File.delete("public/books/#{file}")
-	puts "删除#{file}"
-	save_as_file(file.gsub(/\.csv/,""))
+        File.delete("public/books/#{file}")
+        puts "删除#{file}"
+        save_as_file(file.gsub(/\.csv/,""))
       end
     end
   end

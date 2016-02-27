@@ -65,8 +65,10 @@ class CsvImport
         }
         book_chapter = book.book_chapters.create(chapter_attr)
         prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
+        puts "#{book.title}, #{title}章节添加完毕！"
         put_logs("#{book.title}, #{title}章节添加完毕！")
       else
+        puts "#{book.title}, #{title}章节存在！"
         put_logs("#{book.title}, #{title}章节存在！")
       end
     end

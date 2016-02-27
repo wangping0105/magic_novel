@@ -8,9 +8,18 @@ class BooksController < ApplicationController
     @books = filter_params(@books)
     @books = filter_order(@books)
     @all_book_count = 0
-    @classifications = Classification.all.map{|c|
-      @all_book_count += c.books_count
-      [c.name, c.id, c.books_count]
+    @classifications = Classification.all
+    class_arr = Book.online_books.group(:classification_id).pluck("classification_id, count(*) total_count").to_h
+
+    @classifications = @classifications.map{|c|
+      book_count = if c.name == "其他"
+        class_arr[nil].to_i
+      else
+        class_arr[c.id].to_i
+      end
+
+      @all_book_count += book_count
+      [c.name, c.id, book_count]
     }
     respond_to do |format|
       format.html
