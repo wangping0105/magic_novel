@@ -18,6 +18,7 @@ class CsvImport
               flag = false
               break
             else
+              puts "#{book_title}已经存在,开始更新"
               put_logs "#{book_title}已经存在,开始更新"
             end
           else
@@ -30,6 +31,7 @@ class CsvImport
         index +=1
       end rescue(put_logs "error, file_path:#{file_path}", "import_book")
       put_logs "#{book_title}导入完毕", "import_book" if flag
+      puts "#{book_title}导入完毕" if flag
     end
   end
 
