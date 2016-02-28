@@ -1,4 +1,5 @@
 class HomesController < ApplicationController
+  skip_before_action :store_location, only: [:tab_books]
   def index
     @books = Book.online_books.includes(:classification).order("click_count desc").limit(9)
   end
