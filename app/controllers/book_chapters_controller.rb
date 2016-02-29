@@ -131,6 +131,12 @@ class BookChaptersController < ApplicationController
   end
 
   def book_marks
+    collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
+    unless collection
+      BookRelation.create(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
+      count_change("collection", "+")
+    end
+
     book_mark = @book.book_marks.find_or_create_by(user: current_user)
     book_mark.update(book_chapter: @book_chapter)
     flash[:success] = '添加书签成功'

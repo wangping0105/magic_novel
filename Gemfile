@@ -73,6 +73,7 @@ gem 'request_store'
 gem 'dalli', '~> 2.7.4',   :platforms => :ruby
 
 group :development do
+  gem 'rspec-rails', '~> 3.3.0'
   gem 'pry-rails'
   gem 'pry-remote'
   gem 'pry-nav'

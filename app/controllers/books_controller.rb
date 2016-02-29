@@ -108,15 +108,18 @@ class BooksController < ApplicationController
   end
 
   def collection
-    BookRelation.find_or_create_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
-    count_change("collection", "+")
+    book_relation = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
+    unless book_relation
+      BookRelation.create(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
+      count_change("collection", "+")
+    end
 
     flash[:success] = "添加收藏成功"
     redirect_to book_path(@book)
   end
 
   def uncollection
-    @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
+    @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
     if @collection
       @collection.destroy
       count_change("collection", "-")
