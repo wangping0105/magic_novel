@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   mount RuCaptcha::Engine => "/rucaptcha"
+
   root to: "homes#index"
   get '/58countries'=> "homes#show"
 
