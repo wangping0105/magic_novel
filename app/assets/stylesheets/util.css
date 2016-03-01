@@ -29,6 +29,7 @@
 .color-darkgreen{color: darkgreen;}
 .color-mediumseagreen{color: mediumseagreen;}
 
+
 .border-common{
     border: 1px solid #e1e1e8;
 }
@@ -70,6 +71,9 @@ h4 {
     border: 1px solid rgba(86,61,124,.2);
 }
 
+.font-14{
+    font-size: 14px;
+}
 
 hr {
     margin-top: 40px;
