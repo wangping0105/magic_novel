@@ -144,17 +144,17 @@ class BooksController < ApplicationController
     end
   end
 
-# 提交上线
+# 审核成功
   def approve_pass
     @book = Book.find(params[:id])
     if @book.update(status: Book::SERIAL)
       render json: {code: 0}
     else
-      render json: {code: -1, messsage: '审核失败！'}
+      render json: {code: -1, messsage: '审核成功！'}
     end
   end
 
-# 提交上线
+# 审核失败
   def approve_failure
     @book = Book.find(params[:id])
     if @book.update(status: Book::FAILURE)

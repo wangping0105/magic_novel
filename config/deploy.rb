@@ -42,7 +42,7 @@ set :linked_files, fetch(:linked_files, []).push(*%W{
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, fetch(:linked_dirs, []).push(*%W{
   config/unicorn log tmp/pids tmp/cache tmp/sockets
-  vendor/bundle public/system public/books
+  vendor/bundle public/system public/books public/assets/kindeditor
 })
 
 set :unicorn_rack_env, -> { fetch(:rails_env) || "deployment" }

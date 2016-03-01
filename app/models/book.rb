@@ -26,7 +26,7 @@ class Book < ActiveRecord::Base
   validates_presence_of :book_type, message:'类型不能为空!'
 
   after_initialize do
-    self.pinyin = PinYin.of_string(self.title).join("")
+    self.pinyin = PinYin.of_string(self.title).join("") if self.title.present?
   end
 
   def chapter_of_book_mark_by(user)
