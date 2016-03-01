@@ -32,7 +32,7 @@ class BooksController < ApplicationController
   end
 
   def show
-    @book_chapters = @book.book_chapters.includes(:book_volume).order(book_volume_id: :asc).order(id: :asc).page(params[:page]).per(32)
+    @book_chapters = @book.book_chapters.includes(:book_volume).order(book_volume_id: :asc).order(id: :asc).page(params[:page]).per(128)
     # @book_volumns = @book.book_volumes.includes(:book_chapters)
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
   end
