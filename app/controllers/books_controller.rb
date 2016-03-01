@@ -2,15 +2,15 @@ class BooksController < ApplicationController
   before_action :set_book, only: [:edit, :update, :show, :destroy, :collection, :uncollection]
 #  before_action :authenticate_user!
   def index
-    params[:sort] ||= "id"
+    params[:sort] ||= "books.id"
     @books = Book.online_books.includes(:author, :classification)
-    @books = filter_page(@books)
     @books = filter_params(@books)
+    @books = filter_page(@books)
     @books = filter_order(@books)
+
     @all_book_count = 0
     @classifications = Classification.all
-    class_arr = filter_params(Book.online_books).group(:classification_id).pluck("classification_id, count(*) total_count").to_h
-
+    class_arr = filter_params(Book.online_books).group(:classification_id).pluck("books.classification_id, count(*) total_count").to_h
     @classifications = @classifications.map{|c|
       book_count = if c.name == "其他"
         class_arr[nil].to_i
@@ -178,8 +178,8 @@ class BooksController < ApplicationController
   end
 
   def filter_params(relation)
+    relation = relation.joins("inner join authors a on a.id=books.author_id ").where("a.name like :name", name: "%#{params[:author_name]}%").distinct if params[:author_name].present?
     relation = relation.where("title like :title or pinyin like :title ", title: "%#{params[:title]}%") if params[:title].present?
-    relation = relation.joins(:author).where("authors.name like :name", name: "%#{params[:author_name]}%").distinct if params[:author_name].present?
     relation = relation.where(classification: params[:classification]) if params[:classification].present?
 
     relation

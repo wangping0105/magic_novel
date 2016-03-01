@@ -61,7 +61,7 @@
         <%end  %>
       <% index = 1 + ((params[:page]||1).to_i-1) * (params[:per]||30).to_i %>
       </tr>
-      <% @books.each_with_index  do |book, i| %>
+      <% @books.each  do |book| %>
         <tr>
           <td>
             <%=link_to "#{index}.[#{ book.classification.try(:name) || "其他"}] #{book.title}", book_path(book) %>
