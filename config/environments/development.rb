@@ -38,4 +38,18 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  ActionMailer::Base.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  ActionMailer::Base.smtp_settings = {
+      :address => "smtp.163.com",
+      :port => 25,
+      :domain         => "www.163.com",
+      :authentication => :login,
+      :user_name => "15921076830@163.com",
+      :password => "wp13812388322",
+      enable_starttls_auto: true
+  }
 end

@@ -1,6 +1,8 @@
 class HomesController < ApplicationController
   skip_before_action :store_location, only: [:tab_books]
   def index
+    puts UserMailer.hello_world
+
     @books = Book.online_books.includes(:classification).order("click_count desc").limit(9)
   end
 
@@ -16,6 +18,7 @@ class HomesController < ApplicationController
       @info_arr << row
     end if File.exist?("#{file_path}/addresses.csv")
     @info_arr = @info_arr.sort
+
     render layout: false
   end
 
