@@ -5,6 +5,7 @@ module SessionsHelper
   def sign_in(user)
     authentication_token = User.new_authentication_token
     session[:authentication_token] = authentication_token
+    session[:expires_at] = 30.days
     user.update_attribute(:authentication_token,User.encrypt(authentication_token))
     self.current_user = User.encrypt(authentication_token)
   end
