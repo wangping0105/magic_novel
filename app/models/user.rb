@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   TEAVHER_URL = "/assets/guest.jpg"
 
   def collection_books
-    BookRelation.where(user_id: id, relation_type: BookRelation::COLLECTION).includes(:book)
+    BookRelation.where(user_id: id, relation_type: BookRelation::COLLECTION)
   end
 
   def generate_authentication_token
