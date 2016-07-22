@@ -72,6 +72,10 @@ gem 'request_store'
 # memberchche
 gem 'dalli', '~> 2.7.4',   :platforms => :ruby
 
+gem 'friendly_id', '~> 5.1.0'
+
+gem "bullet", :group => "development"
+
 group :development do
   gem 'rspec-rails', '~> 3.3.0'
   gem 'pry-rails'
