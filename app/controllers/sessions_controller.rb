@@ -6,13 +6,16 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(email: user_params[:email])
+    login = params[:login].match(/w*@w*/) ? "email" : "phone"
+    @user = User.find_by(login => params[:login])
+
     if @user && @user.authenticate(user_params[:password])
       sign_in(@user)
       flash[:success] = '登录成功'
     else
       flash[:danger] = '账户密码不正确，请重试!'
     end
+
     redirect_back_or root_path
   end
 

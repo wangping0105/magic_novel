@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.4.0'
+lock '>=3.4.0'
 
 set :application, 'magic_novel'
 set :repo_url, 'git@github.com:wangping0105/magic_novel.git'

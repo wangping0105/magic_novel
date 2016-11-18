@@ -1,12 +1,18 @@
 module SessionsHelper
   # = 高并发建议用Cookie吧，主要是效率高，操作方便，对服务器造成的压力会小些，这个注意加密及安全
   # = 一些安全要求高的功能可以使用Session
-  # = 使用memcahed来保存session，性能跟效率还是很高的,mencache还可以使用多台服务器，既能共享SESSION，又能集群减低压力。
+  # = 使用memcahed来保存session, 性能跟效率还是很高的, mencache还可以使用多台服务器, 既能共享SESSION, 又能集群减低压力.
   def sign_in(user)
-    authentication_token = User.new_authentication_token
-    session[:authentication_token] = authentication_token
-    session[:expires_at] = 30.days
-    user.update_attribute(:authentication_token,User.encrypt(authentication_token))
+    unless session[:authentication_token].present?
+      authentication_token = User.new_authentication_token
+      session[:authentication_token] = authentication_token
+      session[:expires_at] = 30.days
+      # 单浏览器登录校验
+      user.update_attribute(:authentication_token,User.encrypt(authentication_token))
+    else
+      authentication_token = session[:authentication_token]
+    end
+
     self.current_user = User.encrypt(authentication_token)
   end
 

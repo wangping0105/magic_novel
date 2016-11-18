@@ -1,6 +1,7 @@
 <%if flash.present? %>
     <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>" role="alert">
+          <a href="#" class="close" data-dismiss="alert">&times;</a>
          <%= value %>
         </div>
     <% end %>

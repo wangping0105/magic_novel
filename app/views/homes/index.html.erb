@@ -1,12 +1,17 @@
-<div class="jumbotron">
+<div class="container">
   <div class="container">
-    <h1>Hello, world!</h1>
-    <p>注册了之后阅读体验更爽哦～</p>
-    <p><a class="btn btn-primary btn-lg" href="http://v3.bootcss.com/examples/theme/" target="_blank" role="button">Learn more »</a></p>
+    <div class="alert alert-message alert-info fade in">
+        <p class="tow-font">网络小说是指利用网络如BBS、Web界面连载发表的小说，与一般的小说比起来，网络小说的语法会更近口语并充斥网络流行语。另外除了文字内容，
+          利用符号图案排版等进行变化也是其特色，网络小说是网络文学的主要形式。网络小说有广义和狭义之分，广义上可以包含所有在网络上发布和流传的小说，
+          但从网络小说起源的狭义层次上，主要是指由网络写手创作并首次在网上发布，进而流传的小说形式。网络小说主要分为两类，一类的男生看的小说，被泛称为男频；
+          另一类是女生看的小说，被泛称为女频。男生看的小说大多追求从身体到权利的强大，而女生看的小说大多从爱情的角度出发，而这两个类型的小说的强大取决于网络上男性和女性的比例...
+        </p>
+        <a class="btn btn-primary btn-lg" href="http://v3.bootcss.com/examples/theme/" target="_blank" role="button">查看更多 »</a>
+    </div>
   </div>
 
   <div class="container">
-    <hr class="border">
+    <hr class="featurette-divider">
     <span><h2>TOP9</h2>
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><%=link_to '所有小说', tab_books_homes_path(book_type: ""), remote: true %></li>

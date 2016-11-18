@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -19,12 +19,13 @@
             <li class="<%="active" if "#{controller_name}" == "managements" %>"><a href="/managements">魔·管理</a></li>
           <%end %>
         <%end %>
+        <li class="<%="active" if "#{controller_path}" == "notifications" %>"><a href="/notifications" data-no-turbolink="true">魔·消息</a></li>
       </ul>
 
       <%if current_user %>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.name %> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.name %> <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/user_home/users">个人主页</a></li>
                 <li><a href="/user_home/books">我的书架</a></li>
@@ -40,7 +41,7 @@
       <%else%>
         <%= form_for(User.new,url: sessions_path, method: :post , html:{class: 'navbar-form navbar-right'} ) do |f| %>
           <div class="form-group">
-            <%=f.email_field :email ,class:"form-control", placeholder:"邮箱", required: true%>
+            <%=text_field_tag :login, params[:login] ,class:"form-control", placeholder:"帐号", required: true%>
           </div>
           <div class="form-group">
             <%=f.password_field :password ,class:"form-control", placeholder:"密码", required: true%>

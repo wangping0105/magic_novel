@@ -30,13 +30,10 @@
 .color-mediumseagreen{color: mediumseagreen;}
 
 
-.border-common{
-    border: 1px solid #e1e1e8;
-}
+.border-common{border: 1px solid #e1e1e8;  }
 
-.bg-white{
-    background: white;
-}
+.bg-white{background: white;  }
+.bg-eee{background-color: #eee;}
 
 .border{
     border-bottom: 1px solid;
@@ -90,3 +87,4 @@ hr {
 .big_show{
     overflow-x: hidden;
 }
+.tow-font {text-indent: 2em;}

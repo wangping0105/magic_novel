@@ -12,3 +12,8 @@
     <p><a class="btn btn-default" href="<%= book_path(book) %>" role="button">查看更多 »</a></p>
   </div>
 <%end %>
+<%if books.blank? %>
+    <div class="col-md-12">
+      <h3>暂无</h3>
+    </div>
+<%end %>
