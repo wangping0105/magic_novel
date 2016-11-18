@@ -11,7 +11,13 @@
   <meta content="王平的订饭系统：http://test.dc.ikcrm.com/" name="description">
   <meta content="2015-08-19" name="publishdate">
   <meta content="王平" name="author">
+  <script>
+      window.faye_push_url = "<%= faye_push_uri %>";
+      window.faye_push_access_token = "<%= faye_push_token %>";
+      window.temp_access_token = "<%= current_user.try(:temp_access_token) %>";
+      window.faye_client_js_url = '<%= CROSS_SITES[:faye_push][:host] %>/faye/client.js';
 
+  </script>
   <title><%= @page_title %></title>
   <%#= stylesheet_link_tag 'bootstrap', media: 'all', 'data-turbolinks-track' => true, type: "text/css", charset: 'utf-8' %>
   <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -25,8 +31,11 @@
 
   <%= csrf_meta_tags %>
 </head>
-<body role="document">
+<body>
+
 <%= render 'shared/home_nav' %>
+<div id="faye_msg" class="alert alert-message alert-info fade in" hidden>
+</div>
 <%= render 'shared/flash_area' %>
 <%= yield %>
 </body>

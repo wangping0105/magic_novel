@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
     SecureRandom.urlsafe_base64
   end
 
+  def temp_access_token
+    "user_#{self.id}_temp_access_token"
+  end
+
   private
   def create_authentication_token
     self.authentication_token = User.encrypt(User.authentication_token)

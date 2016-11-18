@@ -21,15 +21,21 @@
   </div>
 
   <div class="container">
-    <hr class="border">
+    <hr class="featurette-divider">
     <footer>
       <p>©jackping 2014</p>
     </footer>
   </div>
 </div>
-<script>
-  $(".nav-tabs li").on("click",function(){
-    $(".nav-tabs li").removeClass("active");
-    $(this).addClass("active");
-  })
+
+<script type="text/javascript">
+  <%if current_user %>
+//    var client = new Faye.Client('http://localhost:9595/faye');
+    withFayeClient(function(){
+        if(window.initFaye)
+           initFayeClient()
+    });
+  <%else %>
+      window.initFaye = null;
+  <%end %>
 </script>
