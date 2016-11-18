@@ -25,8 +25,15 @@ $(document).on 'turbolinks:load', ->
 
 
 _hideMessage = (msg)->
-  $("#faye_msg").html(msg)
-  $("#faye_msg").show()
+  id = guid()
+  $("#faye_msg").append('<div id="'+id+'" class="aaa alert alert-message alert-info fade in"><a href="#" class="close">&times;</a><div>'+msg+'</div></div>')
+  index = $("#msg_count").text();
+  if index == ""
+    index = 1
+  else
+    index = parseInt(index) + 1
+
+  $("#msg_count").text(index);
   setTimeout (->
-    $("#faye_msg").hide()
-  ),2000
+    $("#" + id).remove();
+  ), 3000
