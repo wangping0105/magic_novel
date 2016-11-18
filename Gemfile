@@ -72,7 +72,9 @@ gem 'request_store'
 # memberchche
 gem 'dalli', '~> 2.7.4',   :platforms => :ruby
 
-# gem 'friendly_id'
+gem 'friendly_id', '~> 5.1.0'
+
+gem "bullet", :group => "development"
 
 group :development do
   gem 'rspec-rails', '~> 3.3.0'
@@ -84,8 +86,6 @@ group :development do
   gem "quiet_assets"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  # N + 1 问题查找
-  gem "bullet"
 end
 
 # Use Capistrano for deployment 自动化部署
