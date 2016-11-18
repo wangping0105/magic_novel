@@ -34,7 +34,7 @@ set :repo_url, 'git@github.com:wangping0105/magic_novel.git'
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 set :linked_files, fetch(:linked_files, []).push(*%W{
-  config/nginx.conf config/unicorn/production.rb config/database.yml config/secrets.yml
+  config/nginx.conf config/unicorn/production.rb config/database.yml config/secrets.yml config/cross_sites.yml
 })
 
 
