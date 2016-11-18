@@ -106,8 +106,6 @@ GEM
     erubis (2.7.0)
     eventmachine (1.2.0.1)
     execjs (2.7.0)
-    friendly_id (5.1.0)
-      activerecord (>= 4.0.0)
     geocoder (1.4.0)
     get_process_mem (0.2.1)
     globalid (0.3.7)
@@ -330,7 +328,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   dalli (~> 2.7.4)
   emojimmy
-  friendly_id (~> 5.1.0)
   geocoder
   httparty (~> 0.13.5)
   iconv (~> 1.0.3)
