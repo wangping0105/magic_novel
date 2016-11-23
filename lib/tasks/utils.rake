@@ -23,4 +23,9 @@ namespace :utils do
     @books = Book.all
     CsvExport.book_csv(@books)
   end
+
+  desc 'demo'
+  task :demo => :environment do
+    FayeClient.send_message("/notifications/broadcast", {text: "testeste"})
+  end
 end

@@ -41,8 +41,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :managements do
-  end
+  resources :managements
+  resources :notifications
 
   namespace :user_home do
     resources :users

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117142336) do
+ActiveRecord::Schema.define(version: 20161119035453) do
 
   create_table "authors", force: :cascade do |t|
     t.string   "name",            limit: 255
@@ -138,6 +138,23 @@ ActiveRecord::Schema.define(version: 20161117142336) do
 
   add_index "classifications", ["parent_id"], name: "index_classifications_on_parent_id", using: :btree
   add_index "classifications", ["pinyin"], name: "index_classifications_on_pinyin", using: :btree
+
+  create_table "notifications", force: :cascade do |t|
+    t.string   "title",            limit: 255
+    t.text     "body",             limit: 65535
+    t.integer  "user_id",          limit: 4
+    t.integer  "subject_id",       limit: 4
+    t.string   "subject_type",     limit: 255
+    t.integer  "notify_type",      limit: 4
+    t.integer  "status",           limit: 4
+    t.string   "path",             limit: 255
+    t.text     "body_html",        limit: 65535
+    t.integer  "category",         limit: 4
+    t.text     "extras",           limit: 65535
+    t.integer  "receive_platform", limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
 
   create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 255

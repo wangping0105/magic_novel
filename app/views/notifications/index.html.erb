@@ -1,0 +1,21 @@
+<div class="container margint-20">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row col-sm-12">
+        <table class="table table-condensed">
+          <% @notifications.each do |book_relation|%>
+              <tr>
+                <td>#</td>
+                <td><%= n.title %></td>
+              </tr>
+          <%end %>
+          <% if @notifications.blank? %>
+              <tr>
+                <td colspan="2" class="align-center">暂无消息</td>
+              </tr>
+          <%end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
