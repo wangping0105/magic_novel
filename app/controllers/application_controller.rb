@@ -18,7 +18,9 @@ class ApplicationController < ActionController::Base
   end
 
   def notification_count
-    @notification_count ||= current_user.notifications.unread.count
+    if current_user
+      @notification_count ||= current_user.notifications.unread.count
+    end
   end
 
   def raise_error(flag, message)
