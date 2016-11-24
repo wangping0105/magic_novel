@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_action :default_page_title,  :store_location
+  before_action :default_page_title, :notification_count, :store_location
   before_action do
     if current_user && current_user.admin?
       Rack::MiniProfiler.authorize_request
@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
 
   def default_page_title
     @page_title = "魔书网"
+  end
+
+  def notification_count
+    @notification_count ||= current_user.notifications.unread.count
   end
 
   def raise_error(flag, message)

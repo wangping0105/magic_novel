@@ -32,15 +32,3 @@
     </footer>
   </div>
 </div>
-
-<script type="text/javascript">
-  <%if current_user %>
-//    var client = new Faye.Client('http://localhost:9595/faye');
-    withFayeClient(function(){
-        if(window.initFaye)
-           initFayeClient()
-    });
-  <%else %>
-      window.initFaye = null;
-  <%end %>
-</script>

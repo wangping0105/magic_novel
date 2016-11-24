@@ -3,10 +3,18 @@
     <div class="col-sm-12">
       <div class="row col-sm-12">
         <table class="table table-condensed">
-          <% @notifications.each do |book_relation|%>
+          <% @notifications.each do |notification|%>
               <tr>
                 <td>#</td>
-                <td><%= n.title %></td>
+                <td data-id="<%= notification.id %>">
+                  <% if notification.read? %>
+                      <%= notification.title %>
+                  <%else %>
+                      <a href="<%= read_notification_path(notification) %>" data-remote="true">
+                        <%= notification.title %>
+                      </a>
+                  <% end %>
+                </td>
               </tr>
           <%end %>
           <% if @notifications.blank? %>

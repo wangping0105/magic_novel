@@ -12,4 +12,10 @@ class Notification < ActiveRecord::Base
        }
 
   enum category: [:system, :personal] #系统公告, 个人信息
+
+  before_create do
+    self.category ||= Notification::categories[:system]
+    self.status ||= Notification::statuses[:unread]
+    self.receive_platform ||= Notification::receive_platforms[:all_platform]
+  end
 end

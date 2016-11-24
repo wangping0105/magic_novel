@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_secure_password
   has_one :author
   has_many :book_marks, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   acts_as_paranoid
 

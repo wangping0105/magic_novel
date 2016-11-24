@@ -42,7 +42,11 @@ Rails.application.routes.draw do
   end
 
   resources :managements
-  resources :notifications
+  resources :notifications do
+    member do
+      get :read
+    end
+  end
 
   namespace :user_home do
     resources :users

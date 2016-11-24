@@ -1,0 +1,13 @@
+$("td[data-id=<%= @notification.id %>]").html("<%= @notification.title %>");
+
+var index = $("#msg_count").text();
+if(index == "")
+    index = 0
+else{
+    index = parseInt(index) - 1;
+    if(index == 0){
+        index = ""
+    }
+}
+
+$("#msg_count").text(index);

@@ -26,6 +26,10 @@ namespace :utils do
 
   desc 'demo'
   task :demo => :environment do
-    FayeClient.send_message("/notifications/broadcast", {text: "testeste"})
+    User.find_each do |u|
+      Notification.create(user_id: u.id, title: "欢迎你来到魔书网!", body: "详细信息!")
+    end
+
+    FayeClient.send_message("/notifications/broadcast", {text: "欢迎你来到魔书网!"})
   end
 end
