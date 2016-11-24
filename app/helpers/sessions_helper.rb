@@ -51,8 +51,7 @@ module SessionsHelper
   end
 
   def sign_out
-    current_user.update_attribute(:authentication_token,
-      User.encrypt(User.new_authentication_token))
+    current_user.update_attribute(:authentication_token, User.encrypt(User.new_authentication_token))
     self.current_user = nil
     session.delete(:authentication_token)
   end

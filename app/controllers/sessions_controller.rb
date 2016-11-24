@@ -44,13 +44,13 @@ class SessionsController < ApplicationController
 
   def signout
     sign_out
-     flash[:success] = '退出成功'
+    flash[:success] = '退出成功'
     redirect_back_or root_path
   end
 
   private
   def user_params
-    params.require(:user).permit(:email, :password, :name)
+    params.require(:user).permit(:email, :phone, :password, :name)
   end
 
   def redirect_or_back_to path
