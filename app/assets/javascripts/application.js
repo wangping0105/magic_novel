@@ -15,6 +15,11 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require kindeditor/kindeditor.js
+//= require react
+//= require react_ujs
+//= require antd/antd
+//= require components
+//= require remarkable/remarkable.js
 //= require_tree .
 
 function withFayeClient(callback) {

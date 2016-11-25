@@ -52,6 +52,10 @@ GEM
     alidayu_sms (0.2.0)
       i18n
     arel (6.0.3)
+    babel-source (5.8.35)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -212,6 +216,13 @@ GEM
     rake (10.5.0)
     rdoc (4.2.2)
       json (~> 1.4)
+    react-rails (1.9.0)
+      babel-transpiler (>= 0.7.0)
+      coffee-script-source (~> 1.8)
+      connection_pool
+      execjs
+      railties (>= 3.2)
+      tilt
     redis (3.2.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -342,6 +353,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (= 4.2.1)
   rails_param
+  react-rails
   redis-throttle!
   request_store
   rspec-rails (~> 3.3.0)

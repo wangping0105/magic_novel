@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :default_page_title, :notification_count, :store_location
   before_action do
-    if current_user && current_user.admin?
+    if current_user && current_user.admin? && Rails.env.development?
       Rack::MiniProfiler.authorize_request
     end
   end

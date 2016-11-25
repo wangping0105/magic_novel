@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resource :homes do
     collection do
-      get :tab_books
+      get :tab_books, :react_demo
     end
   end
   resources :sessions do
@@ -55,6 +55,14 @@ Rails.application.routes.draw do
     end
 
     resources :authors
+  end
+
+  namespace :api do
+    resource :homes do
+      collection do
+        get :talks
+      end
+    end
   end
 
 end

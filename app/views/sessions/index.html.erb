@@ -1,10 +1,9 @@
 <div class="container">
 
   <%= form_for(@user,url: sessions_path , html:{class: "form-signin"}, method: "post") do |f|%>
-  <form action="/sessions" >
     <h2 class="form-signin-heading">魔书登陆</h2>
     <label for="inputEmail" class="sr-only">邮箱</label>
-    <%=f.email_field :email ,class:"form-control", placeholder:"邮箱", required: true%>
+    <%=f.email_field :email ,class:"form-control", placeholder:"邮箱"%>
     <label for="inputPassword" class="sr-only">密码</label>
     <%=f.password_field :password ,class:"form-control", placeholder:"密码", required: true%>
     <div class="checkbox">

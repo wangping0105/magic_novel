@@ -27,4 +27,8 @@ class HomesController < ApplicationController
 
     @books = Book.online_books.includes(:classification).book_type(params[:book_type]).order("(click_count/book_chapters_count) desc").limit(9)
   end
+
+  def react_demo
+    
+  end
 end
