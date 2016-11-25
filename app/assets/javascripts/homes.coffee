@@ -2,6 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $(document).ready ->
+  $('#talk_detail_content').bind 'keyup', ->
+      if event.keyCode == 13
+        $('#talk_content_btn').click()
+
   $(".nav-tabs li").on "click", ->
     $(".nav-tabs li").removeClass("active")
     $(this).addClass("active")
@@ -47,8 +51,8 @@ $(document).ready ->
       data: {user_id: user_id, content: content}
       cache: false
       success: ->
+        $("#talk_detail_content").val("");
         console.log("发送成功!")
-        $("talk_detail_content").text("");
       error: (err)->
         console.error( status, err.toString())
 

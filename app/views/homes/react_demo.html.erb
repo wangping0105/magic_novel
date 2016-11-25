@@ -11,7 +11,7 @@
       </div>
       <div class="w_30X talk_content_input float-l">
         <%if current_user %>
-            <input type="submit" class="btn-primary btn" onclick="send_message(<%= current_user.id %>)" value="发送" />
+            <input id="talk_content_btn" type="submit" class="btn-primary btn" onclick="send_message(<%= current_user.id %>)" value="发送" />
         <%end %>
       </div>
     </div>
