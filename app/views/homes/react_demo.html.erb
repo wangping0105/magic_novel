@@ -1,4 +1,4 @@
-<div class="div1">
+<div class="div1" xmlns="http://www.w3.org/1999/html">
 <div class="w_100X">
   <h3 style="color:red">吐槽区</h3>
   <div>
@@ -6,10 +6,10 @@
       <%= react_component 'Home', {url: talks_api_homes_path} %>
     </div>
     <div>
-      <div class="whidth_50 talk_content_input">
-        <input type="text" name="content" id="talk_detail_content" class="whidth_100" placeholder="输入文字" />
+      <div class="w_60X talk_content_input float-l">
+        <textarea type="text" name="content" id="talk_detail_content" class="w_100X" placeholder="输入文字" /></textarea>
       </div>
-      <div class="talk_content_input">
+      <div class="w_30X talk_content_input float-l">
         <%if current_user %>
             <input type="submit" class="btn-primary btn" onclick="send_message(<%= current_user.id %>)" value="发送" />
         <%end %>

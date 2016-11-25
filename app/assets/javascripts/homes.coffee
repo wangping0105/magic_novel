@@ -48,6 +48,7 @@ $(document).ready ->
       cache: false
       success: ->
         console.log("发送成功!")
+        $("talk_detail_content").text("");
       error: (err)->
         console.error( status, err.toString())
 

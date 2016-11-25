@@ -8,9 +8,9 @@ class Api::HomesController < ApplicationController
         name: user.name,
         content: params[:content],
         nickname: "sb",
-        created_at: Time.now.to_s
+        created_at: Time.now.strftime("%F %T")
       }
-      contents.delete_at(0) if contents.size > 150
+      contents.delete_at(0) if contents.size > 250
       contents << _content
       Rails.cache.write(:talk_content, contents)
       FayeClient.send_message("/talks/broadcast", {user: _content})

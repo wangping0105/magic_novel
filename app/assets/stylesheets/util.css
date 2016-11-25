@@ -8,12 +8,15 @@
 
 .w-16X{width: 16%}
 .w-84X{width: 84%}
-.w_100X{
-    width: 100%;
-}
-.w_50X{
-    width: 50%;
-}
+.w_40X{width: 40%;  }
+.w_50X{width: 50%;  }
+.w_60X{width: 60%;  }
+.w_69X{width: 69%;  }
+.w_70X{width: 70%;  }
+.w_80X{width: 80%;  }
+.w_90X{width: 90%;  }
+.w_100X{ width: 100%;}
+
 .minw-150{min-width: 150px}
 .minw-200{min-width: 200px}
 .h-72{height: 72px}
