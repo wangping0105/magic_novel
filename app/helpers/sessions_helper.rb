@@ -43,7 +43,7 @@ module SessionsHelper
   end
 
   def store_location
-    cookies[:return_to] = request.fullpath if request.get?
+    cookies[:return_to] = request.fullpath if request.get? && !request.fullpath.match(/api/)
   end
 
   def signed_in?
@@ -51,9 +51,11 @@ module SessionsHelper
   end
 
   def sign_out
-    current_user.update_attribute(:authentication_token, User.encrypt(User.new_authentication_token))
-    self.current_user = nil
-    session.delete(:authentication_token)
+    if current_user
+      current_user.update_attribute(:authentication_token, User.encrypt(User.new_authentication_token))
+      self.current_user = nil
+      session.delete(:authentication_token)
+    end
   end
 
   def check_authority
