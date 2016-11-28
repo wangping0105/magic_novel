@@ -41,7 +41,7 @@ set :linked_files, fetch(:linked_files, []).push(*%W{
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, fetch(:linked_dirs, []).push(*%W{
-  config/unicorn log tmp/pids tmp/cache tmp/sockets
+  config/unicorn log tmp/pids tmp/cache tmp/sockets public/www
   vendor/bundle public/system public/books public/assets/kindeditor
 })
 
