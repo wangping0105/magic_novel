@@ -13,6 +13,9 @@ class Notification < ActiveRecord::Base
 
   enum category: [:system, :personal] #系统公告, 个人信息
 
+  validates_presence_of :title, message:'标题不能为空!'
+  validates_presence_of :body, message:'内容不能为空!'
+
   before_create do
     self.category ||= Notification::categories[:system]
     self.status ||= Notification::statuses[:unread]

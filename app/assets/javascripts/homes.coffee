@@ -2,9 +2,34 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $(document).ready ->
+  $(".datepicker").datetimepicker({
+    closeText: '关闭',
+    prevText: '<上月',
+    nextText: '下月>',
+    currentText: '今天',
+    monthNames: ['一月','二月','三月','四月','五月','六月',
+                 '七月','八月','九月','十月','十一月','十二月'],
+    monthNamesShort: ['一','二','三','四','五','六',
+                      '七','八','九','十','十一','十二'],
+    dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+    dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+    dayNamesMin: ['日','一','二','三','四','五','六'],
+    weekHeader: '周',
+    dateFormat: 'yy-mm-dd',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: true,
+    yearSuffix: '年'
+    showOtherMonths: true,
+    selectOtherMonths: true,
+    changeMonth: true,
+    changeYear: true,
+    showSecond: true,
+    timeFormat: 'hh:mm:ss'
+  });
   $('#talk_detail_content').bind 'keyup', ->
-      if event.keyCode == 13
-        $('#talk_content_btn').click()
+    if event.keyCode == 13
+      $('#talk_content_btn').click()
 
   $(".nav-tabs li").on "click", ->
     $(".nav-tabs li").removeClass("active")
@@ -43,18 +68,18 @@ $(document).ready ->
     $('#talk_content').scrollTop($('#talk_content')[0].scrollHeight)
 
 @send_message= (user_id)->
-    content = $("#talk_detail_content").val()
-    $.ajax
-      url: "/api/homes/talks"
-      type: 'get'
-      dataType: 'json'
-      data: {user_id: user_id, content: content}
-      cache: false
-      success: ->
-        $("#talk_detail_content").val("");
-        console.log("发送成功!")
-      error: (err)->
-        console.error( status, err.toString())
+  content = $("#talk_detail_content").val()
+  $.ajax
+    url: "/api/homes/talks"
+    type: 'get'
+    dataType: 'json'
+    data: {user_id: user_id, content: content}
+    cache: false
+    success: ->
+      $("#talk_detail_content").val("");
+      console.log("发送成功!")
+    error: (err)->
+      console.error( status, err.toString())
 
 @hideMessage = (msg, count_flag = true)->
   id = guid()

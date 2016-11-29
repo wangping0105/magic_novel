@@ -20,6 +20,9 @@
 //= require antd/antd
 //= require components
 //= require remarkable/remarkable.js
+//= require jquery-ui
+//= require jquery-ui-slide.min
+//= require jquery-ui-timepicker-addon
 //= require_tree .
 
 function withFayeClient(callback) {
