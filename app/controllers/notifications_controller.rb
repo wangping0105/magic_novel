@@ -1,5 +1,7 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:read]
+  before_action :authenticate_user!
+
   def index
     @notifications = current_user.notifications.page(params[:page]).per(params[:per_page])
   end
