@@ -55,7 +55,7 @@ $(document).ready ->
   @faye.subscribe "/talks/broadcast", (data) ->
     console.log(JSON.stringify(data) + "from faye server")
     user = data.user
-    hideMessage((user.name + ":" + user.content), false)
+    hideMessage((user.name + ":" + user.content), "talk_count")
     $("#talk_content").append("""
       <div>
         <span class="other_user">
@@ -66,6 +66,7 @@ $(document).ready ->
       </div>
     """)
     $('#talk_content').scrollTop($('#talk_content')[0].scrollHeight)
+    showNotification(user.name+": "+ user.content + "\n\n" + user.created_at)
 
 @send_message= (user_id)->
   content = $("#talk_detail_content").val()
@@ -81,18 +82,34 @@ $(document).ready ->
     error: (err)->
       console.error( status, err.toString())
 
-@hideMessage = (msg, count_flag = true)->
+@hideMessage = (msg, count_flag = "msg_count")->
   id = guid()
   $("#faye_msg").append('<div id="'+id+'" class="aaa alert alert-message alert-info fade in"><a href="#" class="close">&times;</a><div>'+msg+'</div></div>')
   setTimeout (->
     $("#" + id).remove();
   ), 3000
 
-  if count_flag
-    index = $("#msg_count").text();
-    if index == ""
-      index = 1
-    else
-      index = parseInt(index) + 1
+  index = $("#" + count_flag).text();
+  if index == ""
+    index = 1
+  else
+    index = parseInt(index) + 1
+  $("#" + count_flag).text(index);
 
-    $("#msg_count").text(index);
+@showNotification= (text)->
+  window.Notification.permission = "granted"
+
+  if window.Notification
+    if window.Notification.permission == "granted"
+      notification = new Notification('消息提示!', {
+        body: text,
+        icon: 'https://ruby-china-files.b0.upaiyun.com/user/avatar/9861.jpg!lg'
+      })
+      setTimeout (->
+        notification.close()
+      ), 5000
+    else
+      window.Notification.requestPermission()
+
+  else
+    alert('你的浏览器不支持此消息提示功能，请使用chrome内核的浏览器！')
