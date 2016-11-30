@@ -49,6 +49,8 @@ gem 'geocoder'
 # param! 参数检测
 gem 'rails_param'
 # web请求 Ruby Class提供快速Web服务，封装了大量的访问Web的类，是一个简单的HTTP / REST客户端库
+gem 'whenever', require: false
+
 gem 'httparty', '~> 0.13.5'
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
