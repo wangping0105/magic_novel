@@ -60,4 +60,43 @@ namespace :utils do
       FayeClient.send_message("/notifications/send_msg_to_qq", {notification:{content: "铜价信息:\n#{str}"}})
     end
   end
+
+  desc 'birthdat remind'
+  task :some_info_push => :environment do
+    birth_dats = [
+      {
+      name:'爸爸',
+      nickname:'老王同学',
+      content:'祝你生日快乐~',
+      birthday:'1971-10-21'
+      },
+      {
+      name: '妈妈',
+      nickname:'老李同学',
+      content:'祝你生日快乐~',
+      birthday:'1973-12-07'
+      },
+      {
+      name:'媳妇的老公',
+      nickname:'小王同学',
+      content:'祝你生日快乐~',
+      birthday:'1991-01-05'
+      },
+      {
+      name:'媳妇',
+      nickname:'小王同学',
+      content:'祝你生日快乐~',
+      birthday:'1989-09-13'
+      }
+    ]
+    birth_dats.each{|u|
+      birth = Date.parse u[:birthday]
+
+      if birth.strftime("%m-%d") == Date.today.strftime("%m-%d")
+        str = "#{u[:nickname]},#{u[:content]}\n献给#{u[:birthday]}出生的你"
+        FayeClient.send_message("/notifications/send_msg_to_qq", {notification:{content: "#{u[:name]}的生日到啦!\n#{str}"}})
+      end
+    }
+
+  end
 end

@@ -6,7 +6,8 @@ job_type :task_logger,  %{cd :path && bundle exec ruby -e 'puts  Time.now.to_s +
 
 
 every :day, :at => '10:45am', :roles => [:whenever] do
-  task_logger %{utils:push_price_about_cu_superior}
+  task_logger %{utils:push_price_about_cu&utils:some_info_push superior }
+  rake 'utils:some_info_push'
   rake 'utils:push_price_about_cu'
-  task_logger %{utils:push_price_about_cu  FINISHED}
+  task_logger %{utils:push_price_about_cu&utils:some_info_push FINISHED}
 end
