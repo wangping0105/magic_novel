@@ -40,7 +40,14 @@ namespace :utils do
         "http://www.cjys.net/"
     ]
     base_url = url_arr.last
-    page = agent.get(base_url)
+    page = nil
+    while(page.nil?)
+      begin
+        page = agent.get(base_url)
+      rescue e
+        puts "error"
+      end
+    end
 
     if page.present?
       th = page.search(".//*[@id='jsxq_view']/tr")[0]

@@ -24,7 +24,6 @@
               React.createElement "span", {className: 'nickname'}, user.nickname
               user.created_at
 
-            React.createElement "label", null,
-              React.createElement "span", null, user.content
+            React.createElement "label", { dangerouslySetInnerHTML: {__html: user.content} }
       else
         React.createElement "div", null, "暂无记录"

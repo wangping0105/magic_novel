@@ -58,8 +58,11 @@ group :development, :test do
 end
 # https://github.com/Macrow/rails_kindeditor
 # gem 'rails_kindeditor'
-
+# web Crawler 爬虫
 gem 'mechanize'
+# markdown
+gem 'redcarpet'
+gem 'coderay'
 
 gem "iconv", "~> 1.0.3"
 # emoji表情

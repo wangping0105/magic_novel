@@ -7,19 +7,22 @@
     $.getJSON @props.url, (response) =>
       globalHandleResponse response, =>
         data = response.data
-        @setState(data: data)
+        if response.code == 0
+          @setState(data: data)
+
+  componentDidUpdate: ->
+    $('#talk_content').scrollTop( $('#talk_content')[0].scrollHeight )
 
   render: ->
     if !$.isEmptyObject(@state.data)
       React.createElement "div", null,
          $.map @state.data, (user, index)->
             `<div key={index}>
-              <span className="current_user">
+              <span className="other_user">
                 {user.name}
                 <span className="nickname">{user.nickname} </span>{user.created_at}:
               </span>
-              <label><span>{user.content}</span></label>
+             <label dangerouslySetInnerHTML= {{__html: user.content}}></label>
             </div>`
-           # 这里面除了代码结构能够更html一样,其他的属性还是得遵循reactjs的语法
     else
       `<div>暂无</div>`

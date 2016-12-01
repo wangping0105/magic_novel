@@ -62,7 +62,7 @@ $(document).ready ->
           #{user.name}
           <span class="nickname">#{user.nickname} </span>#{user.created_at}:
         </span>
-        <label><span>#{user.content}</span></label>
+        <label>#{user.content}</label>
       </div>
     """)
     $('#talk_content').scrollTop($('#talk_content')[0].scrollHeight)

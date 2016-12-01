@@ -6,7 +6,7 @@ class Api::HomesController < ApplicationController
       user = User.find(params[:user_id])
       _content = {
         name: user.name,
-        content: params[:content],
+        content: markdown(params[:content]).html_safe,
         nickname: "sb",
         created_at: Time.now.strftime("%F %T")
       }

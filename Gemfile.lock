@@ -224,6 +224,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    redcarpet (3.3.4)
     redis (3.2.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -335,6 +336,7 @@ DEPENDENCIES
   capistrano-rvm (~> 0.1.2)
   capistrano-sidekiq
   capistrano3-unicorn (~> 0.2.1)
+  coderay
   coffee-rails (~> 4.1.0)
   dalli (~> 2.7.4)
   emojimmy
@@ -357,6 +359,7 @@ DEPENDENCIES
   rails (= 4.2.1)
   rails_param
   react-rails
+  redcarpet
   redis-throttle!
   request_store
   rspec-rails (~> 3.3.0)
