@@ -70,17 +70,20 @@ $(document).ready ->
 
 @send_message= (user_id)->
   content = $("#talk_detail_content").val()
-  $.ajax
-    url: "/api/homes/talks"
-    type: 'get'
-    dataType: 'json'
-    data: {user_id: user_id, content: content}
-    cache: false
-    success: ->
-      $("#talk_detail_content").val("");
-      console.log("发送成功!")
-    error: (err)->
-      console.error( status, err.toString())
+  unless content == ""
+    $.ajax
+      url: "/api/homes/talks"
+      type: 'get'
+      dataType: 'json'
+      data: {user_id: user_id, content: content}
+      cache: false
+      success: ->
+        $("#talk_detail_content").val("");
+        console.log("发送成功!")
+      error: (err)->
+        console.error( status, err.toString())
+  else
+    @hideMessage("消息不能为空!", "error")
 
 @hideMessage = (msg, count_flag = "msg_count")->
   id = guid()

@@ -63,6 +63,7 @@ class ApplicationController < ActionController::Base
         :hard_wrap => true,
         :strikethrough =>true
       }
+    text = text.gsub("script>", "fuck>")
     Markdown.new(text).to_html
   end
 
