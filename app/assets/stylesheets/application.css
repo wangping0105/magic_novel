@@ -20,3 +20,6 @@
     word-break:break-all; /*支持IE，chrome，FF不支持*/
     word-wrap:break-word;/*支持IE，chrome，FF*/
 }
+img {
+	max-width: 100%
+}
