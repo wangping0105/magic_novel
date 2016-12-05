@@ -37,28 +37,31 @@ namespace :utils do
   task :push_price_about_cu => :environment do
    agent = Mechanize.new
     url_arr = [
-        "http://www.cjys.net/"
+        "http://m.ccmn.cn/"
     ]
     base_url = url_arr.last
     page = nil
     while(page.nil?)
       begin
         page = agent.get(base_url)
-      rescue e
+      rescue
         puts "error"
       end
     end
 
     if page.present?
-      th = page.search(".//*[@id='jsxq_view']/tr")[0]
-      td = page.search(".//*[@id='jsxq_view']/tr")[1]
+      th = page.search(".//*[@id='content']/ul[1]/table/tr[1]/th")
+
       str = ""
-      td.children.each_with_index{|c, index|
-        str += ("#{th.children[index].text.gsub("  ", "")}: #{c.text}\n")
-      }
+      (2..4).each do |i|
+        td = page.search(".//*[@id='content']/ul[1]/table/tr[#{i}]/td")
+        td.each_with_index{|c, index|
+          str += ("#{th[index].children.text.strip}: #{c.children.text.strip}\n")
+        }
+      end
 
       data1 = {
-        name: "铜价信息",
+        name: "行情信息",
         content: "\n#{str}",
         nickname: ">",
         created_at: Time.now.strftime("%F %T")
