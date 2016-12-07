@@ -1,34 +1,51 @@
 <div class="container">
-  <div class="container">
-    <div class="alert alert-message alert-info fade in">
-        <p class="tow-font">网络小说是指利用网络如BBS、Web界面连载发表的小说，与一般的小说比起来，网络小说的语法会更近口语并充斥网络流行语。另外除了文字内容，
-          利用符号图案排版等进行变化也是其特色，网络小说是网络文学的主要形式。网络小说有广义和狭义之分，广义上可以包含所有在网络上发布和流传的小说，
-          但从网络小说起源的狭义层次上，主要是指由网络写手创作并首次在网上发布，进而流传的小说形式。网络小说主要分为两类，一类的男生看的小说，被泛称为男频；
-          另一类是女生看的小说，被泛称为女频。男生看的小说大多追求从身体到权利的强大，而女生看的小说大多从爱情的角度出发，而这两个类型的小说的强大取决于网络上男性和女性的比例...
-        </p>
-        <a class="btn btn-primary btn-lg" href="http://v3.bootcss.com/examples/theme/" target="_blank" role="button">查看更多 »</a>
-    </div>
-  </div>
+  <div class="row">
+    <div class="col-sm-8 book-main">
+        <div class="container1">
+          <div class="alert alert-message alert-info fade in">
+              <p class="tow-font">网络小说是指利用网络如BBS、Web界面连载发表的小说，与一般的小说比起来，网络小说的语法会更近口语并充斥网络流行语。另外除了文字内容，
+                利用符号图案排版等进行变化也是其特色，网络小说是网络文学的主要形式。网络小说有广义和狭义之分，广义上可以包含所有在网络上发布和流传的小说，
+                但从网络小说起源的狭义层次上，主要是指由网络写手创作并首次在网上发布，进而流传的小说形式。网络小说主要分为两类，一类的男生看的小说，被泛称为男频；
+                另一类是女生看的小说，被泛称为女频。男生看的小说大多追求从身体到权利的强大，而女生看的小说大多从爱情的角度出发，而这两个类型的小说的强大取决于网络上男性和女性的比例...
+              </p>
 
-  <div class="container">
-    <hr class="featurette-divider">
-    <span><h2>TOP9</h2>
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><%=link_to '所有小说', tab_books_homes_path(book_type: ""), remote: true %></li>
-      <li role="presentation"><%=link_to '原创', tab_books_homes_path(book_type: Book::CUSTOM), remote: true %></li>
-      <li role="presentation"><%=link_to '转载', tab_books_homes_path(book_type: Book::REPRINT), remote: true %></li>
-    </ul>
-    </span>
-    <!-- Example row of columns -->
-    <div id="tab_books" class="row bg-white">
-      <%=render 'tab_books', books: @books%>
+              <a class="btn btn-primary btn-sm" href="http://v3.bootcss.com/examples/theme/" target="_blank" role="button">查看更多 »</a>
+          </div>
+        </div>
+
+        <div class="container1">
+          <hr class="featurette-divider">
+          <span><h2>TOP9</h2>
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><%=link_to '所有小说', tab_books_homes_path(book_type: ""), remote: true %></li>
+            <li role="presentation"><%=link_to '原创', tab_books_homes_path(book_type: Book::CUSTOM), remote: true %></li>
+            <li role="presentation"><%=link_to '转载', tab_books_homes_path(book_type: Book::REPRINT), remote: true %></li>
+          </ul>
+          </span>
+          <!-- Example row of columns -->
+          <div id="tab_books" class="row bg-white">
+            <%=render 'tab_books', books: @books%>
+          </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-3">
+      <div class="sidebar-module sidebar-module-inset ">
+        <div class="panel panel-default">
+          <div class="panel-heading">小帖士</div>
+          <div class="panel-body">
+            <p>如果是你 Ruby, Rails 新手，请别在 Windows 上面折腾：<a href="https://ruby-china.org/topics/1020" target="_blank">https://ruby-china.org/topics/1020</a></p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="container">
     <hr class="featurette-divider">
     <footer>
-      <p>©jackping 2014</p>
+      <p>Shanghai China ©jackping 2014</p>
     </footer>
   </div>
 </div>
