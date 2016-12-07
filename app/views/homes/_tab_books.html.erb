@@ -1,12 +1,12 @@
 <% books.each do |book|  %>
-  <div class="col-md-4">
-    <h3><a href="<%= book_path(book) %>">[<%=  book.classification.try(:name) || "其他" %>]<%= book.title %></a></h3>
+  <div class="col-md-4 h-280">
+    <h4><a href="<%= book_path(book) %>">[<%=  book.classification.try(:name) || "其他" %>]<%= book.title %></a></h4>
     <div class="h-180">
     <span class="f-left">
       <a href="<%= book_path(book) %>"><%= image_tag "none.jpg", class: "w-120 h-120" %></a>
     </span>
     <span>
-      <a href="<%= book_path(book) %>"><%= deal_string(book.introduction, 90)%></a>
+      <a href="<%= book_path(book) %>"><%= deal_string(book.introduction, 75)%></a>
     </span>
     </div>
     <p><a class="btn btn-default" href="<%= book_path(book) %>" role="button">查看更多 »</a></p>
