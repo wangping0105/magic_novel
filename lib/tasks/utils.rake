@@ -51,7 +51,7 @@ namespace :utils do
 
     if page.present?
       div_text = page.search(".//*[@id='content']/ul[1]/div[1]/font")
-      title ="#{div_text[0].text}#{div_text[2].text}日价格""
+      title ="#{div_text[0].text}#{div_text[2].text}日价格"
       th = page.search(".//*[@id='content']/ul[1]/table/tr[1]/th")
 
       str = ""
