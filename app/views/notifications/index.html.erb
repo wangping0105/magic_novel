@@ -15,6 +15,7 @@
                       </a>
                   <% end %>
                 </td>
+                <td><%= deal_string(notification.body, 20)%></td>
               </tr>
           <%end %>
           <% if @notifications.blank? %>
@@ -23,6 +24,7 @@
               </tr>
           <%end %>
         </table>
+        <%= paginate @notifications%>
       </div>
     </div>
   </div>
