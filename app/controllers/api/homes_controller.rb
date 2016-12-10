@@ -14,9 +14,9 @@ class Api::HomesController < ApplicationController
       contents << _content
       Rails.cache.write(:talk_content, contents)
       FayeClient.send_message("/talks/broadcast", {user: _content})
-      render json:{ code: 1, data: contents }
+      render json:{ code: 1, data: contents.reverse }
     else
-      render json:{ code: 0, data: contents }
+      render json:{ code: 0, data: contents.reverse }
     end
 
   end

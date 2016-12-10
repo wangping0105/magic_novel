@@ -29,6 +29,5 @@ class HomesController < ApplicationController
   end
 
   def react_demo
-    
   end
 end

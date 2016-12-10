@@ -72,6 +72,11 @@ Rails.application.routes.draw do
         get :talks
       end
     end
-  end
 
+    resource :emoticons do
+      collection do
+        get :index
+      end
+    end
+  end
 end

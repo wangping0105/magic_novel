@@ -1,20 +1,41 @@
-<div class="div1" xmlns="http://www.w3.org/1999/html">
-<div class="w_100X">
-  <h3 style="color:red">吐槽区</h3>
-  <div>
-    <div id="talk_content" class="talk_content">
-      <%= react_component 'Home', {url: talks_api_homes_path} %>
-    </div>
-    <div>
-      <div class="w_60X talk_content_input float-l">
-        <textarea type="text" name="content" id="talk_detail_content" class="w_100X" placeholder="输入文字" /></textarea>
+<div class="container">
+  <div class="div1" xmlns="http://www.w3.org/1999/html">
+    <div class="col-sm-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">吐槽区</div>
+        <div class="panel-body">
+          <div id="talk_content" class="talk_content">
+            <%= react_component 'Home', {url: talks_api_homes_path} %>
+          </div>
+          <div>
+            <div class="w_100X talk_content_input float-l">
+              <textarea type="text" name="content" id="talk_detail_content" class="w_100X h-72" placeholder="输入文字" /></textarea>
+            </div>
+            <div class="w_30X talk_content_input talk_send_btn float-l">
+              <%if current_user %>
+                  <input id="talk_content_btn" type="submit" class="btn-primary btn" onclick="send_message(<%= current_user.id %>)" value="发送" />
+              <%end %>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="w_30X talk_content_input float-l">
-        <%if current_user %>
-            <input id="talk_content_btn" type="submit" class="btn-primary btn" onclick="send_message(<%= current_user.id %>)" value="发送" />
-        <%end %>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">表情区(点击发送) <a class="swap">换一批</a></div>
+        <div class="panel-body emoticon-area">
+        </div>
       </div>
     </div>
   </div>
 </div>
-</div>
+<% content_for :js_in_footer do%>
+    <script>
+      $(function(){
+          $.getScript("/api/emoticons");
+          $(".swap").on("click", function(){
+              $.getScript("/api/emoticons");
+          })
+      })
+    </script>
+<%end%>

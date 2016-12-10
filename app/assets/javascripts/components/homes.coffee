@@ -12,7 +12,7 @@
           @setState(data: data)
 
   componentDidUpdate: ->
-    $('#talk_content').scrollTop( $('#talk_content')[0].scrollHeight )
+#    $('#talk_content').scrollTop( $('#talk_content')[0].scrollHeight )
 
   render: ->
     React.createElement "div", null,
@@ -22,7 +22,7 @@
             React.createElement "span", {className: 'other_user'},
               user.name
               React.createElement "span", {className: 'nickname'}, user.nickname
-              user.created_at
+              React.createElement "span", {className: 'time'}, user.created_at
 
             React.createElement "label", { dangerouslySetInnerHTML: {__html: user.content} }
       else

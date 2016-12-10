@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161119035453) do
+ActiveRecord::Schema.define(version: 20161208085613) do
+
+  create_table "attachments", force: :cascade do |t|
+    t.integer  "user_id",             limit: 4
+    t.integer  "attachmentable_id",   limit: 4
+    t.string   "attachmentable_type", limit: 255
+    t.string   "name",                limit: 255
+    t.string   "file_file_name",      limit: 255
+    t.string   "file_content_type",   limit: 255
+    t.integer  "file_file_size",      limit: 4
+    t.datetime "file_updated_at"
+    t.datetime "deleted_at"
+    t.text     "note",                limit: 65535
+    t.string   "sub_type",            limit: 255
+    t.integer  "attachment_position", limit: 4
+    t.string   "qiniu_persistent_id", limit: 255
+    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                        null: false
+  end
+
+  add_index "attachments", ["attachmentable_id", "attachmentable_type"], name: "index_attachments_on_attachmentable_id_and_attachmentable_type", using: :btree
+  add_index "attachments", ["qiniu_persistent_id"], name: "index_attachments_on_qiniu_persistent_id", using: :btree
+  add_index "attachments", ["user_id"], name: "index_attachments_on_user_id", using: :btree
 
   create_table "authors", force: :cascade do |t|
     t.string   "name",            limit: 255

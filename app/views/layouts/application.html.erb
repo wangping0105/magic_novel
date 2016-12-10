@@ -37,6 +37,9 @@
 <%= render 'shared/flash_area' %>
 <%= yield %>
 </body>
+  <% if content_for?(:js_in_footer) %>
+      <%= yield(:js_in_footer) %>
+  <% end %>
 <script type="text/javascript">
     <%if current_user %>
     //    var client = new Faye.Client('http://localhost:9595/faye');

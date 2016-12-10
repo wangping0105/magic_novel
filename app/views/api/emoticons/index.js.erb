@@ -1,0 +1,6 @@
+$(".emoticon-area").html('<%= escape_javascript(render 'emoticons/emoticons', all_emoticon: @all_emoticon) %>');
+<%if current_user %>
+$(".emoticon-img").on("click", function(){
+    send_message(<%= current_user.id %>, "![表情图片]("+ $(this).attr("src")+")")
+})
+<%end %>

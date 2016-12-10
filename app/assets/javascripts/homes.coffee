@@ -56,20 +56,21 @@ $(document).ready ->
     console.log(JSON.stringify(data) + "from faye server")
     user = data.user
     hideMessage((user.name + ":" + user.content), "talk_count")
-    $("#talk_content").append("""
+    $("#talk_content").prepend("""
       <div>
         <span class="other_user">
           #{user.name}
-          <span class="nickname">#{user.nickname} </span>#{user.created_at}:
+          <span class="nickname">#{user.nickname}</span>
+          <span class="time">#{user.created_at}</span>
         </span>
         <label>#{user.content}</label>
       </div>
     """)
-    $('#talk_content').scrollTop($('#talk_content')[0].scrollHeight)
+#    $('#talk_content').scrollTop($('#talk_content')[0].scrollHeight)
     showNotification(user.name+": "+ user.content + "\n\n" + user.created_at)
 
-@send_message= (user_id)->
-  content = $("#talk_detail_content").val()
+@send_message= (user_id, content = null)->
+  content = (content || $("#talk_detail_content").val() )
   unless content == ""
     $.ajax
       url: "/api/homes/talks"

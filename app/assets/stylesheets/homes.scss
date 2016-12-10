@@ -44,15 +44,53 @@ div .f-left{
 }
 
 .talk_content{
-  height: 350px;
+  height: 500px;
   overflow: auto;
   border: 1px solid #dddddd;
   padding: 10px;
   border-radius: 5px;
+  background-color: white;
 }
+.talk_content img{
+  width: 150px;
+}
+
+.talk_send_btn{
+  position: absolute;
+  right: 40px;
+  bottom: 50px;
+}
+
 .nickname{
   background:bisque;color: cornflowerblue;
 }
+
+.talk_content .time{
+  color: #777;
+}
+
 .div1{
   padding: 10px;
+}
+
+.swap{
+  cursor: pointer;
+}
+
+.emoticon-area img{
+  cursor: pointer;
+}
+
+.emoticon-area img{
+  .emoticon-area{
+    height: 625px;
+    overflow: auto;
+  }
+}
+
+.emoticon-index{
+  height: 90px;
+  img{
+    max-height: 80px;
+  }
 }
