@@ -75,7 +75,7 @@ Rails.application.routes.draw do
 
     resource :emoticons do
       collection do
-        get :index
+        get :rand_show
       end
     end
   end

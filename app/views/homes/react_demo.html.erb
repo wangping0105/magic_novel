@@ -32,9 +32,9 @@
 <% content_for :js_in_footer do%>
     <script>
       $(function(){
-          $.getScript("/api/emoticons");
+          $.getScript("/api/emoticons/rand_show");
           $(".swap").on("click", function(){
-              $.getScript("/api/emoticons");
+              $.getScript("/api/emoticons/rand_show");
           })
       })
     </script>

@@ -19,6 +19,7 @@
 /test
 /public/novels/logs/*
 public/hourses/*
+public/zhuangbbq
 public/videos/*
 
 #config/database.yml
