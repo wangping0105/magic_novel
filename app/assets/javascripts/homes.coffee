@@ -29,7 +29,11 @@ $(document).ready ->
   });
   $('#talk_detail_content').bind 'keyup', ->
     if event.keyCode == 13
-      $('#talk_content_btn').click()
+      unless($("#talk_detail_content").val() == "" || $("#talk_detail_content").val() == "\n")
+        $('#talk_content_btn').click()
+      else
+        $("#talk_detail_content").val("")
+        hideMessage("消息不能为空!", "error")
 
   $(".nav-tabs li").on "click", ->
     $(".nav-tabs li").removeClass("active")
@@ -71,6 +75,7 @@ $(document).ready ->
 
 @send_message= (user_id, content = null)->
   content = (content || $("#talk_detail_content").val() )
+  $("#talk_detail_content").val("");
   unless content == ""
     $.ajax
       url: "/api/homes/talks"
@@ -79,7 +84,6 @@ $(document).ready ->
       data: {user_id: user_id, content: content}
       cache: false
       success: ->
-        $("#talk_detail_content").val("");
         console.log("发送成功!")
       error: (err)->
         console.error( status, err.toString())
