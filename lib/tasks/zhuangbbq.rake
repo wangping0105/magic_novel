@@ -28,18 +28,23 @@ namespace :zhuangbbq do
     #   resize_gif(absoulte_path)
     # }
 
-    Dir["public/zhuangbbq/emoticons_min/*.gif"].each_with_index{|path, i|
-      absoulte_path = "#{Rails.root.to_s}/#{path}"
-      resize_img(absoulte_path, type: "gif")
-    }
+    # Dir["public/zhuangbbq/emoticons_min/*.gif"].each_with_index{|path, i|
+    #   absoulte_path = "#{Rails.root.to_s}/#{path}"
+    #   resize_img(absoulte_path, type: "gif")
+    # }
     # Dir["public/zhuangbbq/emoticons/*.jpg", "public/zhuangbbq/emoticons/*.png"].each_with_index{|path, i|
     #   absoulte_path = "#{Rails.root.to_s}/#{path}"
     #   resize_img(absoulte_path)
     # }
+
+    Dir["public/zhuangbbq/emoticons/*.jpeg"].each_with_index{|path, i|
+      absoulte_path = "#{Rails.root.to_s}/#{path}"
+      resize_img(absoulte_path)
+    }
   end
 
   task :delete_miss_img => :environment  do
-    attachs = Attachment.where(name: %w(3113.gif 3252.gif  4133.gif 4711.gif 4079.gif 2464.gif 2574.gif 2076.gif))
+    attachs = Attachment.where(name: %w(3113.gif 3252.gif  4133.gif 4711.gif 4079.gif 2464.gif 2574.gif 2076.gif 1244.jpeg))
     attachs.each do |a|
       absoulte_path = "#{Rails.root.to_s}/public/zhuangbbq/emoticons/#{a.name}"
       `rm #{absoulte_path}`
