@@ -148,6 +148,7 @@ GEM
       webrobots (>= 0.0.9, < 0.2)
     method_source (0.8.2)
     mime-types (2.99.1)
+    mini_magick (4.5.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
@@ -348,6 +349,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   mechanize
+  mini_magick
   mysql2 (~> 0.3.18)
   paranoia (~> 2.1.0)
   pry-nav

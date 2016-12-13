@@ -1,5 +1,5 @@
 <%all_emoticon.each do |img|%>
 	<div class="col-sm-6 emoticon-index">
-	  <img class="emoticon-img" src="<%= "/zhuangbbq/emoticons/#{img.name}" %>">
+	  <img class="emoticon-img" src="<%= Emoticon.min_path(img) %>">
 	</div>
 <%end%>

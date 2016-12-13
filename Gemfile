@@ -34,13 +34,14 @@ gem "sinatra-activerecord"
 # API 调用频率限制(Rate Limit)
 # 我们使用 redis-throttle 来实现这个功能。
 gem 'redis-throttle', git: 'git://github.com/andreareginato/redis-throttle.git'
+
 # 图形验证码
 gem 'rucaptcha'
 # 软删除
 gem 'paranoia', '~> 2.1.0'
 #enum 的一个帮助gem
 gem 'acts_as_enum'
-#
+
 gem 'ruby-pinyin', '~> 0.4.5'
 
 gem 'sidekiq', '~> 3.4.1'
@@ -72,16 +73,15 @@ gem 'emojimmy'
 gem 'alidayu_sms'
 # 时间统计
 gem 'rack-mini-profiler'
-#
 gem 'request_store'
-# memberchche
-gem 'dalli', '~> 2.7.4',   :platforms => :ruby
 
+# memberchche
+gem 'dalli', '~> 2.7.4', :platforms => :ruby
 gem 'friendly_id', '~> 5.1.0'
 
 gem "bullet", :group => "development"
-
 gem 'react-rails'
+gem 'mini_magick'
 
 group :development do
   gem 'rspec-rails', '~> 3.3.0'

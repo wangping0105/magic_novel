@@ -6,5 +6,13 @@ class Emoticon
 			@all_emoticon = @all_emoticon.per(per_page) if per_page
 			@all_emoticon
 		end
+
+		def path(img)
+      "/zhuangbbq/emoticons/#{img.name}"
+		end
+
+		def min_path(img)
+      "/zhuangbbq/emoticons_min/#{img.name}"
+		end
 	end
 end
