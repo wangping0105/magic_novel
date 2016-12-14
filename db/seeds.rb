@@ -27,4 +27,5 @@ Book.create(
   author_id: current_author.id
 )
 
+ChatRoom.create(name: '吐槽区', no: "#{Time.now.to_i}0001")
 p '初始化成功'

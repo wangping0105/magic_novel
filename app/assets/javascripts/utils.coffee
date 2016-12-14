@@ -82,6 +82,6 @@ if antd.message
     catch error
       console.log "Response error: #{error}"
 
-      errorNotice('请求失败')
+#      errorNotice('请求失败')
 
       failure() if failure

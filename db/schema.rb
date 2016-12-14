@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161208085613) do
+ActiveRecord::Schema.define(version: 20161214133938) do
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "user_id",             limit: 4
@@ -147,6 +147,17 @@ ActiveRecord::Schema.define(version: 20161208085613) do
   add_index "books", ["author_id"], name: "index_books_on_author_id", using: :btree
   add_index "books", ["book_type"], name: "index_books_on_book_type", using: :btree
 
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string   "no",         limit: 255
+    t.string   "name",       limit: 255
+    t.integer  "book_id",    limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "chat_rooms", ["book_id"], name: "index_chat_rooms_on_book_id", using: :btree
+  add_index "chat_rooms", ["no"], name: "index_chat_rooms_on_no", using: :btree
+
   create_table "classifications", force: :cascade do |t|
     t.integer  "parent_id",   limit: 4
     t.string   "name",        limit: 255
@@ -160,6 +171,19 @@ ActiveRecord::Schema.define(version: 20161208085613) do
 
   add_index "classifications", ["parent_id"], name: "index_classifications_on_parent_id", using: :btree
   add_index "classifications", ["pinyin"], name: "index_classifications_on_pinyin", using: :btree
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "chat_room_id", limit: 4
+    t.text     "content",      limit: 65535
+    t.integer  "user_id",      limit: 4
+    t.integer  "status",       limit: 4,     default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
+  add_index "messages", ["chat_room_id"], name: "index_messages_on_chat_room_id", using: :btree
+  add_index "messages", ["status"], name: "index_messages_on_status", using: :btree
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.string   "title",            limit: 255

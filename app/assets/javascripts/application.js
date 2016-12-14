@@ -53,3 +53,18 @@ function S4() {
 function guid() {
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
+
+scrollBottomTest =function(callback){
+    $("#talk_content").scroll(function(){
+        var $this =$(this),
+            viewH =$(this).height(),//可见高度
+            contentH =$(this).get(0).scrollHeight,//内容高度
+            scrollTop =$(this).scrollTop();//滚动高度
+        //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
+        //console.log(contentH - viewH - scrollTop + "," +scrollTop/(contentH -viewH))
+        if(scrollTop/(contentH -viewH) >= 0.85){ //到达底部100px时,加载新内容
+            // 这里加载数据..
+            callback()
+        }
+    });
+}
