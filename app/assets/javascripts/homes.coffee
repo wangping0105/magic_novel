@@ -70,6 +70,7 @@ $(document).ready ->
         <label>#{user.content}</label>
       </div>
     """)
+    showBigImg()
 #    $('#talk_content').scrollTop($('#talk_content')[0].scrollHeight)
     showNotification(user.name+": "+ user.content + "\n\n" + user.created_at)
 
@@ -86,7 +87,7 @@ $(document).ready ->
       success: ->
         console.log("发送成功!")
       error: (err)->
-        console.error( status, err.toString())
+        console.error(status, err.toString())
   else
     @hideMessage("消息不能为空!", "error")
 
@@ -121,3 +122,17 @@ $(document).ready ->
 
   else
     alert('你的浏览器不支持此消息提示功能，请使用chrome内核的浏览器！')
+
+@showBigImg= ->
+  $("#talk_content img").unbind("click")
+  $("#talk_content img").on "click", ->
+    src = $(this).attr("src")
+    rex = /emoticons_min/
+    if(src.match(rex))
+      src = src.replace("emoticons_min","emoticons")
+      $(this).attr("src", src)
+
+    if($(this).css("width") == "150px")
+      $(this).animate({width: "100%"}, 100)
+    else
+      $(this).animate({width: "150px"}, 100)

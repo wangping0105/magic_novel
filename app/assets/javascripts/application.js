@@ -62,7 +62,7 @@ scrollBottomTest =function(callback){
             scrollTop =$(this).scrollTop();//滚动高度
         //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
         //console.log(contentH - viewH - scrollTop + "," +scrollTop/(contentH -viewH))
-        if(scrollTop/(contentH -viewH) >= 0.85){ //到达底部100px时,加载新内容
+        if(scrollTop/(contentH -viewH) >= 0.87){ //到达底部100px时,加载新内容
             // 这里加载数据..
             callback()
         }

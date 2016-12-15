@@ -39,7 +39,7 @@
           $("#message_id").val(data[data.length-1].id)
 
   componentDidUpdate: ->
-    @_showBigImg()
+    showBigImg()
 #    $('#talk_content').scrollTop( $('#talk_content')[0].scrollHeight )
 
   render: ->
@@ -56,15 +56,3 @@
       else
         React.createElement "div", null, "暂无记录"
 
-  _showBigImg: ->
-    $("#talk_content img").on "click", ->
-      src = $(this).attr("src")
-      rex = /emoticons_min/
-      if(src.match(rex))
-        src = src.replace("emoticons_min","emoticons")
-        $(this).attr("src", src)
-
-      if($(this).css("width") == "150px")
-        $(this).animate({width: "100%"}, 100)
-      else
-        $(this).animate({width: "150px"}, 100)
