@@ -3,9 +3,27 @@
     <%= render 'user_home/shared/nav' %>
   </div>
   <div class="row">
-    <div class=" col-sm-12">
-      <span>昵称：<%= current_user.name %></span>
-    </div>
+    <%=form_for(current_user) do |f|%>
+        <div class=" col-sm-12">
+          <span>手机：
+            <%=f.label current_user.phone  %>
+          </span>
+        </div>
+        <div class=" col-sm-12">
+          <span>昵称：
+            <%=f.text_field :name, required: true %>
+          </span>
+        </div>
+        <div class=" col-sm-12">
+          <span>邮箱：
+            <%=f.text_field :email, required: true %>
+          </span>
+        </div>
+
+        <div class=" col-sm-12">
+          <%= f.submit '保存修改' %>
+        </div>
+    <%end %>
   </div>
 </div>
 <%content_for :js_in_head do%>

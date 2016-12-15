@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   acts_as_paranoid
 
   validates_uniqueness_of :email, conditions: -> { paranoia_scope }, allow_nil: true, allow_blank: true
+  validates_presence_of :name
 
   TEAVHER_URL = "/assets/guest.jpg"
 

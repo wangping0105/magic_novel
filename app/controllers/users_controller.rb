@@ -12,8 +12,12 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    authorize @user, :update?
-    @user.update_attributes(update_params)
+    if @user.update(update_params)
+
+      redirect_to user_home_users_path
+    else
+      render 'user_home/users/index'
+    end
   end
 
   def user_settings
