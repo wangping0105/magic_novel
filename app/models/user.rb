@@ -4,13 +4,18 @@ class User < ActiveRecord::Base
   has_one :author
   has_many :book_marks, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_one :api_key
+  has_one :attachment, as: :attachmentable
 
   acts_as_paranoid
-
   validates_uniqueness_of :email, conditions: -> { paranoia_scope }, allow_nil: true, allow_blank: true
   validates_presence_of :name
 
   TEAVHER_URL = "/assets/guest.jpg"
+
+  after_save do
+    ApiKey.find_or_create_by(user: self)
+  end
 
   def collection_books
     BookRelation.where(user_id: id, relation_type: BookRelation::COLLECTION)

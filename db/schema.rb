@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214133938) do
+ActiveRecord::Schema.define(version: 20161228143015) do
+
+  create_table "api_keys", force: :cascade do |t|
+    t.integer  "user_id",      limit: 4
+    t.string   "access_token", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "api_keys", ["user_id"], name: "index_api_keys_on_user_id", using: :btree
+
+  create_table "app_versions", force: :cascade do |t|
+    t.string   "name",         limit: 255
+    t.integer  "app_type",     limit: 4
+    t.string   "version_name", limit: 255
+    t.string   "version_code", limit: 255
+    t.string   "download_url", limit: 255
+    t.integer  "upgrade",      limit: 4
+    t.text     "changelogs",   limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "user_id",             limit: 4
@@ -202,6 +223,19 @@ ActiveRecord::Schema.define(version: 20161214133938) do
     t.datetime "updated_at",                     null: false
   end
 
+  create_table "sms_codes", force: :cascade do |t|
+    t.integer  "users_id",   limit: 4
+    t.string   "phone",      limit: 255
+    t.string   "code",       limit: 255
+    t.integer  "sms_type",   limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "sms_codes", ["phone", "sms_type"], name: "index_sms_codes_on_phone_and_sms_type", using: :btree
+  add_index "sms_codes", ["phone"], name: "index_sms_codes_on_phone", using: :btree
+  add_index "sms_codes", ["users_id"], name: "index_sms_codes_on_users_id", using: :btree
+
   create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.string   "remark",     limit: 255
@@ -212,6 +246,18 @@ ActiveRecord::Schema.define(version: 20161214133938) do
   end
 
   add_index "tags", ["pinyin"], name: "index_tags_on_pinyin", using: :btree
+
+  create_table "user_devices", force: :cascade do |t|
+    t.string   "uid",          limit: 255
+    t.string   "device_token", limit: 255
+    t.string   "client_id",    limit: 255
+    t.integer  "platform",     limit: 4
+    t.integer  "user_id",      limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_devices", ["user_id"], name: "index_user_devices_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                limit: 255
