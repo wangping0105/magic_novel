@@ -70,6 +70,8 @@ namespace :utils do
       }
       FayeClient.send_message("/talks/broadcast", {code: 1, user: data1})
       FayeClient.send_message("/notifications/send_msg_to_qq", {notification:{content: "铜价信息:\n#{str}"}})
+      u = User.find_by(phone: 15921076830)
+      FayeClient.send_message("/notifications/#{u.api_key.access_token}#{u.id}", {notification:{content: "铜价信息:\n#{str}"}})
     end
   end
 

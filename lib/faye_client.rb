@@ -45,4 +45,5 @@ class FayeClient
 end
 # FayeClient.send_message("/notifications/broadcast", {text: "niday2323e"})
 # FayeClient.send_message_with_asnyc("/notifications/broadcast", {text: "niday2323e"})
-# FayeClient.push_socket_message("/notifications/broadcast", {text: "niday2323e"}) # faye required
+# FayeClient.send_message("/notifications/f93dc25bbf55fc630501689de3f960e761", {text: "niday2323e"})
+ # FayeClient.push_socket_message("/notifications/broadcast", {text: "niday2323e"}) # faye required
