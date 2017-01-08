@@ -21,4 +21,15 @@ class Notification < ActiveRecord::Base
     self.status ||= Notification::statuses[:unread]
     self.receive_platform ||= Notification::receive_platforms[:all_platform]
   end
+
+  def as_json
+    {
+      id: id,
+      title: title,
+      body: body.to_s,
+      category: category.to_s,
+      status: status.to_s,
+      notify_type: notify_type.to_s
+    }
+  end
 end

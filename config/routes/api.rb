@@ -8,6 +8,7 @@ namespace :api, defaults: { format: :json } do
 			end
 		end
 
+		resources :notifications
 		resources :users
 		resources :versions do
 			collection do

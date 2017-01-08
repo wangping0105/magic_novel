@@ -15,7 +15,8 @@ class Api::HomesController < ApplicationController
       }
 
       FayeClient.send_message("/talks/broadcast", {user: _content})
-      FayeClient.send_message("/notifications/#{current_user.api_key.access_token}#{current_user.id}", {notification: _content})
+      FayeClient.send_message("/notifications/#{current_user.api_key.access_token}#{current_user.id}", {notification:_content})
+
       render json:{ code: 1}
     else
       messages = room.messages.order(id: :desc).includes(:user)

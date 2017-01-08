@@ -27,12 +27,8 @@ module Api::Authenticateable
       logger.error "invalid user_token, auth_params #{auth_params}"
       raise UserAuthenticationError.new(change_reason)
     end
-    unless current_organization
-      raise UserAuthenticationError.new("该用户的企业是无效的")
-    end
 
     RequestStore.store[:current_user] = current_user
-    Thread.current[:current_user] = current_user
   end
 
   def current_user
@@ -41,10 +37,6 @@ module Api::Authenticateable
     if token
       @current_user = User.find_by(id: token.user_id)
     end
-  end
-
-  def current_organization
-    current_user.try(:organization)
   end
 
   def current_app

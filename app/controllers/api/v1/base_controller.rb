@@ -23,4 +23,15 @@ class Api::V1::BaseController < ActionController::Base
   def render_json_data(data)
     render json: { code: 0, data: data }
   end
+
+  def page_options( data)
+    type = data.klass.name.underscore.pluralize
+
+    {
+      type => data.map(&:as_json),
+      page: params[:page],
+      per_page: params[:per_page],
+      total_count: data.total_count
+    }
+  end
 end
