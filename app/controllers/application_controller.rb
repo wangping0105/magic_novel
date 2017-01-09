@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
       Rack::MiniProfiler.authorize_request
     end
   end
+  before_action :set_locale
+
   include SessionsHelper
   include UtilsHelper
 
@@ -51,6 +53,10 @@ class ApplicationController < ActionController::Base
       puts "存入membercache!"
       yield
     end
+  end
+
+  def set_locale
+  I18n.locale = params[:locale] || I18n.default_locale
   end
 
   protected

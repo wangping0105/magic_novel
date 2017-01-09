@@ -22,7 +22,7 @@ module Api::Authenticateable
   def authenticate!
     unless current_user
       key = "orgin_token_#{auth_params[:user_token]}"
-      change_reason = $redis.get(key) || "您的登录已经过期，请重新登录！"
+      change_reason = Rails.cache.read(key) || "您的登录已经过期，请重新登录！"
 
       logger.error "invalid user_token, auth_params #{auth_params}"
       raise UserAuthenticationError.new(change_reason)
