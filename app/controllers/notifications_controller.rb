@@ -3,7 +3,7 @@ class NotificationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @notifications = current_user.notifications.page(params[:page]).per(params[:per_page])
+    @notifications = current_user.notifications.order(id: :desc).page(params[:page]).per(params[:per_page])
   end
 
   def new
