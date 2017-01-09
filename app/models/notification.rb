@@ -30,7 +30,7 @@ class Notification < ActiveRecord::Base
       category: category.to_s,
       status: status.to_s,
       notify_type: notify_type.to_s,
-      created_at: notify_type.created_at.to_s
+      created_at: created_at.to_s
     }
   end
 end
