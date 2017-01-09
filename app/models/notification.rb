@@ -1,4 +1,5 @@
 class Notification < ActiveRecord::Base
+  belongs_to :user
   enum status: [:unread, :read, :expired] # 未读 已读 失效
 
   enum receive_platform: {all_platform: 0, pc_platform: 1, app_platform: 2, none_platform: 3}
