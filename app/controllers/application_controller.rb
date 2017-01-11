@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :default_page_title, :notification_count, :store_location
   before_action do
     if current_user && current_user.admin? && Rails.env.development?
-      Rack::MiniProfiler.authorize_request
+      # Rack::MiniProfiler.authorize_request
     end
   end
   before_action :set_locale

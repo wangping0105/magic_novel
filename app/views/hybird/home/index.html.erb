@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="row">
+	    <div class="col-sm-12 book-main">
+	        <div class="container">
+	          <span><h2>TOP9</h2>
+	          <ul class="nav nav-tabs" role="tablist">
+	            <li role="presentation" class="active"><%=link_to '所有小说', tab_books_hybird_home_index_path(book_type: ""), remote: true %></li>
+	            <li role="presentation"><%=link_to '原创', tab_books_hybird_home_index_path(book_type: Book::CUSTOM), remote: true %></li>
+	            <li role="presentation"><%=link_to '转载', tab_books_hybird_home_index_path(book_type: Book::REPRINT), remote: true %></li>
+	          </ul>
+	          </span>
+	          <!-- Example row of columns -->
+	          <div id="tab_books" class="row bg-white">
+	            <%=render 'tab_books', books: @books%>
+	          </div>
+	        </div>
+	    </div>
+    </div>
+
+    <!-- right -->
+    <div class="col-sm-12">
+    <hr>
+      <div class="sidebar-module sidebar-module-inset ">
+        <div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">小帖士</div>
+				<div class="panel-body">
+				<p>如果是你 Ruby, Rails 新手，请别在 Windows 上面折腾：<a href="https://ruby-china.org/topics/1020" target="_blank">https://ruby-china.org/topics/1020</a></p>
+			</div>
+		</div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Statistics</div>
+          <div class="panel-body">
+            <p>小说数量: <%= Book.count%> </p>
+            <p>用户数量: <%= User.count%> </p>
+            <p>总阅读量: <%= Book.pluck("sum(click_count)").first%> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <hr class="featurette-divider">
+    <footer>
+      <p>Shanghai China ©jackping 2014</p>
+    </footer>
+  </div>
+</div>
