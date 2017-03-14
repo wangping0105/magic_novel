@@ -7,6 +7,10 @@ class Emoticon
 			@all_emoticon
 		end
 
+		def first_emoticon
+			@first_emoticon ||= Attachment.where(attachmentable_type: 'Emoticon').first
+		end
+
 		def path(img)
       "/zhuangbbq/emoticons/#{img.name}"
 		end

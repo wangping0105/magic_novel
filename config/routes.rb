@@ -6,7 +6,6 @@ end
 Rails.application.routes.draw do
   draw :api
   draw :hybird
-  mount RuCaptcha::Engine => "/rucaptcha"
 
   # sidekiq
   require 'sidekiq/web'

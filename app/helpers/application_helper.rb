@@ -34,4 +34,5 @@ module ApplicationHelper
   def deal_string(str, length)
     str.length > length ? "#{str[0...length]}...": str
   end
+
 end

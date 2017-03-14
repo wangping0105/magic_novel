@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20161228143015) do
     t.integer  "reprint_user_id", limit: 4
     t.integer  "books_count",     limit: 4,   default: 0
     t.integer  "level",           limit: 4,   default: 0
-    t.boolean  "is_identity",     limit: 1,   default: false
+    t.boolean  "is_identity",                 default: false
     t.integer  "experience",      limit: 4,   default: 0
     t.datetime "deleted_at"
     t.datetime "created_at",                                  null: false
@@ -264,7 +264,7 @@ ActiveRecord::Schema.define(version: 20161228143015) do
     t.string   "phone",                limit: 255
     t.string   "name",                 limit: 255
     t.datetime "activated"
-    t.boolean  "admin",                limit: 1,   default: false
+    t.boolean  "admin",                            default: false
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
     t.string   "authentication_token", limit: 255
