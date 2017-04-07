@@ -1,0 +1,4 @@
+development:
+  faye_push:
+    host: "http://localhost:9000"
+    auth_token: 'magic_book'

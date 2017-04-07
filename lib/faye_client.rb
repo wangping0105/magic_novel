@@ -2,7 +2,7 @@ class FayeClient
   class << self
     cattr_accessor :auth_token
 
-    self.auth_token ||= "111111" #App.find_by(app_name: "crm_push").try(:access_token) rescue nil
+    self.auth_token ||= "magic_novel" #App.find_by(app_name: "crm_push").try(:access_token) rescue nil
 
     # base method push message to push server
     def push_to_socket(message)
@@ -36,6 +36,7 @@ class FayeClient
         params[:auth_token] ||= auth_token
         message = {channel: channel, data: params}
         uri = URI.parse("#{CROSS_SITES[:faye_push][:host]}/faye")
+
         Net::HTTP.post_form(uri, message: message.to_json)
       end
 

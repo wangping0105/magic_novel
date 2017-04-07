@@ -1,6 +1,6 @@
 module CorssSitesHelper
   def faye_push_token
-    "111111"
+    "magic_novel"
   end
 
   def faye_push_uri

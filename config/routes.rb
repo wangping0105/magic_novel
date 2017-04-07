@@ -21,7 +21,8 @@ Rails.application.routes.draw do
 
   resource :homes do
     collection do
-      get :tab_books, :react_demo
+      get :tab_books, :react_demo, :uuid
+      post :create_payment
     end
   end
   resources :sessions do

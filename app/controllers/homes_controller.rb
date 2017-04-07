@@ -30,4 +30,38 @@ class HomesController < ApplicationController
 
   def react_demo
   end
+
+  def uuid
+    respond_to do |format|
+      format.html{}
+      format.pdf{
+        res = IdentificationOfMrz.test
+        if res[:code] = 200
+          res = IdentificationOfMrz.fetch_pdfreport(res[:body]['uid'])
+
+          if res[:code] = 200
+            file_bytes_64 = res[:body]['report']
+            file = Tempfile.new(['temp1','.pdf'], :encoding => 'ascii-8bit')
+            stringIo = StringIO.new(Base64.decode64(file_bytes_64))
+            file.binmode
+            file.write stringIo.read
+            send_file file
+          end
+        end
+
+        return
+      }
+    end
+  end
+
+  def create_payment
+    res = Onlinepay.create_payment(amount: params[:amount], currency: params[:currency])
+
+    if res['processingUrl']
+      redirect_to res['processingUrl']
+    else
+      flash[:danger] = res
+      render 'uuid'
+    end
+  end
 end

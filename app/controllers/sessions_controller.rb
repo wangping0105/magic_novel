@@ -26,6 +26,7 @@ class SessionsController < ApplicationController
   def sign_up
     @user = User.new
     @user.assign_attributes(user_params)
+
     if verify_rucaptcha?(@user)
       if @user.save
         sign_in(@user)

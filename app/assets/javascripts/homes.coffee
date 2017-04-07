@@ -46,16 +46,13 @@ $(document).ready ->
   @orgin_title = document.title
   self = @
 
-  # to all users
-  @faye.subscribe "/notifications/broadcast", (data) ->
-    console.log(JSON.stringify(data) + "from faye server")
-    hideMessage(data.text)
-
+  # faye 消息展示区
   # to a user, has a acces_token
   @faye.subscribe "/notifications/#{window.temp_access_token}", (data) ->
     console.log(JSON.stringify(data) + "from faye server")
     hideMessage(data.text)
 
+  # to all users
   @faye.subscribe "/talks/broadcast", (data) ->
     console.log(JSON.stringify(data) + "from faye server")
     user = data.user

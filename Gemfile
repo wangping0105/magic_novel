@@ -67,6 +67,7 @@ gem 'emojimmy'
 # To use debugger 调试
 # 我自己的一个gem
 gem 'alidayu_sms'
+gem 'puma', '3.7.0'
 # 时间统计
 gem 'rack-mini-profiler'
 gem 'request_store'
@@ -78,6 +79,9 @@ gem 'friendly_id'
 gem "bullet", :group => "development"
 gem 'react-rails'
 gem 'mini_magick'
+gem 'rest-client'
+
+gem 'faye', '~> 1.2'
 
 group :development do
   gem 'rspec-rails'
