@@ -3,24 +3,36 @@ namespace :zhuangbbq do
   task :change_img_name  => :environment  do
     Attachment.find_each do |a|
       name = a.name
-      prefix = name.split(".").last
-      content = name.split("_").last.gsub(".#{prefix}","")
-      new_name = "#{name.split("_").first}.#{prefix}"
-      absoulte_path1 = "#{Rails.root.to_s}/public/zhuangbbq/emoticons/#{name}"
-      absoulte_path1_new = "#{Rails.root.to_s}/public/zhuangbbq/emoticons/#{new_name}"
-      `mv '#{absoulte_path1}' '#{absoulte_path1_new}'`
+      change_image_name(name)
 
       # absoulte_path2 = "#{Rails.root.to_s}/public/zhuangbbq/emoticons_min/#{name}"
       # absoulte_path2_new = "#{Rails.root.to_s}/public/zhuangbbq/emoticons_min/#{new_name}"
       # `mv '#{absoulte_path2}' '#{absoulte_path2_new}'`
 
-      a.update(name: new_name, file_file_name: new_name, note: content)
+      # content = name.split("_").last.gsub(".#{prefix}","")
+      # a.update(name: new_name, file_file_name: new_name, note: content)
 
       print "."
     end
   end
 
-	desc '小图'
+  task :change_img_name_file  => :environment  do
+    Dir.entries("#{Rails.root.to_s}/public/zhuangbbq/emoticons").each do |name|
+      change_image_name(name)
+
+      print "."
+    end
+  end
+
+  def change_image_name(name)
+    prefix = name.split(".").last
+    new_name = "#{name.split("_").first}.#{prefix}"
+    absoulte_path1 = "#{Rails.root.to_s}/public/zhuangbbq/emoticons/#{name}"
+    absoulte_path1_new = "#{Rails.root.to_s}/public/zhuangbbq/emoticons/#{new_name}"
+    `mv '#{absoulte_path1}' '#{absoulte_path1_new}'`
+  end
+
+  desc '小图'
 	task :extra_img  => :environment  do
     # FileUtils.mkdir_p "public/zhuangbbq/emoticons_min/"
     # Dir["public/zhuangbbq/emoticons/*.gif"].each_with_index{|path, i|

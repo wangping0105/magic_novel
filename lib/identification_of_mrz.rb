@@ -1,6 +1,6 @@
 class IdentificationOfMrz
-  MRZ_HOST = CROSS_SITES[:mrz][:mrz_host]
-  MRZ_TOKEN = CROSS_SITES[:mrz][:mrz_token]
+  MRZ_HOST = CROSS_SITES[:mrz].try(:[],:mrz_host)
+  MRZ_TOKEN = CROSS_SITES[:mrz].try(:[],:mrz_token)
 
   class << self
     def mrz_image(front_image_encode: nil, back_image_encode: nil)
