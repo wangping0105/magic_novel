@@ -2,7 +2,7 @@ class Onlinepay
   def self.create_payment(amount: 1000, currency: "CNY")
     url = "localhost:4000/api/v1/payments"
     attr = {
-      "product"=> "baaby",
+      "product"=> "test#{Time.now.to_s}",
       "amount"=> amount,
       "currency"=> currency,
       "redirectSuccessUrl"=> "https://your-site.com/success",
@@ -40,9 +40,8 @@ class Onlinepay
 
   def self.send_data(url, data)
     headers  = {'Authorization' => 'Bearer 846033ed8492b96ca457', :content_type => 'application/json'}
-    response = RestClient.post(
-        url, data.to_json, headers
-    )
+
+    response = RestClient.post url, data.to_json, headers
     JSON.parse(response)
   end
 end

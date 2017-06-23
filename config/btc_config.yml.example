@@ -1,0 +1,12 @@
+default: &default
+  public: 27fba39eb5f8e04126e8fb8d3e648658 
+  private: 1c18aecc2930c4bc35b0fde7f14c3f98429521a8d8f0a7a319953d4513228123
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

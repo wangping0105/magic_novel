@@ -63,5 +63,9 @@ class HomesController < ApplicationController
       flash[:danger] = res
       render 'uuid'
     end
+  rescue
+    flash[:danger] = "Business api error"
+
+    render 'uuid'
   end
 end
