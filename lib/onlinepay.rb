@@ -2,7 +2,7 @@ class Onlinepay
   def self.create_payment(amount: 1000, currency: "CNY")
     url = "localhost:4000/api/v1/payments"
     attr = {
-      "product"=> "test#{Time.now.to_s}",
+      "product"=> "test#{Time.now.to_i}",
       "amount"=> amount,
       "currency"=> currency,
       "redirectSuccessUrl"=> "https://your-site.com/success",
