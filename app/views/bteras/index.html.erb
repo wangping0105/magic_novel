@@ -1,0 +1,80 @@
+<div class="container">
+  <h1>书籍列表</h1><%= link_to "刷新价格", refresh_bteras_path %>
+  <div class="query_area row">
+  </div>
+  <div class="book_list row">
+    <table class="table">
+      <tr>
+        <td>币种</td>
+        <td>名称</td>
+         <td>今日开盘</td>
+         <td>今日最高</td>
+         <td>今日最低</td>
+         <td>当前价格</td>
+         <td>涨跌</td>
+         <td>操作</td>
+      </tr>
+      <% @currencies.each  do |currency| %>
+        <tr>
+          <td id="<%= currency %>">
+            <%= link_to currency.name.upcase, btear_infos_btera_path(currency) %><%= "!" if currency.top == 1 %>
+          </td>
+          <td>
+            <%= @name_currencies[currency.name.to_sym] %>
+          </td>
+          <td>
+            <%= currency.today_first%>
+          </td>
+          <td>
+            <%= currency.max%>
+          </td>
+          <td>
+            <%= currency.min%>
+          </td>
+          <td>
+            <%= currency.current%>
+          </td>
+          <td>
+            <% rate = cacl_rate(currency.current , currency.today_first) %>
+            <i class="color-<%= rate >0 ? 'green' : 'red'%>"><%= rate %>%</i>
+          </td>
+          <td>
+            <%= link_to '置顶', btera_path(currency.name, topup: 1) if currency.top != 1%>
+            <%= link_to '取消置顶', btera_path(currency.name, topup: 0) if currency.top == 1%>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<script>
+  function check(){
+    var arr = [];
+
+    $("#cny_mk_list a").each(function(data, v){
+      var id = $(v).find(".coinlist_price").attr("id");
+
+      var price = $(v).find(".coinlist_price").text();
+      var _name = $(v).find(".coinlist_name").text();
+
+      id = id.replace("2cny", "");
+
+      var tp = id + ':'+ price;
+      arr.push("{"+id+":'"+_name+"'}")
+    });
+
+    console.log(arr.join(","))
+    $.ajax({
+      url: "http://localhost:9000/bteras/check?bteras="+arr.join("||"),
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+        alert(data.status)
+      }
+    })
+  }
+//  setInterval(function(){
+//    location.reload();
+//  }, 10000);
+</script>

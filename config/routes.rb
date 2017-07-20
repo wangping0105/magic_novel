@@ -57,6 +57,15 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :bteras do
+    collection do
+      get :check, :refresh
+    end
+
+    member do
+      get :btear_infos
+    end
+  end
   resources :managements
   resources :notifications do
     member do

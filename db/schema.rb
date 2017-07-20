@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161228143015) do
+ActiveRecord::Schema.define(version: 20170624100421) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20161228143015) do
     t.datetime "updated_at"
   end
 
-  create_table "attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "user_id"
     t.integer  "attachmentable_id"
     t.string   "attachmentable_type"
@@ -156,6 +156,23 @@ ActiveRecord::Schema.define(version: 20161228143015) do
     t.integer  "operator_id"
     t.index ["author_id"], name: "index_books_on_author_id", using: :btree
     t.index ["book_type"], name: "index_books_on_book_type", using: :btree
+  end
+
+  create_table "btear_currencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.float    "min",         limit: 24
+    t.float    "max",         limit: 24
+    t.float    "current",     limit: 24
+    t.float    "today_first", limit: 24
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "btear_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "currency"
+    t.float    "value",      limit: 24
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "chat_rooms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
