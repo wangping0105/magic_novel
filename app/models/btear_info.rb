@@ -1,0 +1,2 @@
+class BtearInfo < ApplicationRecord
+end
