@@ -1,0 +1,16 @@
+default: &default
+  redis:
+    host: localhost
+    port: 6379
+    data_db: 0
+    job_db: 1
+    cache_db: 2
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
