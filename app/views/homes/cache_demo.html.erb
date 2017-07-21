@@ -1,0 +1,37 @@
+<ul>
+  <li>
+    缓存时间：10s
+    <%= Rails.cache.fetch("demo_1", expires_in: 10.seconds) do
+      render('cache_1')
+    end.html_safe
+    %>
+  </li>
+  <li>
+    缓存时间：15s
+    <%= Rails.cache.fetch("demo_2", expires_in: 15.seconds) do
+      render('cache_1')
+    end.html_safe
+    %>
+  </li>
+  <li>
+    缓存时间：20s
+    <%= Rails.cache.fetch("demo_3", expires_in: 20.seconds) do
+      render('cache_1')
+    end.html_safe
+    %>
+  </li>
+  <li>
+    缓存时间：25s
+    <%= Rails.cache.fetch("demo_4", expires_in: 25.seconds) do
+      render('cache_1')
+    end.html_safe
+    %>
+  </li>
+  <li>
+    缓存时间：30s
+    <%= Rails.cache.fetch("demo_5", expires_in: 30.seconds) do
+      render('cache_1')
+    end.html_safe
+    %>
+  </li>
+</ul>

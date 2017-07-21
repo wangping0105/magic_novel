@@ -26,6 +26,15 @@ module MagicNovel
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    require_relative '../app/services/app_settings'
+    config.cache_store = :redis_store, {
+        host: AppSettings.redis.host,
+        port: AppSettings.redis.port,
+        db: AppSettings.redis.cache_db,
+        password: AppSettings.redis[:password],
+        expires_in: 2.days
+    }
   end
 end
 

@@ -68,4 +68,8 @@ class HomesController < ApplicationController
 
     render 'uuid'
   end
+
+  def cache_demo
+
+  end
 end

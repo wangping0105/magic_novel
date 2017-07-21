@@ -83,6 +83,8 @@ gem 'rest-client'
 
 gem 'faye', '~> 1.2'
 
+gem 'settingslogic'
+gem "redis-rails"
 group :development do
   gem 'rspec-rails'
   gem 'pry-remote'
