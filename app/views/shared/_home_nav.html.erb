@@ -20,7 +20,9 @@
             <li class="<%="active" if "#{controller_name}" == "managements" %>"><a href="/managements">魔·管理</a></li>
           <%end %>
           <li class="<%="active" if "#{controller_path}" == "notifications" %>"><a href="/notifications" data-no-turbolink="true">魔·消息 <i id="msg_count" class="color-red"><%= @notification_count unless @notification_count <= 0 %></i></a></li>
-          <li class="<%="active" if "#{controller_path}" == "bteras" %>"><a href="/bteras" data-no-turbolink="true">魔·比特</a></li>
+          <% if Rails.env.development? %>
+            <li class="<%="active" if "#{controller_path}" == "bteras" %>"><a href="/bteras" data-no-turbolink="true">魔·比特</a></li>
+          <%end %>
         <%end %>
       </ul>
 
