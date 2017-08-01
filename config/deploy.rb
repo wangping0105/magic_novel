@@ -34,20 +34,20 @@ set :repo_url, 'git@github.com:wangping0105/magic_novel.git'
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 set :linked_files, fetch(:linked_files, []).push(*%W{
-  config/nginx.conf config/unicorn/production.rb config/database.yml config/secrets.yml config/cross_sites.yml
+  config/nginx.conf config/database.yml config/secrets.yml config/cross_sites.yml config/services.yml
 })
 
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, fetch(:linked_dirs, []).push(*%W{
-  config/unicorn log tmp/pids tmp/cache tmp/sockets public/www
+  config/puma log tmp/pids tmp/cache tmp/sockets public/www
   vendor/bundle public/system public/books public/zhuangbbq public/assets/kindeditor
 })
 
-set :unicorn_rack_env, -> { fetch(:rails_env) || "deployment" }
+set :puma_rack_env, -> { fetch(:rails_env) || "deployment" }
 
-set :unicorn_restart_sleep_time, 5
+set :puma_restart_sleep_time, 5
 
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
@@ -59,9 +59,9 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
-      invoke 'unicorn:restart'
-      # invoke 'unicorn:duplicate'
-      # invoke 'unicorn:legacy_restart'
+      invoke 'puma:restart'
+      # invoke 'puma:duplicate'
+      # invoke 'puma:legacy_restart'
     end
   end
   #

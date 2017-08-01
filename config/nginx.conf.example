@@ -1,48 +1,53 @@
-upstream magic_novel_production_unicorn {
-  server unix:/tmp/unicorn.magic_novel_production_unicorn.sock fail_timeout=0;
+upstream puma_magic_novel_production {
+  server unix:///home/dev/rails_projects/magic_novel_production/shared/tmp/sockets/puma.sock fail_timeout=0 weight=10;
 }
-server {
-	listen 888;
-	#server_name test.dc.ikcrm.com;
 
-  root /dyne/wp_apps/magic_novel_production/current/public;
-  # individual nginx logs for this magic_novel vhost
+server {
+	
+  listen 80;# default deferred;
+  server_name magicbooks.cn;
+  
+  root /home/dev/rails_projects/magic_novel_production/current/public;
+
+  # individual nginx logs for this ikorm vhost
   access_log  /var/log/nginx/magic_novel_production_access.log;
   error_log   /var/log/nginx/magic_novel_production_error.log;
+
+  # gzip on;
+  # gzip_min_length 1k;
+  # gzip_buffers 4 16k;
+  # gzip_http_version 1.0;
+  # gzip_comp_level 2;
+  # gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+  # gzip_types      text/plain application/xml;
+  # gzip_vary off;
+  # gzip_disable "MSIE [1-6]\.";
 
   location ^~ /assets/ {
     gzip_static on;
     expires max;
     add_header Cache-Control public;
+
+    # add_header ETag "";
+    # break;
   }
 
-  try_files $uri/index.html $uri @unicorn;
+  try_files $uri/index.html $uri @puma;
 
-  location @unicorn {
+  location @puma {
+    # set_real_ip_from   10.0.0.0/8;
+    # real_ip_header X-Forwarded-For;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_redirect off;
-    proxy_pass http://magic_novel_production_unicorn;
+    proxy_pass http://puma_magic_novel_production;
   }
 
   error_page 500 502 503 504 /500.html;
-  client_max_body_size 4G;
-  keepalive_timeout 10;
+  client_max_body_size 100M;
+  keepalive_timeout 35;
 }
 
-# 步骤
 # include /etc/nginx/conf.d/*.conf;
-# sudo ln -nfs /dyne/wp_apps/magic_novel_production/shared/config/nginx.conf /etc/nginx/conf.d/magic_novel_production.config
-#sudo /etc/init.d/nginx reload
-
-
-#https://gitlab.com/gitlab-org/gitlab-ce/blob/master/README.md
-
-#sudo gitlab-ctl restart
-
-#sudo usermod -a -G gitlab nginx
-#sudo chmod g+rx /var/opt/gitlab/
-#sudo chmod g+rx /var/opt/gitlab/gitlab-rails/tmp/sockets
-
-#sudo usermod -aG gitlab nginx
-#sudo chmod 777 /var/opt/gitlab/gitlab-rails -R
+# sudo ln -nfs /home/dev/rails_projects/magic_novel_production/shared/config/nginx.conf /etc/nginx/conf.d/magic_novel_production.conf
+# sudo /etc/init.d/nginx reload

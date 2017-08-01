@@ -16,7 +16,7 @@ require 'capistrano/deploy'
 #   https://github.com/capistrano/passenger
 #
 require 'capistrano/rvm'
-require 'capistrano3/unicorn'
+require 'capistrano/puma'
 # require 'capistrano/rbenv'
 # require 'capistrano/chruby'
 require 'capistrano/bundler'
