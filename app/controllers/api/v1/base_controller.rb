@@ -6,6 +6,8 @@ class Api::V1::BaseController < ActionController::Base
   helper_method :current_user
   helper_method :version_code
   before_action :authenticate_referer!, :authenticate_app!, :authenticate!
+  before_action :cors_preflight_check
+  after_action :cors_set_headers
 
   protected
 

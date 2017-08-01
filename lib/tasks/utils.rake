@@ -116,4 +116,38 @@ namespace :utils do
     }
 
   end
+
+  task :fdemo => :environment do
+
+    t = 0.000000001
+
+    result = 0
+    flag = true
+    arr = [0, 1, 1]
+    i = 3
+
+    while flag
+      arr[i] = arr[i-1] + arr[i-2]
+
+      _r = (limit(arr, i-1) - limit(arr, i))
+      _r = 0 - _r if _r < 0
+
+      if _r < t
+        flag = false
+        result = i -1
+      end
+      i += 1
+    end
+
+    puts result, limit(arr, result)
+  end
+
+  def limit(arr, n)
+    value = arr[n-1].to_d/arr[n]
+
+    puts value
+
+    value
+  end
+
 end

@@ -22,5 +22,7 @@ namespace :api, defaults: { format: :json } do
 			end
 		end
 
+		resources :home do
+    end
 	end
 end

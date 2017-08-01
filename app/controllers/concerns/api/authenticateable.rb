@@ -7,10 +7,28 @@ module Api::Authenticateable
   end
 
   private
+  def cors_preflight_check
+    if request.method == 'OPTIONS'
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+      headers['Access-Control-Allow-Headers'] = 'Authorization,Origin,X-Requested-With,Content-Type,Accept,x-csrf-token'
+      headers['Access-Control-Max-Age'] = '1728000'
+      render :text => '', :content_type => 'text/plain'
+    end
+  end
+
+  def cors_set_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token'
+    headers['Access-Control-Max-Age'] = '1728000'
+  end
+
   def authenticate_referer!
+
     return true if android_or_ios? || auth_params[:skip_referer].present?
 
-    if request.referer.present? && request.referer !~ /ikcrm|localhost|192\.168/
+    if request.referer.present? && request.referer !~ /localhost|192\.168/
       raise AuthError.new('非法请求')
     end
   end
