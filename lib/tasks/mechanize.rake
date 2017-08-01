@@ -34,6 +34,7 @@ namespace :mechanize do
   end
 
   def process_single_book(book)
+    @book_chapter_exist_count = 0
     chapter_url = "#{get_host}/#{book.href}"
     introduction_url = chapter_url.gsub("readbook", "articleinfo").gsub("aid", "id")
 
@@ -44,6 +45,7 @@ namespace :mechanize do
 
     book_name = book_info[:book_name]
     book = Book.find_by(title: book_name)
+
     unless book.present?
       Book.transaction do
         put_logs("=> 开始小说 #{book_name} ==========================", "info")
@@ -73,30 +75,52 @@ namespace :mechanize do
       links = next_page.links
       all_chapters = links.select{ |l| l.href && l.href.match(/read_sql.asp/)}
       all_chapters.each do |chapter_link|
+        chapter_name = chapter_link.to_s
+        if is_chapter_exists?(book, chapter_name)
+          puts("章节存在！ #{chapter_name} ")
+          @book_chapter_exist_count += 1
+
+          if @book_chapter_exist_count > 20
+            break
+          else
+            next
+          end
+        end
+
         chapter_page = chapter_link.click
 
         title = chapter_page.search(".//*[@id='daohang']//text()").find{|c| c.present?}.to_s
         content = chapter_page.search(".//*[@id='zhengwen']/table/tr/td").children.to_html
-        save_chapter_info(book, chapter_title: title, content: content)
+        save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_link.try(:href))
       end
       next_page = links.find{ |l| l.href && l.href.match(/readbook_next.php/)}
       next_page = next_page.click
 
-      puts next_page
+      if @book_chapter_exist_count > 20
+        put_logs("章节存在数量超限 #{@book_chapter_exist_count}, 请人人工核查！", error_type = 'chapter_exist')
+
+        break
+      end
+
+      puts next_page.try(:uri).to_s
     end
 
     puts "#{book_name}下载完毕。。。"
   end
 
-  def save_chapter_info(book, chapter_title: , content: )
+  def is_chapter_exists?(book, chapter_title)
+    book.book_chapters.where(title: chapter_title).exists?
+  end
+
+  def save_chapter_info(book, chapter_title: , content:, download_url: )
     if book.present?
-      has_book_chapter = book.book_chapters.where(title: chapter_title).exists?
-      unless has_book_chapter
+      unless is_chapter_exists?(book, chapter_title)
         book_volume = book.book_volumes.first
         prev_chpater = book.book_chapters.last
         book_chapter = book.book_chapters.create({
             title: chapter_title,
             content: content,
+            download_url: download_url,
             book_volume_id: book_volume.try(:id),
             prev_chapter_id: prev_chpater.try(:id)
           })
@@ -105,7 +129,8 @@ namespace :mechanize do
 
         puts "#{chapter_title} 章节下载完毕"
       else
-        put_logs("#{chapter_title}章节存在！", error_type = 'chapter_exist')
+        @book_chapter_exist_count += 1
+        puts("章节存在！ #{chapter_title}")
       end
     end
   end

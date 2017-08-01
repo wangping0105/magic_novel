@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170624100421) do
+ActiveRecord::Schema.define(version: 20170801155859) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20170624100421) do
     t.datetime "deleted_at"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.string   "download_url"
     t.index ["book_id"], name: "index_book_chapters_on_book_id", using: :btree
     t.index ["book_volume_id"], name: "index_book_chapters_on_book_volume_id", using: :btree
   end
@@ -160,16 +161,19 @@ ActiveRecord::Schema.define(version: 20170624100421) do
 
   create_table "btear_currencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.float    "min",         limit: 24
-    t.float    "max",         limit: 24
-    t.float    "current",     limit: 24
-    t.float    "today_first", limit: 24
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.float    "min",              limit: 24
+    t.float    "max",              limit: 24
+    t.float    "current",          limit: 24
+    t.float    "today_first",      limit: 24
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.date     "today_first_date"
+    t.integer  "top",                         default: 0
   end
 
-  create_table "btear_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "currency"
+  create_table "btear_infos", primary_key: ["id", "currency"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "id",                    null: false
+    t.string   "currency",              null: false
     t.float    "value",      limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false

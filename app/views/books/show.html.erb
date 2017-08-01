@@ -24,7 +24,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;简介：<%= @book.introduction %>
   </div>
 
-  <div class="bg-white pad-5 row">
+  <div class="row chapter-list">
     <!--<div class=" align-center">正文</div>-->
     <% @book_chapters.each do |chapter| %>
       <%= link_to book_book_chapter_path(@book, chapter), 'data-no-turbolink' => true do%>
