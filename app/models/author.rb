@@ -5,7 +5,7 @@ class Author < ActiveRecord::Base
 
   def is_author_of?(book)
     if book
-      book.author_id = id
+      book.author_id == id
     else
       false
     end

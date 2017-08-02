@@ -167,7 +167,8 @@ class BooksController < ApplicationController
 
   def set_book
     @book = Book.find(params[:id])
-    unless current_user && current_user.admin? || (current_author && current_author.is_author_of?(@book))
+
+    unless current_user && (current_user.admin? || current_author && current_author.is_author_of?(@book))
       @book = Book.online_books.find(params[:id])
     end
   end
