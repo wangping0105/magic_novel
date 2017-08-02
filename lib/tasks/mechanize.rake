@@ -70,17 +70,26 @@ namespace :mechanize do
       end
     end
 
+    lastest_download_url = book.lastest_download_url
+    if lastest_download_url.present?
+      page =  @agent.get(lastest_download_url)
+    end
+
     next_page = page
     while next_page.present?
+      url = next_page.try(:uri).to_s
+      book.update(lastest_download_url: url)
+
       links = next_page.links
       all_chapters = links.select{ |l| l.href && l.href.match(/read_sql.asp/)}
+
       all_chapters.each do |chapter_link|
         chapter_name = chapter_link.to_s
         if is_chapter_exists?(book, chapter_name)
           puts("章节存在！ #{chapter_name} ")
           @book_chapter_exist_count += 1
 
-          if @book_chapter_exist_count > 20
+          if @book_chapter_exist_count > 30
             break
           else
             next
@@ -91,7 +100,12 @@ namespace :mechanize do
 
         title = chapter_page.search(".//*[@id='daohang']//text()").find{|c| c.present?}.to_s
         content = chapter_page.search(".//*[@id='zhengwen']/table/tr/td").children.to_html
-        save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_link.try(:href))
+        begin
+          save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_link.try(:href))
+        rescue
+          save_chapter_info(book, chapter_title: title, content: convert_string(content), download_url: chapter_link.try(:href))
+        end
+
       end
       next_page = links.find{ |l| l.href && l.href.match(/readbook_next.php/)}
       next_page = next_page.click
@@ -102,7 +116,7 @@ namespace :mechanize do
         break
       end
 
-      puts next_page.try(:uri).to_s
+      puts url
     end
 
     puts "#{book_name}下载完毕。。。"
@@ -164,6 +178,12 @@ namespace :mechanize do
       introduction: introduction,
       word_count: word_count
     }
+  end
+
+  def convert_string(content)
+    content = content.gsub get_regex, ''
+
+    content
   end
 
   def put_logs(msg, error_type = 'error')

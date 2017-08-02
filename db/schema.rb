@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170801155859) do
+ActiveRecord::Schema.define(version: 20170802020421) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -139,22 +139,23 @@ ActiveRecord::Schema.define(version: 20170801155859) do
     t.string   "pinyin"
     t.integer  "author_id"
     t.integer  "book_type"
-    t.text     "introduction",        limit: 65535
+    t.text     "introduction",         limit: 65535
     t.string   "remarks"
-    t.integer  "status",                                           default: 0
-    t.decimal  "total_price",                       precision: 10
-    t.float    "discount",            limit: 24
+    t.integer  "status",                                            default: 0
+    t.decimal  "total_price",                        precision: 10
+    t.float    "discount",             limit: 24
     t.integer  "words"
-    t.integer  "click_count",                                      default: 0
-    t.integer  "recommend_count",                                  default: 0
-    t.integer  "collection_count",                                 default: 0
-    t.integer  "book_volumes_count",                               default: 0
-    t.integer  "book_chapters_count",                              default: 0
+    t.integer  "click_count",                                       default: 0
+    t.integer  "recommend_count",                                   default: 0
+    t.integer  "collection_count",                                  default: 0
+    t.integer  "book_volumes_count",                                default: 0
+    t.integer  "book_chapters_count",                               default: 0
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
     t.integer  "classification_id"
     t.integer  "operator_id"
+    t.string   "lastest_download_url"
     t.index ["author_id"], name: "index_books_on_author_id", using: :btree
     t.index ["book_type"], name: "index_books_on_book_type", using: :btree
   end
