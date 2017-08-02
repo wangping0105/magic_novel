@@ -12,11 +12,7 @@ class BooksController < ApplicationController
     @classifications = Classification.all
     class_arr = filter_params(Book.online_books).group(:classification_id).pluck("books.classification_id, count(*) total_count").to_h
     @classifications = @classifications.map{|c|
-      book_count = if c.name == "其他"
-        class_arr[nil].to_i
-      else
-        class_arr[c.id].to_i
-      end
+      book_count = class_arr[c.id].to_i
 
       @all_book_count += book_count
       [c.name, c.id, book_count]

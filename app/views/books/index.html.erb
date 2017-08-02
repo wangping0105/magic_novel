@@ -52,35 +52,30 @@
       </div>
     <%end %>
   </div>
+
   <div class="book_list row">
-    <table class="table">
-      <tr>
-        <td>书籍名称</td>
-        <% if have_admin_authority?%>
-          <td>操作</td>
-        <%end  %>
-      <% index = 1 + ((params[:page]||1).to_i-1) * (params[:per]||30).to_i %>
-      </tr>
-      <% @books.each  do |book| %>
-        <tr>
-          <td>
-            <%=link_to "#{index}.[#{ book.classification.try(:name) || "其他"}] #{book.title}", book_path(book) %>
-            <ul class="book_info">
-              <li>人气: <%= book.click_count %></li>
-              <li>作者: <%= book.author.name %></li>
-              <li>章节数: <%= book.book_chapters_count %></li>
-              <li>字数: <%= book_words_style book.words %></li>
-            </ul>
-          </td>
+    <% index = 1 + ((params[:page]||1).to_i-1) * (params[:per]||30).to_i %>
+    <% @books.each  do |book| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <%=link_to "#{index}.[#{ book.classification.try(:name) || "其他"}] #{book.title}", book_path(book) %>
           <% if have_admin_authority?%>
-            <td>
-              <%= link_to '删除', book_path(book), method: :delete, data:{confirm: '确认删除？'} %>
-            </td>
+            <%= link_to '删除', book_path(book), method: :delete, data:{confirm: '确认删除？'}, class: 'float-r color-red' %>
           <%end  %>
-          <% index += 1 %>
-        </tr>
-      <% end %>
-    </table>
+        </div>
+
+        <div class="panel-body">
+          <ul class="book_info">
+            <li>人气: <%= book.click_count %></li>
+            <li>作者: <%= book.author.name %></li>
+            <li>章节数: <%= book.book_chapters_count %></li>
+            <li>字数: <%= book_words_style book.words %></li>
+          </ul>
+        </div>
+      </div>
+
+      <% index += 1 %>
+    <% end %>
   </div>
   <%= paginate @books %>
 </div>

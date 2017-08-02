@@ -3,7 +3,7 @@ class HomesController < ApplicationController
   def index
     puts UserMailer.hello_world
 
-    @books = Book.online_books.includes(:classification).order("click_count desc").limit(9)
+    @classifications = Classification.where('books_count > 0').order(books_count: :desc).limit(5)
   end
 
   def show
@@ -23,6 +23,7 @@ class HomesController < ApplicationController
   end
 
   def tab_books
+    # TODO 暂时遗弃
     param! :book_type, String, required: false
 
     @books = Book.online_books.includes(:classification).book_type(params[:book_type]).order("(click_count/book_chapters_count) desc").limit(9)

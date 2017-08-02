@@ -1,15 +1,17 @@
+<% books = Book.online_books.includes(:classification).book_type(book_type).order("click_count desc")
+   books = books.where(classification_id: classification_id) if classification_id.present?
+
+   books = books.limit(10) %>
+
+<br/>
 <% books.each do |book|  %>
-  <div class="col-md-4 h-280">
-    <h4><a href="<%= book_path(book) %>">[<%=  book.classification.try(:name) || "其他" %>]<%= book.title %></a></h4>
-    <div class="h-180">
-    <span class="f-left">
-      <a href="<%= book_path(book) %>"><%= image_tag "none.jpg", class: "w-120 h-120" %></a>
-    </span>
-    <span>
-      <a href="<%= book_path(book) %>"><%= deal_string(book.introduction, 75)%></a>
-    </span>
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading"><a href="<%= book_path(book) %>">[<%=  book.classification.try(:name) || "其他" %>]<%= book.title %></a></div>
+      <div class="panel-body">
+        <a href="<%= book_path(book) %>"><%= deal_string(book.introduction, 75)%></a>
+      </div>
     </div>
-    <p><a class="btn btn-default" href="<%= book_path(book) %>" role="button">查看更多 »</a></p>
   </div>
 <%end %>
 <%if books.blank? %>
