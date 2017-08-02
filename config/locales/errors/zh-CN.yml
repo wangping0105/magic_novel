@@ -1,0 +1,5 @@
+zh-CN:
+  errors:
+    models:
+      book_relation:
+        collection_limit: '最多可以收藏%{count}本'

@@ -106,8 +106,17 @@ class BooksController < ApplicationController
   def collection
     book_relation = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
     unless book_relation
-      BookRelation.create(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
-      book_count_change("collection", "+")
+      book_relation = BookRelation.new(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
+      if book_relation.save
+        book_count_change("collection", "+")
+      else
+        error_messages = book_relation.errors.messages.map do |k, msg|
+          t("errors.models.book_relation.#{k}", count: msg.join(","))
+        end
+
+        flash[:danger] = "添加收藏失败，#{error_messages.join(",")}"
+        redirect_to book_path(@book) and return
+      end
     end
 
     flash[:success] = "添加收藏成功"

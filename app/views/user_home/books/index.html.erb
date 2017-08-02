@@ -15,11 +15,23 @@
             <%= link_to '删除', uncollection_book_path(book), class: 'btn btn-sm btn-primary float-r'%>
           </div>
           <div class="panel-body">
-            <% book_chapter = book.chapter_of_book_mark_by(current_user)
-               if book_chapter
-            %>
-              书签: <%=link_to book_chapter.title, book_book_chapter_path(book, book_chapter) %>
-            <%end %>
+            <div>
+              <% book_chapter = book.chapter_of_book_mark_by(current_user)
+                 if book_chapter
+              %>
+                书签: <%=link_to book_chapter.title, book_book_chapter_path(book, book_chapter) if book_chapter %>
+              <%else
+                  book_chapter = book.book_chapters.first
+              %>
+                书签: <%=link_to book_chapter.try(:title), book_book_chapter_path(book, book_chapter) if book_chapter %>
+              <%end %>
+            </div>
+
+            <div>
+              <% newest_chapter = book.book_chapters.last %>
+              最新: <%=link_to newest_chapter.try(:title), book_book_chapter_path(book, newest_chapter) if newest_chapter %>
+            </div>
+
           </div>
         </div>
       <%end %>
