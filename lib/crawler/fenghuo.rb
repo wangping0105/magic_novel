@@ -6,11 +6,12 @@ module Crawler
         'http://book.fenghuo.in'
       end
 
-      def get_novels
+      # http://book.fenghuo.in/toplist_sort.php?sortid=14&xu=3&pno=0 女生
+      def get_novels(sortid: 1, xu: 3, pno: 0)
         p '开始！'
         _default_page = ENV['page'].to_i + 1
         @agent = Mechanize.new
-        base_url = "#{get_host}/toplist_sort.php?sortid=1&xu=3&pno=0"
+        base_url = "#{get_host}/toplist_sort.php?sortid=#{sortid}&xu=#{xu}&pno=#{pno}"
         _page_page = 5
 
         (_default_page.._page_page).each do |page_i|
