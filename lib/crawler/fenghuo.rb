@@ -88,7 +88,9 @@ module Crawler
         puts "#{book_name}下载完毕。。。"
       end
 
-      def chapter_list(book, next_page)
+      def chapter_list(book, page)
+
+        next_page = page
         while next_page.present?
           url = next_page.try(:uri).to_s
           book.update(lastest_download_url: url)
@@ -141,7 +143,7 @@ module Crawler
 
       def save_chapter_info(book, chapter_title: , content:, download_url: )
         if book.present?
-          unless is_chapter_exists?(book, chapter_title)
+          unless book.book_chapters.where(title: chapter_title).exists?
             book_volume = book.book_volumes.first
             prev_chpater = book.book_chapters.last
             book_chapter = book.book_chapters.create({
