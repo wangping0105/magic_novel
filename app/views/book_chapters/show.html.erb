@@ -23,18 +23,18 @@
 
 <div class="container ">
   <div class="book-header">
-    <h1 class="book-title"><%= @book_chapter.title %></h1>
-        <div class="float-r ">
-          <% if have_author_authority?(@book) %>
-              <%= link_to '编辑', edit_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
-              <%= link_to '删除', book_book_chapter_path(@book, @book_chapter), method: :delete, 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
-          <% end %>
-          <%if have_do_authority?(@book) %>
-              <%= link_to '20章连读', big_show_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
-              <%= link_to '添加书签', book_marks_book_book_chapter_path(@book, @book_chapter), class: 'btn btn-sm btn-primary'%>
-          <% end %>
-        </div>
-    <p class="lead book-description">欢迎来到王平的书城</p>
+    <h3 class="book-title"><%= @book_chapter.title %></h3>
+  </div>
+
+  <div class="book-operation">
+    <% if have_author_authority?(@book) %>
+      <%= link_to '编辑', edit_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
+      <%= link_to '删除', book_book_chapter_path(@book, @book_chapter), method: :delete, 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
+    <% end %>
+    <%if have_do_authority?(@book) %>
+      <%= link_to '20章连读', big_show_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
+      <%= link_to '添加书签', book_marks_book_book_chapter_path(@book, @book_chapter), class: 'btn btn-sm btn-primary'%>
+    <% end %>
   </div>
 
   <div class="book-main big_show row">
@@ -43,6 +43,7 @@
     <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content"
          style="line-height: 1.5;font-size: <%= params[:font_size].to_i == 0 ? 14: params[:font_size].to_i%>px;background: #<%= params[:color] %>;">
         <%=raw @book_chapter.content %>
+        <p>更多爽文-尽在<a href="http://magicbooks.cn">魔书网</a></p>
     </div>
   </div>
   <%=render 'page'  %>

@@ -14,7 +14,7 @@ class BookChaptersController < ApplicationController
   end
 
   def show
-    @page_title = "#{@book_chapter.title}-#{@book.title}"
+    @page_title = set_title "#{@book_chapter.title}-#{@book.title}"
     @colors = content_back_colors
     params[:color] = cookies[:color] || "FFFFFF"
     params[:font_size] = cookies[:font_size] || 14
@@ -155,6 +155,8 @@ class BookChaptersController < ApplicationController
     @book_chapter = fetch_memberchace(_cache_key, 30.minutes) do
        @book.book_chapters.find(params[:id])
     end
+
+    @page_title =set_title(@book_chapter.title)
   end
 
   def set_book_volume

@@ -123,8 +123,6 @@ module Crawler
             end
 
           end
-          next_page = links.find{ |l| l.href && l.href.match(/readbook_next.php/)}
-          next_page = next_page.click
 
           if @book_chapter_exist_count > 20
             put_logs("章节存在数量超限 #{@book_chapter_exist_count}, 请人人工核查！", error_type = 'chapter_exist')
@@ -133,6 +131,9 @@ module Crawler
           end
 
           puts url
+
+          next_page = links.find{ |l| l.href && l.href.match(/readbook_next.php/) && l.to_s == "下页"}
+          next_page = next_page.click if next_page
         end
       end
 
