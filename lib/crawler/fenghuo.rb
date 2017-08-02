@@ -97,7 +97,7 @@ module Crawler
           book.update(lastest_download_url: url)
 
           links = next_page.links
-          all_chapters = links.select{ |l| l.href && l.href.match(/read_sql.asp/)}
+          all_chapters = links.select{ |l| l.href && (l.href.match(/read_sql.asp/) || l.href.match(/read.asp/))}
 
           all_chapters.each do |chapter_link|
             chapter_name = chapter_link.to_s
@@ -112,7 +112,12 @@ module Crawler
               end
             end
 
-            chapter_page = chapter_link.click
+            begin
+              chapter_page = chapter_link.click
+            rescue
+              sleep 5
+              chapter_page = chapter_link.click
+            end
 
             title = chapter_page.search(".//*[@id='daohang']//text()").find{|c| c.present?}.to_s
             content = chapter_page.search(".//*[@id='zhengwen']/table/tr/td").children.to_html
