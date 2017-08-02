@@ -6,7 +6,11 @@
     <%=form_for(current_user) do |f|%>
         <div class=" col-sm-12">
           <span>手机：
-            <%=f.label current_user.phone  %>
+            <%if current_user.phone%>
+              <%= current_user.phone.to_s  %>
+            <%else %>
+              <%=f.text_field :phone, required: true %>
+            <%end %>
           </span>
         </div>
         <div class=" col-sm-12">

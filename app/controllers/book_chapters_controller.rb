@@ -134,7 +134,7 @@ class BookChaptersController < ApplicationController
     collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
     unless collection
       BookRelation.create(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
-      count_change("collection", "+")
+      book_count_change("collection", "+")
     end
 
     book_mark = @book.book_marks.find_or_create_by(user: current_user)
@@ -241,6 +241,11 @@ class BookChaptersController < ApplicationController
     }
 
     content_arr || []
+  end
+
+  def book_count_change(attr_name, operation)
+    sql = "update books set #{attr_name}_count = collection_count #{operation} 1 where id = #{@book.id}"
+    ActiveRecord::Base.connection.execute(sql)
   end
 
   def content_back_colors

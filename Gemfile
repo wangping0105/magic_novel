@@ -108,7 +108,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   # Better error page for Rack apps. Read more: https://github.com/charliesome/better_errors
-  gem 'better_errors', '2.1.1'
+  # gem 'better_errors', '2.1.1'
 
   # Retrieve the binding of a method's caller in MRI 1.9.2+. Read more: https://github.com/banister/binding_of_caller
   gem 'binding_of_caller', '0.7.2'

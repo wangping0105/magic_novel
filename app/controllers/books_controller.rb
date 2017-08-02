@@ -107,7 +107,7 @@ class BooksController < ApplicationController
     book_relation = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
     unless book_relation
       BookRelation.create(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
-      count_change("collection", "+")
+      book_count_change("collection", "+")
     end
 
     flash[:success] = "添加收藏成功"
@@ -118,7 +118,7 @@ class BooksController < ApplicationController
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
     if @collection
       @collection.destroy
-      count_change("collection", "-")
+      book_count_change("collection", "-")
     end
 
     flash[:success] = "取消收藏成功"
@@ -185,7 +185,7 @@ class BooksController < ApplicationController
     relation
   end
 
-  def count_change(attr_name, operation)
+  def book_count_change(attr_name, operation)
     sql = "update books set #{attr_name}_count = collection_count #{operation} 1 where id = #{@book.id}"
     ActiveRecord::Base.connection.execute(sql)
   end

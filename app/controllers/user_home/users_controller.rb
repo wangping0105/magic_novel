@@ -13,13 +13,15 @@ class UserHome::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     authorize @user, :update?
-    @user.update_attributes(update_params)
+
+    @user.assign_attributes(update_params)
+    @user.save
   end
 
   private
 
   def update_params
-     params.require(:user).permit(:name)
+     params.require(:user).permit(:name, :email, :phone)
   end
   
 end

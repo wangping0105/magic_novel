@@ -4,29 +4,26 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <div class="row col-sm-12">
-        <table class="table table-condensed">
-          <tr><th>书籍名称</th><th>操作</th></tr>
-          <% @collection_books.each_with_index do |book_relation, i|
-               book = book_relation.book
-               next unless book
-          %>
-            <tr>
-              <td>
-                <%=link_to "[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
-                <ul class="book_marks">
-                  <% book_chapter = book.chapter_of_book_mark_by(current_user)
-                    if book_chapter
-                  %>
-                    <li>书签: <%=link_to book_chapter.title, book_book_chapter_path(book, book_chapter) %></li>
-                  <%end %>
-                </ul>
-              </td>
-              <td><%= link_to '取消收藏', uncollection_book_path(book), class: 'btn btn-sm btn-primary'%></td>
-            </tr>
-          <%end %>
-        </table>
+
+      <% @collection_books.each_with_index do |book_relation, i|
+        book = book_relation.book
+        next unless book
+      %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <%=link_to "[#{ book.classification.name rescue "其他"}] #{book.title}", book_path(book) %>
+            <%= link_to '删除', uncollection_book_path(book), class: 'btn btn-sm btn-primary float-r'%>
+          </div>
+          <div class="panel-body">
+            <% book_chapter = book.chapter_of_book_mark_by(current_user)
+               if book_chapter
+            %>
+              书签: <%=link_to book_chapter.title, book_book_chapter_path(book, book_chapter) %>
+            <%end %>
+          </div>
         </div>
+      <%end %>
+
     </div>
   </div>
 </div>
