@@ -116,6 +116,7 @@ module Crawler
             begin
               save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_link.try(:href))
             rescue
+              put_logs(content, "error_content")
               save_chapter_info(book, chapter_title: title, content: convert_string(content), download_url: chapter_link.try(:href))
             end
 
