@@ -55,9 +55,9 @@ module Crawler
         book_name = book_info[:book_name]
         book = Book.find_by(title: book_name)
 
+        put_logs("=> 开始小说 #{book_name} ==========================", "info")
         unless book.present?
           Book.transaction do
-            put_logs("=> 开始小说 #{book_name} ==========================", "info")
 
             book_type = 1 # 转载
             author_name = book_info[:author_name]
@@ -86,6 +86,7 @@ module Crawler
 
         chapter_list(book, page)
 
+        put_logs("#{book_name}下载完毕。。。", error_type = 'info')
         puts "#{book_name}下载完毕。。。"
       end
 

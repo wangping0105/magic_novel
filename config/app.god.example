@@ -1,0 +1,57 @@
+APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__),'..'))
+RAILS_ENV = ENV['RAILS_ENV'] || 'production'
+APP_STAGE = 'production'
+
+God.watch do |w|
+    w.env = {
+      "BUNDLE_GEMFILE" => "#{APP_ROOT}/Gemfile",
+      "APP_ROOT" => "#{APP_ROOT}",
+      "PID_FILE" => "#{APP_ROOT}/tmp/pids/puma.pid",
+      "APP_STAGE" => 'production'
+    }
+
+  w.dir = "#{w.env['APP_ROOT']}"
+  w.log = "#{w.env['APP_ROOT']}/log/god_#{RAILS_ENV}.log"
+
+  w.name = "magic_novel_#{APP_STAGE}"
+  w.group = "magic_novel_#{APP_STAGE}"
+
+  w.start = "RAILS_ENV=#{RAILS_ENV} ~/.rvm/bin/rvm in #{w.env['APP_ROOT']} do bundle exec puma -c #{w.env['APP_ROOT']}/config/puma.rb -E #{RAILS_ENV} -D"
+
+  # QUIT gracefully shuts down workers
+  w.stop = "kill -QUIT `cat #{w.env['PID_FILE']}`"
+
+  # USR2 causes the master to re-create itself and spawn a new worker pool
+  w.restart = "kill -USR2 `cat #{w.env['PID_FILE']}`"
+
+
+  w.pid_file = w.env['PID_FILE']
+  w.log = "#{w.env['APP_ROOT']}/log/god_#{RAILS_ENV}.log"
+
+  w.interval = 30.seconds # default
+  w.start_grace = 10.seconds
+  w.restart_grace = 10.seconds     # 重启缓冲时间
+  w.behavior(:clean_pid_file)
+
+  w.start_if do |start|
+    start.condition(:process_running) do |c|
+      c.interval = 5.seconds
+      c.running = false
+    end
+  end
+
+  # determine when process has finished starting
+  w.transition([:start, :restart], :up) do |on|
+    on.condition(:process_running) do |c|
+      c.running = true
+    end
+
+    # failsafe
+    on.condition(:tries) do |c|
+      c.times = 5
+      c.transition = :restart
+    end
+  end
+
+  w.keepalive
+end
