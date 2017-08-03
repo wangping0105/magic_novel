@@ -19,3 +19,7 @@ rake db:seed
 # 安装 membercache
 
 注意，图形验证码依赖于 ImageMagic， 没有请加上
+
+# add god
+- god -c config/app.god
+- add .ruby-version file in root

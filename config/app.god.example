@@ -16,7 +16,7 @@ God.watch do |w|
   w.name = "magic_novel_#{APP_STAGE}"
   w.group = "magic_novel_#{APP_STAGE}"
 
-  w.start = "RAILS_ENV=#{RAILS_ENV} ~/.rvm/bin/rvm in #{w.env['APP_ROOT']} do bundle exec puma -c #{w.env['APP_ROOT']}/config/puma.rb -E #{RAILS_ENV} -D"
+  w.start = "RAILS_ENV=#{RAILS_ENV} ~/.rvm/bin/rvm in #{w.env['APP_ROOT']} do bundle exec puma -C #{w.env['APP_ROOT']}/config/puma.rb -d"
 
   # QUIT gracefully shuts down workers
   w.stop = "kill -QUIT `cat #{w.env['PID_FILE']}`"
