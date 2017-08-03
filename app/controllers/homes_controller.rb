@@ -1,8 +1,6 @@
 class HomesController < ApplicationController
   skip_before_action :store_location, only: [:tab_books]
   def index
-    puts UserMailer.hello_world
-
     @classifications = Classification.where('books_count > 0').order(books_count: :desc).limit(5)
   end
 
