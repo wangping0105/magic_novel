@@ -28,7 +28,7 @@
       <div class="form-group row">
         <label class="col-sm-1 control-label">排序：</label>
         <div class="col-sm-11">
-          <% [[ '最新书籍', 'id'], ['书籍热门排行', 'click_count'], ['书籍收藏排行', 'collection_count'], ['书籍推荐排行', 'recommend_count']].each do |theme| %>
+          <% [['书籍热门排行', 'click_count'], [ '最新书籍', 'id'], ['书籍收藏排行', 'collection_count'], ['书籍推荐排行', 'recommend_count']].each do |theme| %>
             <%= radio_button_tag 'sort', theme[1], params[:sort] == theme[1] %> <%= theme[0] %>
           <% end %>
         </div>

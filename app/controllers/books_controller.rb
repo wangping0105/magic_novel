@@ -2,21 +2,22 @@ class BooksController < ApplicationController
   before_action :set_book, only: [:edit, :update, :show, :destroy, :collection, :uncollection]
 #  before_action :authenticate_user!
   def index
-    params[:sort] ||= "books.id"
     @books = Book.online_books.includes(:author, :classification)
     @books = filter_params(@books)
     @books = filter_page(@books)
     @books = filter_order(@books)
 
-    @all_book_count = 0
-    @classifications = Classification.all
-    class_arr = filter_params(Book.online_books).group(:classification_id).pluck("books.classification_id, count(*) total_count").to_h
-    @classifications = @classifications.map{|c|
-      book_count = class_arr[c.id].to_i
+    @classifications = Rails.cache.fetch("classification_counts", expires_in: 1.seconds) do
+      @classifications = Classification.all
+      class_arr = Book.online_books.group(:classification_id).pluck("books.classification_id, count(*) total_count").to_h
+      @classifications.map{|c|
+        book_count = class_arr[c.id].to_i
+        [c.name, c.id, book_count]
+      }
+    end
 
-      @all_book_count += book_count
-      [c.name, c.id, book_count]
-    }
+    @all_book_count = @classifications.map(&:last).sum
+
     respond_to do |format|
       format.html
     end
@@ -191,7 +192,10 @@ class BooksController < ApplicationController
   end
 
   def filter_order(relation)
+    params[:sort] ||= "click_count"
+
     relation = relation.order("#{params[:sort]} desc") if params[:sort].present?
+    relation = relation.order("click_count desc")
     relation
   end
 
