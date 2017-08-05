@@ -11,12 +11,13 @@ threads threads_count, threads_count
 #
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch("RAILS_ENV") { "development" }
+_environment = ENV.fetch("RAILS_ENV") { "development" }
+environment _environment
 
 #!/usr/bin/env puma
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 
-if ENV.fetch("RAILS_ENV").present? && ENV.fetch("RAILS_ENV")=="production"
+if _environment == "production"
   directory '/home/dev/rails_projects/magic_novel_production/current'
   rackup "/home/dev/rails_projects/magic_novel_production/current/config.ru"
 
@@ -27,13 +28,12 @@ if ENV.fetch("RAILS_ENV").present? && ENV.fetch("RAILS_ENV")=="production"
   bind 'unix:///home/dev/rails_projects/magic_novel_production/shared/tmp/sockets/puma.sock'
 
   prune_bundler
+  on_restart do
+    puts 'Refreshing Gemfile'
+    ENV["BUNDLE_GEMFILE"] = "/home/dev/rails_projects/magic_novel_production/current/Gemfile"
+  end
 end
 
-
-on_restart do
-  puts 'Refreshing Gemfile'
-  ENV["BUNDLE_GEMFILE"] = "/home/dev/rails_projects/magic_novel_production/current/Gemfile"
-end
 
 
 # Specifies the number of `workers` to boot in clustered mode.
