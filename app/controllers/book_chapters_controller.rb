@@ -16,8 +16,8 @@ class BookChaptersController < ApplicationController
   def show
     @page_title = set_title "#{@book_chapter.title}-#{@book.title}"
     @colors = content_back_colors
-    params[:color] = cookies[:color] || "FFFFFF"
-    params[:font_size] = cookies[:font_size] || 14
+    params[:color] = current_user.settings(:chapter_font).color
+    params[:font_size] = current_user.settings(:chapter_font).font_size
     params[:book_reading] = cookies[:book_reading] || ''
 
     # 使用悲观锁

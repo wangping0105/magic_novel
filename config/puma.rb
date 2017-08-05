@@ -15,18 +15,20 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 
 #!/usr/bin/env puma
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
-environment 'production'
 
-directory '/home/dev/rails_projects/magic_novel_production/current'
-rackup "/home/dev/rails_projects/magic_novel_production/current/config.ru"
+if ENV.fetch("RAILS_ENV").present? && ENV.fetch("RAILS_ENV")=="production"
+  directory '/home/dev/rails_projects/magic_novel_production/current'
+  rackup "/home/dev/rails_projects/magic_novel_production/current/config.ru"
 
-pidfile "/home/dev/rails_projects/magic_novel_production/shared/tmp/pids/puma.pid"
-state_path "/home/dev/rails_projects/magic_novel_production/shared/tmp/pids/puma.state"
-stdout_redirect '/home/dev/rails_projects/magic_novel_production/shared/log/puma_access.log', '/home/dev/rails_projects/magic_novel_production/shared/log/puma_error.log', true
+  pidfile "/home/dev/rails_projects/magic_novel_production/shared/tmp/pids/puma.pid"
+  state_path "/home/dev/rails_projects/magic_novel_production/shared/tmp/pids/puma.state"
+  stdout_redirect '/home/dev/rails_projects/magic_novel_production/shared/log/puma_access.log', '/home/dev/rails_projects/magic_novel_production/shared/log/puma_error.log', true
 
-bind 'unix:///home/dev/rails_projects/magic_novel_production/shared/tmp/sockets/puma.sock'
+  bind 'unix:///home/dev/rails_projects/magic_novel_production/shared/tmp/sockets/puma.sock'
 
-prune_bundler
+  prune_bundler
+end
+
 
 on_restart do
   puts 'Refreshing Gemfile'

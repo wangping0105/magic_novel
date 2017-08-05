@@ -14,6 +14,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+
 #//分页
 gem 'kaminari'
 # Use jquery as the JavaScript library
@@ -77,14 +78,21 @@ gem 'dalli', '~> 2.7.4', :platforms => :ruby
 gem 'friendly_id'
 
 gem "bullet", :group => "development"
+
 gem 'react-rails'
+
 gem 'mini_magick'
+
 gem 'rest-client'
 
 gem 'faye', '~> 1.2'
 
 gem 'settingslogic'
+
 gem "redis-rails"
+
+gem 'ledermann-rails-settings'
+
 group :development do
   gem 'rspec-rails'
   gem 'pry-remote'

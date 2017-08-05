@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, conditions: -> { paranoia_scope }, allow_nil: true, allow_blank: true
   validates_presence_of :name
 
+  has_settings do |s|
+    s.key :chapter_font, :defaults => { :color => 'FFFFFF', :font_size => '16'}
+  end
+
   TEAVHER_URL = "/assets/guest.jpg"
 
   after_save do

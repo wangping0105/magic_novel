@@ -21,8 +21,10 @@ class UsersController < ApplicationController
   end
 
   def user_settings
-    cookies[:color] = params[:color] || 'FFFFFF'
-    cookies[:font_size] = params[:font_size] || 14
+    current_user.settings(:chapter_font).update_attributes!(
+      color:  (params[:color] || 'FFFFFF'), font_size: (params[:font_size] || 16)
+    )
+
     redirect_to book_book_chapter_path(params[:book_id], params[:book_chapter_id])
   end
 
