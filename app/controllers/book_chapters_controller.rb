@@ -1,4 +1,5 @@
 class BookChaptersController < ApplicationController
+  include BookChaptersHelper
   before_action :set_book
   before_action :authenticate_user!, only:[ :create, :new]
   before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show, :turn_js_show, :book_marks]
@@ -16,9 +17,7 @@ class BookChaptersController < ApplicationController
   def show
     @page_title = set_title "#{@book_chapter.title}-#{@book.title}"
     @colors = content_back_colors
-    params[:color] = current_user.settings(:chapter_font).color
-    params[:font_size] = current_user.settings(:chapter_font).font_size
-    params[:book_reading] = cookies[:book_reading] || ''
+    @font_settings = get_font_color_and_size
 
     # 使用悲观锁
     @book.with_lock do

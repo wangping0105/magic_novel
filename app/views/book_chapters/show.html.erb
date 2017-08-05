@@ -41,7 +41,7 @@
     <h4 class="tag">上一页(快捷键:↑) 下一页(快捷键:↓) 上一章(快捷键←) 下一章(快捷键→)</h4>
     <span class="turn_message color-red float-r margint--30px"></span>
     <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content"
-         style="line-height: 1.5;font-size: <%= params[:font_size].to_i == 0 ? 14: params[:font_size].to_i%>px;background: #<%= params[:color] %>;">
+         style="line-height: 1.5;font-size: <%= @font_settings[:font_size].to_i == 0 ? 14: @font_settings[:font_size].to_i%>px;background: #<%= @font_settings[:color] %>;">
         <%=raw @book_chapter.content %>
         <p>更多爽文-尽在<a href="http://magicbooks.cn">魔书网</a></p>
     </div>
@@ -56,13 +56,13 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">选择背景颜色：</label>
         <div class="col-sm-4">
-          <%= select_tag :color, options_for_select(@colors, params[:color]), class:"form-control"%>
+          <%= select_tag :color, options_for_select(@colors, @font_settings[:color]), class:"form-control"%>
         </div>
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">选择字体大小：</label>
         <div class="col-sm-4">
-          <%= select_tag :font_size, options_for_select((14..30), params[:font_size]), class:"form-control"%>
+          <%= select_tag :font_size, options_for_select((14..30), @font_settings[:font_size]), class:"form-control"%>
         </div>
       </div>
       <div class="form-group">
