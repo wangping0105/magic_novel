@@ -93,6 +93,8 @@ gem "redis-rails"
 
 gem 'ledermann-rails-settings'
 
+gem 'newrelic_rpm'
+
 group :development do
   gem 'rspec-rails'
   gem 'pry-remote'
