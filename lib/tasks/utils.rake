@@ -68,9 +68,10 @@ namespace :utils do
         nickname: ">",
         created_at: Time.now.strftime("%F %T")
       }
-      FayeClient.send_message("/talks/broadcast", {code: 1, user: data1})
-      FayeClient.send_message("/notifications/send_msg_to_qq", {notification:{content: "铜价信息:\n#{str}"}})
+      # FayeClient.send_message("/talks/broadcast", {code: 1, user: data1})
+      # FayeClient.send_message("/notifications/send_msg_to_qq", {notification:{content: "铜价信息:\n#{str}"}})
       user = User.find_by(phone: 15921076830)
+
       if user
         notification = user.notifications.create(title: title, body: "\n#{str}")
         FayeClient.send_message("/notifications/#{user.api_key.access_token}#{user.id}", { notification: { title: notification.title } })
@@ -82,28 +83,28 @@ namespace :utils do
   task :some_info_push => :environment do
     birth_dats = [
       {
-      name:'爸爸',
-      nickname:'老王同学',
-      content:'祝你生日快乐~',
-      birthday:'1971-10-21'
+        name:'爸爸',
+        nickname:'老王同学',
+        content:'祝你生日快乐~',
+        birthday:'1971-10-21'
       },
       {
-      name: '妈妈',
-      nickname:'老李同学',
-      content:'祝你生日快乐~',
-      birthday:'1973-12-07'
+        name: '妈妈',
+        nickname:'老李同学',
+        content:'祝你生日快乐~',
+        birthday:'1973-12-07'
       },
       {
-      name:'媳妇的老公',
-      nickname:'小王同学',
-      content:'祝你生日快乐~',
-      birthday:'1991-01-05'
+        name:'媳妇的老公',
+        nickname:'小王同学',
+        content:'祝你生日快乐~',
+        birthday:'1991-01-05'
       },
       {
-      name:'媳妇',
-      nickname:'小王同学',
-      content:'祝你生日快乐~',
-      birthday:'1989-09-13'
+        name:'媳妇',
+        nickname:'小王同学',
+        content:'祝你生日快乐~',
+        birthday:'1989-09-13'
       }
     ]
     birth_dats.each{|u|
@@ -111,14 +112,16 @@ namespace :utils do
 
       if birth.strftime("%m-%d") == Date.today.strftime("%m-%d")
         str = "#{u[:nickname]},#{u[:content]}\n献给#{u[:birthday]}出生的你"
-        FayeClient.send_message("/notifications/send_msg_to_qq", {notification:{content: "#{u[:name]}的生日到啦!\n#{str}"}})
+        # FayeClient.send_message("/notifications/send_msg_to_qq", {notification:{content: "#{u[:name]}的生日到啦!\n#{str}"}})
+        user = User.find_by(phone: 15921076830)
+        user.notifications.create(title: "#{u[:nickname]}的生日到啦！", body: "#{str}") if user
       end
     }
 
   end
 
+  # 关于 斐波那契数列 的一个小 demo
   task :fdemo => :environment do
-
     t = 0.000000001
 
     result = 0
