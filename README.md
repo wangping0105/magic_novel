@@ -1,5 +1,5 @@
 # magic_novel
-魔书网，体验极致小说阅读. 进入首页 [http://magicbooks.cn/](http://magicbooks.cn/)
+魔书网，体验极致小说阅读. 进入首页 [http://magicbooks.cn/](http://magicbooks.cn/), server is in HK.
 
 # c9.io 添加数据库用户
 # run the MySQL interactive shell

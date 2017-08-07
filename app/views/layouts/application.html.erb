@@ -12,11 +12,12 @@
   <meta content="2015-08-19" name="publishdate">
   <meta content="王平 jack" name="author">
   <script>
+    /*
       window.faye_push_url = "<%= faye_push_uri %>";
       window.faye_push_access_token = "<%= faye_push_token %>";
       window.temp_access_token = "<%= current_user.try(:temp_access_token) %>";
       window.faye_client_js_url = '<%= CROSS_SITES[:faye_push][:host] %>/faye/client.js';
-
+    */
   </script>
   <title><%= @page_title %></title>
   <%#= stylesheet_link_tag 'bootstrap', media: 'all', 'data-turbolinks-track' => true, type: "text/css", charset: 'utf-8' %>
@@ -41,6 +42,7 @@
       <%= yield(:js_in_footer) %>
   <% end %>
 <script type="text/javascript">
+  /*
     <%if current_user %>
     //    var client = new Faye.Client('http://localhost:9595/faye');
     withFayeClient(function(){
@@ -50,5 +52,6 @@
     <%else %>
     window.initFaye = null;
     <%end %>
+  */
 </script>
 </html>
