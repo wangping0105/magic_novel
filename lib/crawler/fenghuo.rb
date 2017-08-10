@@ -40,6 +40,25 @@ module Crawler
         puts "#{book_name}下载完毕。。。"
       end
 
+      # 关于章节出错
+      def book_chapter_linked
+        Book.find_each do |book|
+          prev = nil
+          index = 0
+          book.book_chapters.order(id: :asc).each{|bc|
+            if bc.prev_chapter_id.nil? && prev.present? && bc.id > prev.id
+              puts "done #{prev.title} -> #{bc.title}"
+              bc.update(prev_chapter_id: prev.id)
+              prev.update(next_chapter_id: bc.id)
+              index+=1
+            else
+              prev = bc
+            end
+          }
+
+          put_logs "!!!!#{book.title}, 问题数量#{index}"
+        end
+      end
       private
 
       def process_single_book(book)
