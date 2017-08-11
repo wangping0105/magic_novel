@@ -67,10 +67,13 @@ module SessionsHelper
 
   def authenticate_user!
     unless signed_in?
-      flash[:danger] = "您无访问权限，请先登录！"
-      path = root_path # cookies[:return_to]
+      flash[:danger] = "您无权限，请先登录！"
+      path = session[:temp_redirect_url] || root_path # cookies[:return_to]
       redirect_to path
     end
   end
 
+  def set_direct_url_in_request
+    session[:temp_redirect_url] = request.url
+  end
 end

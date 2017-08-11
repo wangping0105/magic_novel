@@ -63,6 +63,23 @@ class ApplicationController < ActionController::Base
     "#{title}-魔书网"
   end
 
+  def save_request_logs(last_chapter_id: nil)
+    ip = request.remote_ip
+
+    request = RequestLog.where(ip: ip).last
+    if request && request.time_diff_in
+      request.with_lock do
+        request.count += 1
+        request.last_chapter_id = last_chapter_id if last_chapter_id.present?
+
+        request.save!
+      end
+      request.count = request.count += 1
+    else
+      RequestLog.create(ip: ip, user_id: current_user.try(:id), last_chapter_id: last_chapter_id)
+    end
+  end
+
   protected
   def markdown(text)
     options = {

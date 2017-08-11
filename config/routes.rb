@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     end
   end
   resources :managements
+  resources :request_logs
   resources :notifications do
     member do
       get :read

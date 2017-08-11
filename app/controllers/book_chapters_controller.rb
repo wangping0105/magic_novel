@@ -1,7 +1,8 @@
 class BookChaptersController < ApplicationController
   include BookChaptersHelper
   before_action :set_book
-  before_action :authenticate_user!, only:[ :create, :new]
+  before_action :set_direct_url_in_request, only: [:show]
+  before_action :authenticate_user!, only:[ :create, :new, :book_marks, :big_show]
   before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show, :turn_js_show, :book_marks]
   before_action :get_volume_for_select, only: [:update]
   def index
@@ -18,6 +19,7 @@ class BookChaptersController < ApplicationController
     @page_title = set_title "#{@book_chapter.title}-#{@book.title}"
     @colors = content_back_colors
     @font_settings = get_font_color_and_size
+    save_request_logs(last_chapter_id: @book_chapter.id)
 
     # 使用悲观锁
     @book.with_lock do

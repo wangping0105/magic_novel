@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>访问日志</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <th>#</th>
+      <th>IP</th>
+      <th>30分钟内访问次数</th>
+      <th>地址</th>
+      <th>国家</th>
+      <th>用户</th>
+      <th>最后阅读章节</th>
+      <th>更新时间</th>
+    </thead>
+
+    <tbody>
+    <% @request_logs.each do |log| %>
+      <tr>
+        <td><%= log.id %></td>
+        <td><%= log.ip %></td>
+        <td><%= log.count %></td>
+        <td><%= log.address %></td>
+        <td><%= log.country %></td>
+        <td><%= log.user.try(:name) %></td>
+        <td>
+          《<%= log.book_chapter.try(:book).try(:title) %>》<%= log.book_chapter.try(:title) %>
+        </td>
+        <td><%= log.updated_at.to_s %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= paginate @request_logs %>
+</div>
+
+

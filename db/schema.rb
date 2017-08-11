@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170805023537) do
+ActiveRecord::Schema.define(version: 20170811071740) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170805023537) do
     t.datetime "updated_at"
   end
 
-  create_table "attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.integer  "attachmentable_id"
     t.string   "attachmentable_type"
@@ -166,18 +166,18 @@ ActiveRecord::Schema.define(version: 20170805023537) do
     t.float    "max",              limit: 24
     t.float    "current",          limit: 24
     t.float    "today_first",      limit: 24
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
     t.date     "today_first_date"
-    t.integer  "top",                         default: 0
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "top"
   end
 
-  create_table "btear_infos", primary_key: ["id", "currency"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "id",                    null: false
-    t.string   "currency",              null: false
+  create_table "btear_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "currency"
     t.float    "value",      limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.index ["currency"], name: "index_btear_infos_on_currency", using: :btree
   end
 
   create_table "chat_rooms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -230,6 +230,20 @@ ActiveRecord::Schema.define(version: 20170805023537) do
     t.integer  "receive_platform"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+  end
+
+  create_table "request_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "ip"
+    t.integer  "count",           default: 0
+    t.string   "country"
+    t.string   "address"
+    t.integer  "user_id"
+    t.integer  "last_chapter_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["ip"], name: "index_request_logs_on_ip", using: :btree
+    t.index ["last_chapter_id"], name: "index_request_logs_on_last_chapter_id", using: :btree
+    t.index ["user_id"], name: "index_request_logs_on_user_id", using: :btree
   end
 
   create_table "settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
