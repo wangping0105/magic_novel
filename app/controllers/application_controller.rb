@@ -89,13 +89,13 @@ class ApplicationController < ActionController::Base
   protected
   def markdown(text)
     options = {
-        :autolink => true,
-        :space_after_headers => true,
-        :fenced_code_blocks => true,
-        :no_intra_emphasis => true,
-        :hard_wrap => true,
-        :strikethrough =>true
-      }
+      :autolink => true,
+      :space_after_headers => true,
+      :fenced_code_blocks => true,
+      :no_intra_emphasis => true,
+      :hard_wrap => true,
+      :strikethrough =>true
+    }
     text = text.gsub("script>", "fuck>")
     Markdown.new(text).to_html
   end

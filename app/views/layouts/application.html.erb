@@ -37,6 +37,7 @@
 <%= render 'shared/home_nav' %>
 <%= render 'shared/flash_area' %>
 <%= yield %>
+<%= render 'layouts/back_to_top' %>
 </body>
   <% if content_for?(:js_in_footer) %>
       <%= yield(:js_in_footer) %>
