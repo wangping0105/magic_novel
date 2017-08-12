@@ -80,6 +80,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def get_lastest_chapter
+    if current_user.present?
+      @lastest_chapter = RequestLog.where(user: current_user.id).order(updated_at: :desc).first.try(:book_chapter)
+    end
+  end
+
   protected
   def markdown(text)
     options = {

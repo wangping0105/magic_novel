@@ -1,5 +1,7 @@
 class HomesController < ApplicationController
   skip_before_action :store_location, only: [:tab_books]
+  before_action :get_lastest_chapter, only: [:index]
+
   def index
     @classifications = Classification.where('books_count > 0').order(books_count: :desc).limit(5)
   end
