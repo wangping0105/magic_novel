@@ -85,9 +85,8 @@
     var wheight = $(window).height();
     var height = $(document).height();
     console.log(sBottom)
-    console.log(height)
-    console.log(wheight)
-    if(sBottom==(height- wheight)) clearTimeout(scrolldelay);
+    console.log((height- wheight))
+    if(sBottom >= (height- wheight - 0.5)) clearTimeout(scrolldelay);
   }
 
   $(".back-to-top").on("click", pageScrollTop);
