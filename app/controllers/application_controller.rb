@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
       end
       request.count = request.count += 1
     else
-      RequestLog.create(ip: ip, user_id: current_user.try(:id), last_chapter_id: last_chapter_id)
+      RequestLog.create(ip: ip, user_id: current_user.try(:id), last_chapter_id: last_chapter_id, count: 1)
     end
   end
 
