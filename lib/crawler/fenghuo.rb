@@ -65,9 +65,9 @@ module Crawler
 
       def update_books
         @agent = Mechanize.new
-        @book_chapter_exist_count = 0
 
         Book.find_each do |book|
+          @book_chapter_exist_count = 0
           book_chapter = book.book_chapters.last
           if book_chapter.download_url
             puts "begin fetch #{book.title}"
