@@ -31,6 +31,8 @@ class SessionsController < ApplicationController
       if @user.save
         sign_in(@user)
         flash[:success] = '成功注册'
+        @user.notifications.create(title: "欢迎你#{@user.name}", body: "欢迎来到魔书网，祝你阅读愉快！如有什么问题，欢迎去吐槽区吐槽再吐槽。") if user
+
         redirect_to root_path
       else
         flash[:error] = "注册失败,#{@user.errors.messages.map{|k,v| "#{k} #{v[0]}"}.join(",")}"
