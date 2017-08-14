@@ -11,5 +11,10 @@ namespace :mechanize do
   task :get_novels_14 => :environment do
     Crawler::Fenghuo.get_novels(sortid: 14)
   end
+
+  desc '爬虫 更新全部小说'
+  task :update_books => :environment do
+    Crawler::Fenghuo.update_books
+  end
 end
 

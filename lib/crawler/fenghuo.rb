@@ -1,6 +1,8 @@
 module Crawler
   class Fenghuo
     include UtilsHelper
+    BOOK_CHAPTER_LIMIT = 25
+
     class << self
       def get_host
         'http://book.fenghuo.in'
@@ -10,6 +12,7 @@ module Crawler
       def get_novels(sortid: 1, xu: 3, pno: 0)
         p '开始！'
         _default_page = ENV['page'].to_i + 1
+        binding.pry
         @agent = Mechanize.new
         base_url = "#{get_host}/toplist_sort.php?sortid=#{sortid}&xu=#{xu}&pno=#{pno}"
         _page_page = 5
@@ -40,7 +43,7 @@ module Crawler
         puts "#{book_name}下载完毕。。。"
       end
 
-      # 关于章节出错
+      # 关于章节出错， 链接上一章下一章
       def book_chapter_linked
         Book.find_each do |book|
           prev = nil
@@ -57,6 +60,28 @@ module Crawler
           }
 
           put_logs "!!!!#{book.title}, 问题数量#{index}"
+        end
+      end
+
+      def update_books
+        @agent = Mechanize.new
+        @book_chapter_exist_count = 0
+
+        Book.find_each do |book|
+          book_chapter = book.book_chapters.last
+          if book_chapter.download_url
+            puts "begin fetch #{book.title}"
+
+            url = if book_chapter.download_url.match(/http:\/\//)
+              book_chapter.download_url
+            else
+              "#{get_host}/#{book_chapter.download_url}"
+            end
+
+            page = @agent.get(url)
+            next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/) && l.to_s == "下一章"}.first
+            save_chapter_form_next_page(book, next_page)
+          end
         end
       end
       private
@@ -110,26 +135,18 @@ module Crawler
       end
 
       def chapter_list(book, page)
-
         next_page = page
         while next_page.present?
           url = next_page.try(:uri).to_s
           book.update(lastest_download_url: url)
 
           links = next_page.links
-          all_chapters = links.select{ |l| l.href && (l.href.match(/read_sql.asp/) || l.href.match(/read.asp/))}
+          all_chapters = links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/)}
 
           all_chapters.each do |chapter_link|
             chapter_name = chapter_link.to_s
-            if is_chapter_exists?(book, chapter_name)
-              puts("章节存在！ #{chapter_name} ")
-              @book_chapter_exist_count += 1
-
-              if @book_chapter_exist_count > 30
-                break
-              else
-                next
-              end
+            if @book_chapter_exist_count > BOOK_CHAPTER_LIMIT
+              break
             end
 
             begin
@@ -142,15 +159,15 @@ module Crawler
             title = chapter_page.search(".//*[@id='daohang']//text()").find{|c| c.present?}.to_s
             content = chapter_page.search(".//*[@id='zhengwen']/table/tr/td").children.to_html
             begin
-              save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_link.try(:href))
+              save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_page.uri.to_s)
             rescue
               put_logs(content, "error_content")
-              save_chapter_info(book, chapter_title: title, content: convert_string(content), download_url: chapter_link.try(:href))
+              save_chapter_info(book, chapter_title: title, content: convert_string(content), download_url: chapter_page.uri.to_s)
             end
 
           end
 
-          if @book_chapter_exist_count > 20
+          if @book_chapter_exist_count > BOOK_CHAPTER_LIMIT
             put_logs("章节存在数量超限 #{@book_chapter_exist_count}, 请人人工核查！", error_type = 'chapter_exist')
 
             break
@@ -163,6 +180,54 @@ module Crawler
         end
       end
 
+      # If can, replace the `chapter_list` method
+      def chapter_list_new(book, page)
+        chapter_list_page = page
+        if chapter_list_page.present?
+          url = chapter_list_page.try(:uri).to_s
+          book.update(lastest_download_url: url)
+
+          links = chapter_list_page.links
+
+          # this is first chapter
+          next_page = links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/)}.first
+          save_chapter_form_next_page(book, next_page)
+        end
+
+      end
+
+      def save_chapter_form_next_page(book, next_page)
+        chapter_page = nil
+        while next_page.present?
+          begin
+            chapter_page = next_page.click
+          rescue
+            sleep 5
+            chapter_page = next_page.click
+          end
+
+          if @book_chapter_exist_count > BOOK_CHAPTER_LIMIT
+            put_logs("章节存在数量超限 #{@book_chapter_exist_count}, 请人人工核查！", error_type = 'chapter_exist')
+
+            break
+          end
+
+          title = chapter_page.search(".//*[@id='daohang']//text()").find{|c| c.present?}.to_s
+          content = chapter_page.search(".//*[@id='zhengwen']/table/tr/td").children.to_html
+          begin
+            save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_page.uri.to_s)
+          rescue
+            put_logs(content, "error_content")
+            save_chapter_info(book, chapter_title: title, content: convert_string(content), download_url: chapter_page.uri.to_s)
+          end
+
+          next_page = chapter_page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/) && l.to_s == "下一章"}.first
+        end
+
+        if chapter_page.present?
+          book.update(lastest_chapter_id: chapter_page.uri.to_s)
+        end
+      end
 
       def is_chapter_exists?(book, chapter_title)
         book.book_chapters.where(title: chapter_title).exists?

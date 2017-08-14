@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811071740) do
+ActiveRecord::Schema.define(version: 20170814072713) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20170811071740) do
     t.integer  "classification_id"
     t.integer  "operator_id"
     t.string   "lastest_download_url"
+    t.integer  "lastest_chapter_id"
     t.index ["author_id"], name: "index_books_on_author_id", using: :btree
     t.index ["book_type"], name: "index_books_on_book_type", using: :btree
   end
