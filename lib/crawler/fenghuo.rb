@@ -73,15 +73,35 @@ module Crawler
             puts "begin fetch #{book.title}"
 
             url = if book_chapter.download_url.match(/http:\/\//)
-              book_chapter.download_url
-            else
-              "#{get_host}/#{book_chapter.download_url}"
-            end
+                    book_chapter.download_url
+                  else
+                    "#{get_host}/#{book_chapter.download_url}"
+                  end
 
             page = @agent.get(url)
             next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/) && l.to_s == "下一章"}.first
             save_chapter_form_next_page(book, next_page)
           end
+        end
+      end
+
+      def update_book(book)
+        @agent = Mechanize.new
+
+        @book_chapter_exist_count = 0
+        book_chapter = book.book_chapters.last
+        if book_chapter.download_url
+          puts "begin fetch #{book.title}"
+
+          url = if book_chapter.download_url.match(/http:\/\//)
+                  book_chapter.download_url
+                else
+                  "#{get_host}/#{book_chapter.download_url}"
+                end
+
+          page = @agent.get(url)
+          next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/) && l.to_s == "下一章"}.first
+          save_chapter_form_next_page(book, next_page)
         end
       end
       private
@@ -246,9 +266,12 @@ module Crawler
                 prev_chapter_id: prev_chpater.try(:id)
               })
 
-            prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
-
-            puts "#{chapter_title} 章节下载完毕"
+            if book_chapter.errors.blank?
+              prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
+              puts "#{chapter_title} 章节下载完毕"
+            else
+              puts("章节下载失败！ #{book_chapter.errors.full_messages}")
+            end
           else
             @book_chapter_exist_count += 1
             puts("章节存在！ #{chapter_title}")
