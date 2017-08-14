@@ -2,6 +2,8 @@ class DownloadBooksWorker
   include Sidekiq::Worker
 
   def perform
-    Crawler::Fenghuo.update_books
+    Book.find_each do |b|
+      Crawler::Fenghuo.update_book(b)
+    end
   end
 end
