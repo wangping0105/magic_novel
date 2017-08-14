@@ -197,7 +197,7 @@ GEM
     minitest (5.10.1)
     multi_json (1.12.1)
     multi_xml (0.6.0)
-    mysql2 (0.3.21)
+    mysql2 (0.4.9)
     net-http-digest_auth (1.4.1)
     net-http-persistent (2.9.4)
     net-scp (1.2.1)
@@ -416,7 +416,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   mechanize
   mini_magick
-  mysql2 (~> 0.3.18)
+  mysql2 (~> 0.4.9)
   newrelic_rpm
   paranoia
   pry-nav
@@ -450,4 +450,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.14.6
+   1.15.3
