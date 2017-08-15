@@ -11,3 +11,9 @@ every :day, :at => '10:45am', :roles => [:whenever] do
   rake 'utils:push_price_about_cu'
   task_logger %{utils:push_price_about_cu&utils:some_info_push FINISHED}
 end
+
+every :day, :at => '1:45am', :roles => [:whenever] do
+  task_logger %{update_books BEGIN}
+  rake ' mechanize:update_books'
+  task_logger %{update_books FINISHED}
+end

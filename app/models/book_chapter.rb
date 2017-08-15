@@ -17,10 +17,10 @@ class BookChapter < ActiveRecord::Base
   # end
 
   def next_chapter
-    BookChapter.where("id = ?", self.next_chapter_id).first
+    BookChapter.find_by(id: self.next_chapter_id)
   end
 
   def prev_chapter
-    BookChapter.where("id = ?", self.prev_chapter_id).first
+    BookChapter.find_by(id: self.prev_chapter_id)
   end
 end
