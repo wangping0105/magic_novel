@@ -1,17 +1,17 @@
-upstream puma_magic_novel_production {
-  server unix:///home/dev/rails_projects/magic_novel_production/shared/tmp/sockets/puma.sock fail_timeout=0 weight=10;
+upstream puma_attendance_management_production {
+  server unix:///home/admin/rails_projects/attendance_management_production/shared/tmp/sockets/puma.sock fail_timeout=0 weight=10;
 }
 
 server {
-	
-  listen 80;# default deferred;
-  server_name magicbooks.cn;
-  
-  root /home/dev/rails_projects/magic_novel_production/current/public;
+  listen 80;
+  # ssl
+  listen 443;
+  server_name qpjw.wfl-ischool.cn;
+  root /home/admin/rails_projects/attendance_management_production/current/public;
 
   # individual nginx logs for this ikorm vhost
-  access_log  /var/log/nginx/magic_novel_production_access.log;
-  error_log   /var/log/nginx/magic_novel_production_error.log;
+  access_log  /var/log/nginx/attendance_management_production_access.log;
+  error_log   /var/log/nginx/attendance_management_production_error.log;
 
   # gzip on;
   # gzip_min_length 1k;
@@ -40,8 +40,16 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_redirect off;
-    proxy_pass http://puma_magic_novel_production;
+    proxy_pass http://puma_attendance_management_production;
   }
+
+  # https 相关的东西
+  ssl on;
+  ssl_certificate  /etc/nginx/ssl/qpjw/server.crt;
+  ssl_certificate_key  /etc/nginx/ssl/qpjw/server.key;
+
+  #让http请求重定向到https请求
+  error_page 497  https://$host$uri?$args;
 
   error_page 500 502 503 504 /500.html;
   client_max_body_size 100M;
@@ -49,5 +57,5 @@ server {
 }
 
 # include /etc/nginx/conf.d/*.conf;
-# sudo ln -nfs /home/dev/rails_projects/magic_novel_production/shared/config/nginx.conf /etc/nginx/conf.d/magic_novel_production.conf
+# sudo ln -nfs /home/admin/rails_projects/attendance_management_production/shared/config/nginx.conf /etc/nginx/conf.d/attendance_management_production.conf
 # sudo /etc/init.d/nginx reload

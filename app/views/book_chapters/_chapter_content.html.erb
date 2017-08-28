@@ -3,7 +3,7 @@
     <h2 class="book-title"><%= book_chapter.title %> <%=link_to '返回普通章节', book_book_chapter_path(@book, book_chapter.id), class: 'font-14' %></h2>
   </div>
   <div class="book-main">
-    <div class="col-sm-12 bg-white pad-5 book-content">
+    <div class="col-sm-12 bg-white pad-5 book-content" style="line-height: 1.5;font-size: 16px;">
       <%=sanitize(book_chapter.content) %>
     </div>
   </div>
