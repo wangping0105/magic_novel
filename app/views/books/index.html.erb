@@ -19,7 +19,7 @@
         <div class="col-sm-11">
           <% @classifications.insert(0, ["全部", "", @all_book_count]).each do |theme| %>
             <% if theme[2] > 0 %>
-              <%= radio_button_tag 'classification', theme[1], params[:classification].to_s == theme[1].to_s %> <%= theme[0] %>(<span class="color-darkgreen"><%= theme[2] %></span>)&nbsp;
+              <%= radio_button_tag 'classification', theme[1], params[:classification].to_s == theme[1].to_s %> <%= theme[0] %>
             <% end %>
           <% end %>
         </div>
