@@ -1,11 +1,29 @@
 class ManagementsController < ApplicationController
+  before_action :admin_authority?
+
   def index
-    admin_authority?(current_user)
     @books = Book.pending_books.includes(:author, :classification)
     @books = filter_page(@books)
   end
 
-  def show
+  def create
+    titles = params[:skip_titles].split(",")
+    book_urls = Rails.cache.read(:book_urls) || []
+    if params[:url].present? && !book_urls.include?(params[:url])
+      flash.now[:success] = '成功提交'
+      DownloadBookWorker.perform_async(params[:url], titles)
+      book_urls << params[:url]
+      Rails.cache.write(:book_urls, book_urls)
+    else
+      flash.now[:danger] = []
+      flash.now[:danger] << 'url 不能为空' if params[:url].blank?
+      flash.now[:danger] << '已经添加过该小说' if book_urls.include?(params[:url])
+    end
+
+    render 'new'
+  end
+
+  def new
 
   end
 

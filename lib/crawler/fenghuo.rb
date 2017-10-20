@@ -8,11 +8,12 @@ module Crawler
         'http://book.fenghuo.in'
       end
 
+      # 得到摸个下面所有的小说。
       # http://book.fenghuo.in/toplist_sort.php?sortid=14&xu=3&pno=0 女生
       def get_novels(sortid: 1, xu: 3, pno: 0)
         p '开始！'
         _default_page = ENV['page'].to_i + 1
-        binding.pry
+
         @agent = Mechanize.new
         base_url = "#{get_host}/toplist_sort.php?sortid=#{sortid}&xu=#{xu}&pno=#{pno}"
         _page_page = 5
@@ -21,7 +22,7 @@ module Crawler
           base_url = "#{base_url}&page=#{page_i}"
 
           page = @agent.get(base_url)
-          all_books = page.links.select{ |l| l.href && l.href.match(/readbook.php/) }
+          all_books = page.links.select{ |l| l.href && l.href.match(/readbook.php/).to_s.present? }
           (0...all_books.size).each do |i|
             process_single_book(all_books[i])
 
@@ -30,6 +31,7 @@ module Crawler
         end
       end
 
+      # 根据系统里面存在的某本小说进行 更新
       def get_novel(book_name)
         book = Book.find_by(title: book_name)
         lastest_download_url = book.lastest_download_url
@@ -79,7 +81,7 @@ module Crawler
                   end
 
             page = @agent.get(url)
-            next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/) && l.to_s == "下一章"}.first
+            next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && l.to_s == "下一章"}.first
             save_chapter_form_next_page(book, next_page)
           end
         end
@@ -100,15 +102,32 @@ module Crawler
                 end
 
           page = @agent.get(url)
-          next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/) && l.to_s == "下一章"}.first
+          next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && l.to_s == "下一章"}.first
           save_chapter_form_next_page(book, next_page)
         end
+      end
+
+      # demo: http://book.fenghuo.in/readbook.php?aid=38076&xu=2&pno=0
+      ########
+      #
+      def download_single_book(chapter_url, skip_titles: [])
+        @skip_titles = skip_titles
+        @agent = Mechanize.new
+        @book_chapter_exist_count = 0
+        process_book_by(chapter_url)
       end
       private
 
       def process_single_book(book)
         @book_chapter_exist_count = 0
         chapter_url = "#{get_host}/#{book.href}"
+        process_book_by(chapter_url)
+      end
+
+      # need have
+      # @agent = Mechanize.new
+      # @book_chapter_exist_count = 0
+      def process_book_by(chapter_url)
         introduction_url = chapter_url.gsub("readbook", "articleinfo").gsub("aid", "id")
 
         # 某一本小说
@@ -130,14 +149,14 @@ module Crawler
             author = Author.find_or_create_by(name: author_name)
 
             book = Book.create({
-                                   title: book_name,
-                                   book_type: book_type,
-                                   classification_id: classification.id,
-                                   author_id: author.id,
-                                   status: book_info[:status],
-                                   introduction: book_info[:introduction] || "暂无简介",
-                                   words: book_info[:word_count]
-                               })
+              title: book_name,
+              book_type: book_type,
+              classification_id: classification.id,
+              author_id: author.id,
+              status: book_info[:status],
+              introduction: book_info[:introduction] || "暂无简介",
+              words: book_info[:word_count]
+             })
             book_volume = book.book_volumes.new(title: '正文', book_id: book.id)
             book_volume.save
           end
@@ -161,7 +180,15 @@ module Crawler
           book.update(lastest_download_url: url)
 
           links = next_page.links
-          all_chapters = links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/)}
+          all_chapters = links.select{ |l|
+            flag = true
+
+            if @skip_titles.present?
+              flag = !l.to_s.in?(@skip_titles)
+            end
+
+            l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && flag
+          }
 
           all_chapters.each do |chapter_link|
             chapter_name = chapter_link.to_s
