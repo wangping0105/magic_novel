@@ -177,7 +177,7 @@ module Crawler
         next_page = page
         while next_page.present?
           url = next_page.try(:uri).to_s
-          book.update(lastest_download_url: url)
+          @lastest_download_url = url
 
           links = next_page.links
           all_chapters = links.select{ |l|
@@ -295,6 +295,8 @@ module Crawler
 
             if book_chapter.errors.blank?
               prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
+              book.update(lastest_download_url: @lastest_download_url) if @lastest_download_url
+
               puts "#{chapter_title} 章节下载完毕"
             else
               puts("章节下载失败！ #{book_chapter.errors.full_messages}")
