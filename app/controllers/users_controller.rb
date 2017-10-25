@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :store_location
   def index
-
+    @users = User.page(params[:page])
   end
 
   def show

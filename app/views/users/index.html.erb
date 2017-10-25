@@ -1,0 +1,19 @@
+<div class="container">
+<h1>用户</h1>
+
+<table class="table table-strip">
+  <th>版本号</th>
+  <th>手机</th>
+  <th>邮箱</th>
+  <th>创建日期</th>
+  <% @users.each do |u| %>
+      <tr>
+        <td><%= u.name %></td>
+        <td><%= u.phone %></td>
+        <td><%= u.email %></td>
+        <td><%= u.created_at %></td>
+      </tr>
+  <%end %>
+</table>
+<%= paginate @users %>
+</div>
