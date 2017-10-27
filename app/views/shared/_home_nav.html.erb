@@ -37,9 +37,11 @@
                 <li><a href="/user_home/authors">我是作者</a></li>
                 <li><a href="/sessions/signout">退出登录</a></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">待完善</li>
-                <li><a href="#">待完善1</a></li>
-                <li><a href="#">待完善2</a></li>
+                <li class="dropdown-header">附加功能</li>
+                <% if current_user.admin? %>
+                    <li role="presentation" class="<%='active' if controller_name=='attachments' %>" ><a href="/user_home/attachments">我的文件</a></li>
+                <%end %>
+                <li><a href="#">待完善</a></li>
               </ul>
             </li>
       </ul>
