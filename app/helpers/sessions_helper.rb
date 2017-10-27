@@ -73,6 +73,14 @@ module SessionsHelper
     end
   end
 
+  def authenticate_admin_user!
+    unless signed_in? && current_user.admin?
+      flash[:danger] = "您无权限！"
+      path = session[:temp_redirect_url] || root_path # cookies[:return_to]
+      redirect_to path
+    end
+  end
+
   def set_direct_url_in_request
     session[:temp_redirect_url] = request.url
   end

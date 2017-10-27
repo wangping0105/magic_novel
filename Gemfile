@@ -97,6 +97,8 @@ gem 'ledermann-rails-settings'
 
 gem 'newrelic_rpm'
 
+gem 'paperclip'
+
 group :development do
   gem 'rspec-rails'
   gem 'pry-remote'

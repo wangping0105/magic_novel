@@ -16,6 +16,7 @@
 /config/*.yml
 /public/files/*
 /public/books/*
+/public/system/*
 /test
 /public/novels/logs/*
 public/hourses/*

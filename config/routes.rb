@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     end
 
     resources :authors
+    resources :attachments
   end
 
   namespace :api do

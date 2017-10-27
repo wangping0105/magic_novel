@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :book_marks, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_one :api_key
-  has_one :attachment, as: :attachmentable
+  has_many :attachments, as: :attachmentable
 
   acts_as_paranoid
   validates_uniqueness_of :email, conditions: -> { paranoia_scope }, allow_nil: true, allow_blank: true

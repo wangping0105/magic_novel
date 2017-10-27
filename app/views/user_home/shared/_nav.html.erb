@@ -2,4 +2,7 @@
   <li role="presentation" class="<%='active' if controller_name=='users' %>" ><a href="/user_home/users">个人主页</a></li>
   <li role="presentation" class="<%='active' if controller_name=='books'%>" ><a href="/user_home/books">我的书架</a></li>
   <li role="presentation" class="<%='active' if controller_name=='authors' %>" ><a href="/user_home/authors">我是作者</a></li>
+  <% if current_user.admin? %>
+    <li role="presentation" class="<%='active' if controller_name=='attachments' %>" ><a href="/user_home/attachments">我的文件</a></li>
+  <%end %>
 </ul>
