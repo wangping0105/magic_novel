@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170814072713) do
+ActiveRecord::Schema.define(version: 20171027073048) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -48,6 +48,10 @@ ActiveRecord::Schema.define(version: 20170814072713) do
     t.string   "qiniu_persistent_id"
     t.datetime "updated_at",                        null: false
     t.datetime "created_at",                        null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.index ["attachmentable_id", "attachmentable_type"], name: "index_attachments_on_attachmentable_id_and_attachmentable_type", using: :btree
     t.index ["qiniu_persistent_id"], name: "index_attachments_on_qiniu_persistent_id", using: :btree
     t.index ["user_id"], name: "index_attachments_on_user_id", using: :btree

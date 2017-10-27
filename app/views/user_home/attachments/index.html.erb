@@ -4,30 +4,38 @@
   <%= form_tag(user_home_attachments_path, class: "form-horizontal", multipart: true) do %>
       <div class="col-sm-12">
         <%= file_field_tag :file, class: 'form-controller' %>
+        <div style="right: 2px; top: 0px; position: absolute;">
+          <%= submit_tag '上传', class: 'btn btn-primary' %>
+        </div>
       </div>
 
-      <div class="col-sm-12">
-        <%= submit_tag '上传', class: 'btn btn-primary' %>
-      </div>
   <% end %>
 
   <table class="table table-striped">
     <thead>
-    <th>#</th>
-    <th>文件名</th>
-    <th>小图</th>
-    <th>上传日期</th>
+    <th>预览</th>
     <th>操作</th>
     </thead>
 
     <tbody>
     <% @attachments.each do |att| %>
+        <% if att.image.present?
+             url = att.image.url(:thumb)
+             file_name = att.image_file_name
+             origin_url = att.image.url
+           else
+             file_name = att.file_file_name
+             url = default_attachment_url
+             origin_url = att.file.url
+           end
+        %>
         <tr>
-          <td><%= att.id %></td>
-          <td><%= att.file_file_name %></td>
-          <td><%=image_tag(att.file.url, width: '200px') if att.is_image? %></td>
-          <td><%= att.created_at %></td>
-          <td><%= link_to '预览', att.file.url, class: 'btn btn-primary' %></td>
+          <td style="text-align: center">
+            <%= image_tag(url, width: '200px')  %><br>
+            <%= file_name %><br>
+            <%= att.created_at  %><br>
+          </td>
+          <td><%= link_to '查看原件', origin_url, class: 'btn btn-primary' %></td>
         </tr>
     <% end %>
     </tbody>

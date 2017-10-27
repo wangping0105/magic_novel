@@ -6,20 +6,25 @@ class UserHome::AttachmentsController < ApplicationController
     @attachments = current_user.attachments.page(params[:page]).order(id: :desc)
   end
 
-  def new
-    @attachment = current_user.attachments.new
-  end
-
   def create
     @attachment = current_user.attachments.new
-    @attachment.file = params[:file]
-    if @attachment.save
+    if file_is_image?
+      @attachment.image = params[:file]
+    else
+      @attachment.file = params[:file]
+    end
+
+    if params[:file] && @attachment.save
       redirect_to user_home_attachments_path
     else
-      render 'new'
+      flash[:danger] = "文件不能为空" unless params[:file]
+      redirect_to user_home_attachments_path
     end
   end
 
   private
-  
+
+  def file_is_image?
+    params[:file] && (params[:file].try(:content_type) =~ /\Aimage\/.*\z/).present?
+  end
 end

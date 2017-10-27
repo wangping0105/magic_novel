@@ -35,4 +35,7 @@ module ApplicationHelper
     str.length > length ? "#{str[0...length]}...": str
   end
 
+  def default_attachment_url
+    "/assets/default_attachments.jpeg"
+  end
 end
