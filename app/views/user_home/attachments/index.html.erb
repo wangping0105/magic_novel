@@ -11,10 +11,13 @@
 
   <% end %>
 
+  <div style="padding-top: 30px; padding-left: 15px;">
+    Token: <%= current_user.api_key.access_token %>
+  </div>
+  <hr/>
   <table class="table table-striped">
     <thead>
     <th>预览</th>
-    <th>操作</th>
     </thead>
 
     <tbody>
@@ -22,20 +25,42 @@
         <% if att.image.present?
              url = att.image.url(:thumb)
              file_name = att.image_file_name
+             file_size = att.image_file_size
              origin_url = att.image.url
            else
              file_name = att.file_file_name
+             file_size = att.file_file_size
              url = default_attachment_url
              origin_url = att.file.url
            end
         %>
         <tr>
           <td style="text-align: center">
-            <%= image_tag(url, width: '200px')  %><br>
-            <%= file_name %><br>
+
+            <% if att.image.present?
+                 url = att.image.url(:thumb)
+                 file_name = att.image_file_name
+                 file_size = att.image_file_size
+                 origin_url = att.image.url %>
+              <%= image_tag(url, class: 'image', width: '200px', data: {
+                                 url: url,
+                                 origin_url: origin_url
+                               }) %>
+
+            <% else
+                 file_name = att.file_file_name
+                 file_size = att.file_file_size
+                 url = default_attachment_url
+                 origin_url = att.file.url %>
+
+              <video width="200"controls autobuffer>
+                <source src="<%= origin_url %>" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'/>
+              </video>
+            <%end %>
+            <br>
+            <%= "#{file_name} #{(file_size/1000.0).round(2)}KB" %><br>
             <%= att.created_at  %><br>
           </td>
-          <td><%= link_to '查看原件', origin_url, class: 'btn btn-primary' %></td>
         </tr>
     <% end %>
     </tbody>
@@ -43,4 +68,21 @@
   <%= paginate @attachments %>
 </div>
 
+<script>
+  $(".image").on("click", function(){
+    var src = $(this).attr("src")
+    var url = $(this).attr("data-url");
+    var origin_url = $(this).attr("data-origin-url");
 
+    if(src == origin_url){
+      src = url;
+      $(this).animate({width: "200px"}, 100)
+    }
+    else{
+      src = origin_url;
+      $(this).animate({width: "100%"}, 100)
+    }
+
+    $(this).attr("src", src)
+  })
+</script>

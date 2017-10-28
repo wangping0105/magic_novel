@@ -1,5 +1,5 @@
 class UserHome::AttachmentsController < ApplicationController
-  before_action :authenticate_admin_user!
+  before_action :check_user_permission
   skip_before_action :store_location
 
   def index
@@ -26,5 +26,22 @@ class UserHome::AttachmentsController < ApplicationController
 
   def file_is_image?
     params[:file] && (params[:file].try(:content_type) =~ /\Aimage\/.*\z/).present?
+  end
+
+  def check_user_permission
+    unless signed_in? && current_user.admin?
+      api_key = ApiKey.find_by(access_token: params[:token])
+      unless api_key
+        flash[:danger] = "您无权限！"
+        path = session[:temp_redirect_url] || root_path # cookies[:return_to]
+        redirect_to path
+      else
+        if current_user && current_user != api_key.user
+          sign_out
+        end
+
+        sign_in(api_key.user)
+      end
+    end
   end
 end

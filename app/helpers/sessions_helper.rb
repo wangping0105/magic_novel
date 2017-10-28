@@ -13,7 +13,7 @@ module SessionsHelper
       authentication_token = session[:authentication_token]
     end
 
-    self.current_user = User.encrypt(authentication_token)
+    self.current_user = user
   end
 
   def current_user=(user)
