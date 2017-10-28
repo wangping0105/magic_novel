@@ -4,6 +4,7 @@
   <%= form_tag(user_home_attachments_path, class: "form-horizontal", multipart: true) do %>
       <div class="col-sm-12">
         <%= file_field_tag :file, class: 'form-controller' %>
+        <%= hidden_field_tag :token, params[:token] %>
         <div style="right: 2px; top: 0px; position: absolute;">
           <%= submit_tag '上传', class: 'btn btn-primary' %>
         </div>
@@ -12,7 +13,7 @@
   <% end %>
 
   <div style="padding-top: 30px; padding-left: 15px;">
-    Token: <%= current_user.api_key.access_token %>
+    Token: <%= @user.api_key.access_token %>
   </div>
   <hr/>
   <table class="table table-striped">
@@ -22,18 +23,6 @@
 
     <tbody>
     <% @attachments.each do |att| %>
-        <% if att.image.present?
-             url = att.image.url(:thumb)
-             file_name = att.image_file_name
-             file_size = att.image_file_size
-             origin_url = att.image.url
-           else
-             file_name = att.file_file_name
-             file_size = att.file_file_size
-             url = default_attachment_url
-             origin_url = att.file.url
-           end
-        %>
         <tr>
           <td style="text-align: center">
 

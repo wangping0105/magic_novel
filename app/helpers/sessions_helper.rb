@@ -3,17 +3,18 @@ module SessionsHelper
   # = 一些安全要求高的功能可以使用Session
   # = 使用memcahed来保存session, 性能跟效率还是很高的, mencache还可以使用多台服务器, 既能共享SESSION, 又能集群减低压力.
   def sign_in(user)
-    unless session[:authentication_token].present?
-      authentication_token = User.new_authentication_token
-      session[:authentication_token] = authentication_token
-      session[:expires_at] = 30.days
+    unless cookies[:authentication_token].present?
+      authentication_token = fetch_authentication_token_by(user)
+      cookies[:authentication_token] = { value: authentication_token, expires: 30.days.from_now }
       # 单浏览器登录校验
-      user.update_attribute(:authentication_token,User.encrypt(authentication_token))
+      user.update_attribute(:authentication_token, User.encrypt(authentication_token))
     else
-      authentication_token = session[:authentication_token]
+      authentication_token = cookies[:authentication_token]
     end
 
     self.current_user = user
+
+    User.encrypt(authentication_token)
   end
 
   def current_user=(user)
@@ -21,10 +22,10 @@ module SessionsHelper
   end
 
   def current_user
-    return unless session[:authentication_token]
-    authentication_token = User.encrypt(session[:authentication_token])
+    return unless cookies[:authentication_token]
+    authentication_token = User.encrypt(cookies[:authentication_token])
     @current_user ||= User.find_by(authentication_token: authentication_token)
-    session.delete(:authentication_token) if @current_user.nil?
+    cookies.delete(:authentication_token) if @current_user.nil?
     @current_user
   end
 
@@ -52,9 +53,9 @@ module SessionsHelper
 
   def sign_out
     if current_user
-      current_user.update_attribute(:authentication_token, User.encrypt(User.new_authentication_token))
+      current_user.update_attribute(:authentication_token, User.encrypt(fetch_authentication_token_by(current_user)))
       self.current_user = nil
-      session.delete(:authentication_token)
+      cookies.delete(:authentication_token)
     end
   end
 
@@ -83,5 +84,9 @@ module SessionsHelper
 
   def set_direct_url_in_request
     session[:temp_redirect_url] = request.url
+  end
+
+  def fetch_authentication_token_by(user)
+    User.new_authentication_token
   end
 end
