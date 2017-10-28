@@ -9,7 +9,7 @@ class UserHome::AttachmentsController < ApplicationController
 
   def create
     @user ||= current_user
-    @attachment = @user.attachments.new
+    @attachment = @user.attachments.new(note: params[:note])
     if file_is_image?
       @attachment.image = params[:file]
     else

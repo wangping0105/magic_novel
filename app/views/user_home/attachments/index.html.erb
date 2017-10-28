@@ -3,13 +3,11 @@
 
   <%= form_tag(user_home_attachments_path, class: "form-horizontal", multipart: true) do %>
       <div class="col-sm-12">
-        <%= file_field_tag :file, class: 'form-controller' %>
+        <%= file_field_tag :file, class: 'form-control' %>
+        <%= text_area_tag :note, nil, class: 'form-control' %>
         <%= hidden_field_tag :token, params[:token] %>
-        <div style="right: 2px; top: 0px; position: absolute;">
-          <%= submit_tag '上传', class: 'btn btn-primary' %>
-        </div>
+        <%= submit_tag '上传', class: 'btn btn-primary' %>
       </div>
-
   <% end %>
 
   <div style="padding-top: 30px; padding-left: 15px;">
@@ -48,7 +46,9 @@
             <%end %>
             <br>
             <%= "#{file_name} #{(file_size/1000.0).round(2)}KB" %><br>
-            <%= att.created_at  %><br>
+            <%= att.created_at  %>
+            <%= button_tag '备注', data: { toggle: 'popover', placement: "top", content: "#{att.note}", container: "body", trigger: "hover"} if att.note.present?%>
+            <br>
           </td>
         </tr>
     <% end %>
@@ -58,6 +58,7 @@
 </div>
 
 <script>
+  $("[data-toggle='popover']").popover();
   $(".image").on("click", function(){
     var src = $(this).attr("src")
     var url = $(this).attr("data-url");
