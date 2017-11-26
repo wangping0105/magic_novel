@@ -31,12 +31,13 @@ class Api::V1::BooksController < Api::V1::BaseController
     @classifications = Classification.all.map{|c| [c.name, c.id]}
   end
 
+  #Only this api
   def show
     @book_chapters = @book.book_chapters.includes(:book_volume).order(book_volume_id: :asc).order(id: :asc).page(params[:page]).per(PER_CHAPTER)
     # @book_volumns = @book.book_volumes.includes(:book_chapters)
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
 
-    render_json_data({books: @book.as_json, book_chapters: @book_chapters.map{|bc| bc.slice(:id, :title)}})
+    render_json_data({book: @book.as_json, book_chapters: @book_chapters.map{|bc| bc.slice(:id, :title)}})
   end
 
   def create

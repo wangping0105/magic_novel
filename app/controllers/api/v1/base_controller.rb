@@ -2,6 +2,7 @@ class Api::V1::BaseController < ActionController::Base
   include Api::Rescueable
   include Api::Authenticateable
   include Api::DeviceDetectable
+  include Commonable
 
   helper_method :current_user
   helper_method :version_code

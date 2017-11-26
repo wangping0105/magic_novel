@@ -39,11 +39,11 @@ namespace :api, defaults: { format: :json } do
 					get :get_chapter
 				end
 				member do
-					get :big_show, :turn_js_show, :book_marks
+					get :big_show, :book_marks
 				end
 			end
 			resources :book_volumes, path: :volumes do
 			end
-		end
+    end
 	end
 end
