@@ -23,4 +23,8 @@ class BookChapter < ActiveRecord::Base
   def prev_chapter
     BookChapter.find_by(id: self.prev_chapter_id)
   end
+
+  def as_json
+    slice(:id, :title, :content)
+  end
 end

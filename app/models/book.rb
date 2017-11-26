@@ -45,4 +45,8 @@ class Book < ActiveRecord::Base
   rescue
     ""
   end
+
+  def as_json
+    slice(:id, :title, :introduction)
+  end
 end

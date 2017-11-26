@@ -24,5 +24,26 @@ namespace :api, defaults: { format: :json } do
 
 		resources :home do
     end
+
+		resources :books do
+			member do
+				get :collection, :uncollection
+				put :commit_pending, :approve_pass, :approve_failure
+			end
+			collection do
+				get :csv_export
+			end
+
+			resources :book_chapters, path: :chapters do
+				collection do
+					get :get_chapter
+				end
+				member do
+					get :big_show, :turn_js_show, :book_marks
+				end
+			end
+			resources :book_volumes, path: :volumes do
+			end
+		end
 	end
 end
