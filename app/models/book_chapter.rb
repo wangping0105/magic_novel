@@ -25,6 +25,17 @@ class BookChapter < ActiveRecord::Base
   end
 
   def as_json
-    slice(:id, :title, :content)
+    slice(:id, :title).merge({
+        content: html_for_mobile(content)
+    })
+  end
+
+  def html_for_mobile(content)
+    "
+    <html>
+    <meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no'>
+    <body style='font-size: 18px;'>#{content}</body>
+    </html>
+    "
   end
 end

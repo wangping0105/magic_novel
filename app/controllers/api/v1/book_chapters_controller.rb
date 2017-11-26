@@ -25,7 +25,7 @@ class Api::V1::BookChaptersController <  Api::V1::BaseController
 
     render_json_data({
       book: @book.as_json,
-      book_chapter: @book_chapter.slice(:id, :title, :content)
+      book_chapter: @book_chapter.as_json
     })
   end
 
