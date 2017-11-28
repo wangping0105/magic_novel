@@ -29,3 +29,15 @@ Book.create(
 
 ChatRoom.create(name: '吐槽区', no: "#{Time.now.to_i}0001")
 p '初始化成功'
+
+
+(1..20).each do |index|
+  Book.create(
+    :title=>"测试书籍#{index}",
+    :classification_id => Classification.find(index).id,
+    :book_type => 0,
+    :introduction=>' 简介：宁舒死翘翘了，又好运成了替苦逼炮灰逆袭的任务者。于是，宁舒在一个世界又一个世界中，扮演各种人生，遇到各种‘你无情，你冷酷，你无理取闹’的人。宁舒怒吼，你们这些渣渣，我只是来逆袭的，请不要妨碍我完成任务。穿越主角，重生主角，只有不努力的任务者，没有撬不掉的主角光环。宁舒不得不苦逼地',
+    :remarks=> '测试备注',
+    author_id: Author.first.id
+  )
+end

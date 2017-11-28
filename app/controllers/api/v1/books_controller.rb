@@ -37,7 +37,13 @@ class Api::V1::BooksController < Api::V1::BaseController
     # @book_volumns = @book.book_volumes.includes(:book_chapters)
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
 
-    render_json_data({book: @book.as_json, book_chapters: @book_chapters.map{|bc| bc.slice(:id, :title)}})
+    render_json_data({
+      book: @book.as_json,
+      book_chapters: @book_chapters.map{|bc| bc.slice(:id, :title)},
+      page: params[:page] || 1,
+      per_page: params[:per_page] || 10,
+      total_count: @book_chapters.total_count,
+    })
   end
 
   def create
