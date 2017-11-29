@@ -26,7 +26,7 @@ class Api::V1::BookChaptersController <  Api::V1::BaseController
       @book_chapter.next_chapter.slice(:id, :title)
     end
 
-    prev_chapter = if @book_chapter.next_chapter
+    prev_chapter = if @book_chapter.prev_chapter
       @book_chapter.prev_chapter.slice(:id, :title)
     end
 
