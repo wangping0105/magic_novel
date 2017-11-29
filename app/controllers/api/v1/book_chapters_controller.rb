@@ -22,10 +22,19 @@ class Api::V1::BookChaptersController <  Api::V1::BaseController
       @book.click_count += 1
       @book.save!
     end
+    next_chapter = if @book_chapter.next_chapter
+      @book_chapter.next_chapter.slice(:id, :title)
+    end
+
+    prev_chapter = if @book_chapter.next_chapter
+      @book_chapter.prev_chapter.slice(:id, :title)
+    end
 
     render_json_data({
       book: @book.as_json,
-      book_chapter: @book_chapter.as_json
+      book_chapter: @book_chapter.as_json,
+      next_chapter: next_chapter || {},
+      prev_chapter: prev_chapter || {}
     })
   end
 
