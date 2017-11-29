@@ -6,7 +6,7 @@ class Api::V1::HomeController < Api::V1::BaseController
       params[:book_type] = nil
     end
 
-    @books = Book.online_books.includes(:classification).book_type(params[:book_type]).
+    @books = Book.online_books.includes(:classification, :author).book_type(params[:book_type]).
         order(collection_count: :desc).
         # order("(click_count/book_chapters_count) desc").
         page(params[:page]).per(params[:per_page])
@@ -16,7 +16,10 @@ class Api::V1::HomeController < Api::V1::BaseController
           id: book.id,
           title: book.title,
           introduction: book.introduction,
-          classification_name: book.classification.try(:name).to_s
+          click_count:  book.click_count,
+          collection_count:  book.collection_count,
+          classification_name: book.classification.try(:name).to_s,
+          author: book.author.slice(:id, :name)
       }
     end
 
