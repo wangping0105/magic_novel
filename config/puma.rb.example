@@ -1,0 +1,24 @@
+#!/usr/bin/env puma
+# just for mycompute
+
+directory '/home/dev/rails_projects/magic_novel_production/current'
+rackup "/home/dev/rails_projects/magic_novel_production/current/config.ru"
+environment 'production'
+
+pidfile "/home/dev/rails_projects/magic_novel_production/shared/tmp/pids/puma.pid"
+state_path "/home/dev/rails_projects/magic_novel_production/shared/tmp/pids/puma.state"
+stdout_redirect '/home/dev/rails_projects/magic_novel_production/shared/log/puma_access.log', '/home/dev/rails_projects/magic_novel_production/shared/log/puma_error.log', true
+
+
+threads 0,16
+
+bind 'unix:///home/dev/rails_projects/magic_novel_production/shared/tmp/sockets/puma.sock'
+
+workers 2
+
+prune_bundler
+
+on_restart do
+  puts 'Refreshing Gemfile'
+  ENV["BUNDLE_GEMFILE"] = "/home/dev/rails_projects/magic_novel_production/current/Gemfile"
+end
