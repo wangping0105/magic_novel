@@ -41,7 +41,7 @@ class Api::V1::BooksController < Api::V1::BaseController
       book: @book.as_json,
       book_chapters: @book_chapters.map{|bc| bc.slice(:id, :title)},
       page: params[:page] || 1,
-      per_page: params[:per_page] || 10,
+      per_page: params[:per_page] || PER_CHAPTER,
       total_count: @book_chapters.total_count,
     })
   end
