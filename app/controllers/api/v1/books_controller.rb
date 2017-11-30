@@ -1,7 +1,7 @@
 class Api::V1::BooksController < Api::V1::BaseController
   skip_before_action :authenticate!, only: [:index, :show]
   before_action :set_book, only: [:edit, :update, :show, :destroy, :collection, :uncollection]
-  PER_CHAPTER = 128
+  PER_CHAPTER = 30
 
 #  before_action :authenticate_user!
   def index
