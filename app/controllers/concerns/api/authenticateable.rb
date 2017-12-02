@@ -42,7 +42,7 @@ module Api::Authenticateable
       key = "orgin_token_#{auth_params[:user_token]}"
       change_reason = Rails.cache.read(key) || "您的登录已经过期，请重新登录！"
 
-      logger.error "invalid user_token, auth_params #{auth_params}"
+      logger.error "invalid user_token, auth_params #{auth_params.as_json}"
       raise UserAuthenticationError.new(change_reason)
     end
 
