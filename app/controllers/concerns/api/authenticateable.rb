@@ -66,10 +66,14 @@ module Api::Authenticateable
   end
 
   def auth_params
-    params[:user_token] ||= request.headers["HTTP_USER_TOKEN"]
-    params[:version_code] ||= request.headers["HTTP_VERSION_CODE"]
+    return @auth_params if @auth_params
+    _headers = request.headers.env
+    params[:user_token] ||= _headers["HTTP_USER_TOKEN"]
+    params[:version_code] ||= _headers["HTTP_VERSION_CODE"]
 
-    params
+    @auth_params = params
+
+    @auth_params
   end
 
   # 确保version_code都按 major.minor.patch 格式传递过来，并且不同客户端同一版本api确保值一致
