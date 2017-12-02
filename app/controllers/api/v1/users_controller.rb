@@ -20,6 +20,23 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def my_books
+    @page_title = "我的书架"
+    @collection_books = current_user.collection_books.includes(book:[:classification, book_marks: :book_chapter]).
+        joins("left join book_marks bm on book_relations.book_id = bm.book_id").order('book_marks.updated_at desc').distinct
+
+    render_json_data(@collection_books.map{|cb|
+      book = cb.book
+      book_chapter = book.chapter_of_book_mark_by(current_user)
+
+      {
+          book: book.as_json,
+          book_chapter: book_chapter.slice(:id, :title),
+          newest_chapter: book.newest_chapter_simple
+      }
+    })
+  end
+
   private
   def set_user
     @user = User.find(params[:id])

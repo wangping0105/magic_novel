@@ -110,6 +110,11 @@ class BooksController < ApplicationController
       book_relation = BookRelation.new(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
       if book_relation.save
         book_count_change("collection", "+")
+
+        unless current_user.book_marks.where(book: @book).exists?
+          book_chapter = @book.book_chapters.last
+          BookMark.create(book_chapter: book_chapter, user: current_user, book: @book)
+        end
       else
         error_messages = book_relation.errors.messages.map do |k, msg|
           t("errors.models.book_relation.#{k}", count: msg.join(","))

@@ -9,7 +9,11 @@ namespace :api, defaults: { format: :json } do
 		end
 
 		resources :notifications
-		resources :users
+		resources :users do
+      collection do
+        get :my_books
+      end
+    end
 		resources :versions do
 			collection do
 				get :lastest_version

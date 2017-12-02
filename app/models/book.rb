@@ -31,7 +31,13 @@ class Book < ActiveRecord::Base
 
   def chapter_of_book_mark_by(user)
     book_mark = book_marks.select{|m| m.user_id = user.id}.first
-    book_mark.present? ? book_mark.book_chapter: nil
+
+    unless book_mark.present?
+      book_chapter = book_chapters.last
+      book_mark = BookMark.create(book_chapter: book_chapter, user: user, book: self)
+    end
+
+    book_mark.book_chapter
   end
 
   def status_names
@@ -44,6 +50,17 @@ class Book < ActiveRecord::Base
     Book.book_types_options.find{|a| a.second == book_type}.first
   rescue
     ""
+  end
+
+  def newest_chapter
+    book_chapters.last
+  end
+
+  def newest_chapter_simple
+    key = "newest_chapter_for_book_#{id}"
+    Rails.cache.fetch(key, expires_in: 1.days) do
+      book_chapters.last.slice(:id, :title)
+    end
   end
 
   def as_json
