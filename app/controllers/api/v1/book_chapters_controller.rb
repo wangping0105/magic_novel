@@ -12,7 +12,7 @@ class Api::V1::BookChaptersController <  Api::V1::BaseController
     get_volume_for_select
   end
 
-  # 只改造了这个
+  #TODO 已经API改造
   def show
     @font_settings = get_font_color_and_size
     save_request_logs(last_chapter_id: @book_chapter.id)
@@ -130,6 +130,7 @@ class Api::V1::BookChaptersController <  Api::V1::BaseController
     render json:{ id: @chapter.try(:id), name: @chapter.try(:title).to_s }
   end
 
+  #TODO 已经API改造
   def book_marks
     collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation::COLLECTION)
     unless collection
@@ -139,8 +140,8 @@ class Api::V1::BookChaptersController <  Api::V1::BaseController
 
     book_mark = @book.book_marks.find_or_create_by(user: current_user)
     book_mark.update(book_chapter: @book_chapter)
-    flash[:success] = '添加书签成功'
-    redirect_to book_book_chapter_path(@book, @book_chapter)
+
+    render_json_data({})
   end
 
   # ===============================================================================================================
