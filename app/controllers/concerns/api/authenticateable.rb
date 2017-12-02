@@ -66,13 +66,9 @@ module Api::Authenticateable
   end
 
   def auth_params
-    @auth_params ||= begin
-      token, options = token_and_options(request)
-      return params unless options
-      options[:user_token] = token
-      options
-    end
-  rescue
+    params[:user_token] ||= request.headers["HTTP_USER_TOKEN"]
+    params[:version_code] ||= request.headers["HTTP_VERSION_CODE"]
+
     params
   end
 
