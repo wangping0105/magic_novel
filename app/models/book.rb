@@ -53,7 +53,13 @@ class Book < ActiveRecord::Base
   end
 
   def newest_chapter
-    book_chapters.last
+    return @newest_chapter if @newest_chapter.present?
+
+    @newest_chapter = if lastest_chapter_id
+      BookChapter.find_by(id: lastest_chapter_id) || book_chapters.last
+    else
+      book_chapters.last
+    end
   end
 
   def newest_chapter_simple

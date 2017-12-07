@@ -1,0 +1,53 @@
+<div class="container">
+  <h1>小说设定</h1>
+  <div>
+    <%= form_for(@book, url: save_settings_book_path(@book), method: :put, html:{ class: "form-horizontal"}) do |f| %>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">名称</label>
+          <div class="col-sm-10">
+              <%= @book.title %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">简介</label>
+          <div class="col-sm-10">
+            <%= @book.introduction %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">备注</label>
+          <div class="col-sm-10">
+            <%= @book.remarks %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">完结</label>
+          <div class="col-sm-10">
+            <%= f.select :status, options_for_select(Book.status_options, @book.status) %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">最后一章节</label>
+
+          <div class="col-sm-10">
+            <%= link_to @book.newest_chapter.try(:title), book_book_chapter_path(@book, @book.newest_chapter), class: 'form-control'%>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">最后一章节的url：</label>
+
+          <div class="col-sm-10">
+            <%= text_field :download_url, @book.newest_chapter.download_url, class: 'form-control'%>
+          </div>
+        </div>
+
+        <%= link_to '更新书籍', update_single_book_book_path(@book), method: :put %>
+        <%= f.submit '提交', class: "btn btn-primary float-r" %>
+    <% end %>
+  </div>
+</div>

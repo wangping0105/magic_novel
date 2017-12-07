@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:edit, :update, :show, :destroy, :collection, :uncollection]
+  before_action :set_book, only: [
+    :edit, :update, :show, :destroy, :collection, :uncollection, :settings, :save_settings, :update_single_book
+  ]
 #  before_action :authenticate_user!
   def index
     @books = Book.online_books.includes(:author, :classification)
@@ -173,6 +175,25 @@ class BooksController < ApplicationController
     else
       render json: {code: -1, messsage: '审核失败！'}
     end
+  end
+
+  def settings
+
+  end
+
+  def save_settings
+    @book.update(status: params[:book][:status])
+    @book.newest_chapter.update(download_url: params[:download_url])
+    flash[:success] = "更新成功"
+
+    redirect_to settings_book_path(@book.id)
+  end
+
+  def update_single_book
+    UpdateBookWorker.perform_async(@book.id)
+    flash[:success] = "更新中。。。"
+
+    redirect_to settings_book_path(@book.id)
   end
   # ======================================================================================
   private

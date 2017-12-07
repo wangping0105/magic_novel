@@ -67,6 +67,7 @@ class BookChaptersController < ApplicationController
       update_prev_chapter_next_chapter prev_book_chapter
       update_next_chapter next_chapter
       book_words_count_update
+      @book.update(lastest_chapter_id: @book_chapter.id)
 
       flash[:success] = '创建成功'
       redirect_to book_path(@book)

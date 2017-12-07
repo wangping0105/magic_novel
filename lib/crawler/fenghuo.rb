@@ -67,43 +67,35 @@ module Crawler
 
       def update_books
         @agent = Mechanize.new
-
-        Book.find_each do |book|
-          @book_chapter_exist_count = 0
-          book_chapter = book.book_chapters.last
-          if book_chapter.download_url
-            puts "begin fetch #{book.title}"
-
-            url = if book_chapter.download_url.match(/http:\/\//)
-                    book_chapter.download_url
-                  else
-                    "#{get_host}/#{book_chapter.download_url}"
-                  end
-
-            page = @agent.get(url)
-            next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && l.to_s == "下一章"}.first
-            save_chapter_form_next_page(book, next_page)
-          end
+        Book.serial_books.find_each do |book|
+          deal_update_book(book)
         end
       end
 
       def update_book(book)
         @agent = Mechanize.new
+        deal_update_book(book)
+      end
 
+      # 必须要有的实例变量 @agent
+      def deal_update_book(book)
         @book_chapter_exist_count = 0
-        book_chapter = book.book_chapters.last
+
+        book_chapter = book.newest_chapter
         if book_chapter.download_url
           puts "begin fetch #{book.title}"
 
           url = if book_chapter.download_url.match(/http:\/\//)
-                  book_chapter.download_url
-                else
-                  "#{get_host}/#{book_chapter.download_url}"
-                end
+            book_chapter.download_url
+          else
+            "#{get_host}/#{book_chapter.download_url}"
+          end
 
           page = @agent.get(url)
           next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && l.to_s == "下一章"}.first
           save_chapter_form_next_page(book, next_page)
+        else
+          put_logs "章节 #{book_chapter.title}[##{book_chapter.id}] download_url 不存在！"
         end
       end
 
@@ -295,7 +287,9 @@ module Crawler
 
             if book_chapter.errors.blank?
               prev_chpater.update(next_chapter_id: book_chapter.id ) if prev_chpater
-              book.update(lastest_download_url: @lastest_download_url) if @lastest_download_url
+              book.lastest_download_url= @lastest_download_url if @lastest_download_url.present?
+              book.lastest_chapter_id = book_chapter.id
+              book.save
 
               puts "#{chapter_title} 章节下载完毕"
             else

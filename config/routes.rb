@@ -36,8 +36,8 @@ Rails.application.routes.draw do
   end
   resources :books do
     member do
-      get :collection, :uncollection
-      put :commit_pending, :approve_pass, :approve_failure
+      get :collection, :uncollection, :settings
+      put :commit_pending, :approve_pass, :approve_failure, :save_settings, :update_single_book
     end
     collection do
       get :csv_export

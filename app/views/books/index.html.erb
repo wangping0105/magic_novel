@@ -61,6 +61,7 @@
           <%=link_to "#{index}.[#{ book.classification.try(:name) || "其他"}] #{book.title}", book_path(book) %>
           <% if have_admin_authority?%>
             <%= link_to '删除', book_path(book), method: :delete, data:{confirm: '确认删除？'}, class: 'float-r color-red' %>
+            <%= link_to '设置', settings_book_path(book), class: 'float-r color-red', style: 'margin-right: 10px;' %>
           <%end  %>
         </div>
 
