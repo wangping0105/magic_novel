@@ -71,6 +71,9 @@
             <li>作者: <%= book.author.name %></li>
             <li>章节数: <%= book.book_chapters_count %></li>
             <li>字数: <%= book_words_style book.words %></li>
+            <% if current_user.admin? %>
+              <li>[<%=book.updated_at.to_s %>]</li>
+            <%end %>
           </ul>
         </div>
       </div>

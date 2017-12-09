@@ -38,7 +38,7 @@ module Crawler
         return "#{book_name}不存在" unless book && lastest_download_url.present?
 
         @agent = Mechanize.new
-        @book_chapter_exist_count = 0
+        @book_chapter_exist_count = {}
         page = @agent.get(lastest_download_url)
         chapter_list(book, page)
 
@@ -79,7 +79,7 @@ module Crawler
 
       # 必须要有的实例变量 @agent
       def deal_update_book(book)
-        @book_chapter_exist_count = 0
+        @book_chapter_exist_count = {}
 
         book_chapter = book.newest_chapter
         if book_chapter.download_url
@@ -105,20 +105,20 @@ module Crawler
       def download_single_book(chapter_url, skip_titles: [])
         @skip_titles = skip_titles
         @agent = Mechanize.new
-        @book_chapter_exist_count = 0
+        @book_chapter_exist_count = {}
         process_book_by(chapter_url)
       end
       private
 
       def process_single_book(book)
-        @book_chapter_exist_count = 0
+        @book_chapter_exist_count = {}
         chapter_url = "#{get_host}/#{book.href}"
         process_book_by(chapter_url)
       end
 
       # need have
       # @agent = Mechanize.new
-      # @book_chapter_exist_count = 0
+      # @book_chapter_exist_count = {}
       def process_book_by(chapter_url)
         introduction_url = chapter_url.gsub("readbook", "articleinfo").gsub("aid", "id")
 
@@ -184,7 +184,7 @@ module Crawler
 
           all_chapters.each do |chapter_link|
             chapter_name = chapter_link.to_s
-            if @book_chapter_exist_count > BOOK_CHAPTER_LIMIT
+            if @book_chapter_exist_count[book.id].to_i > BOOK_CHAPTER_LIMIT
               break
             end
 
@@ -206,8 +206,8 @@ module Crawler
 
           end
 
-          if @book_chapter_exist_count > BOOK_CHAPTER_LIMIT
-            put_logs("章节存在数量超限 #{@book_chapter_exist_count}, 请人人工核查！", error_type = 'chapter_exist')
+          if @book_chapter_exist_count[book.id].to_i > BOOK_CHAPTER_LIMIT
+            put_logs("章节存在数量超限 #{@book_chapter_exist_count[book.id].to_i}, 请人人工核查！", error_type = 'chapter_exist')
 
             break
           end
@@ -245,8 +245,8 @@ module Crawler
             chapter_page = next_page.click
           end
 
-          if @book_chapter_exist_count > BOOK_CHAPTER_LIMIT
-            put_logs("章节存在数量超限 #{@book_chapter_exist_count}, 请人人工核查！", error_type = 'chapter_exist')
+          if @book_chapter_exist_count[book.id].to_i > BOOK_CHAPTER_LIMIT
+            put_logs("章节存在数量超限 #{@book_chapter_exist_count[book.id].to_i}, 请人人工核查！", error_type = 'chapter_exist')
 
             break
           end
@@ -296,7 +296,8 @@ module Crawler
               puts("章节下载失败！ #{book_chapter.errors.full_messages}")
             end
           else
-            @book_chapter_exist_count += 1
+            @book_chapter_exist_count[book.id] ||= 0
+            @book_chapter_exist_count[book.id] += 1
             puts("章节存在！ #{chapter_title}")
           end
         end

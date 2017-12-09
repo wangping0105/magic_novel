@@ -3,6 +3,7 @@
     <h1><%= @book.title %></h1>
     <div class='row '>
       作者:<%= @book.author.name %>
+      <%= link_to '设置', settings_book_path(@book), class: 'float-r color-red', style: 'margin-right: 10px;' %>
     </div>
     <div class="row ">
       <% if have_do_authority?(@book) %>
