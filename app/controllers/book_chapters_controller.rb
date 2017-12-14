@@ -3,7 +3,7 @@ class BookChaptersController < ApplicationController
   before_action :set_book
   before_action :set_direct_url_in_request, only: [:show]
   before_action :authenticate_user!, only:[ :create, :new, :book_marks, :big_show]
-  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show, :turn_js_show, :book_marks]
+  before_action :set_book_chapter, only: [:show, :edit, :update, :destroy, :big_show, :turn_js_show, :book_marks, :delete_behind]
   before_action :get_volume_for_select, only: [:update]
   def index
     @books = Book.all
@@ -37,8 +37,11 @@ class BookChaptersController < ApplicationController
   end
 
   def big_show
+    @page_title = set_title "#{@book_chapter.title}-#{@book.title}"
+
     @prev_book_chapter = @book_chapter
     @arr = [@book_chapter]
+    @font_settings = get_font_color_and_size
     (1..19).each {
       if @book_chapter && @book_chapter.next_chapter
         @book_chapter = @book_chapter.next_chapter
@@ -127,9 +130,9 @@ class BookChaptersController < ApplicationController
     end
 
     render json:{
-               id: @chapter.try(:id),
-               name: @chapter.try(:title).to_s
-           }
+      id: @chapter.try(:id),
+      name: @chapter.try(:title).to_s
+    }
   end
 
   def book_marks
@@ -142,6 +145,14 @@ class BookChaptersController < ApplicationController
     book_mark = @book.book_marks.find_or_create_by(user: current_user)
     book_mark.update(book_chapter: @book_chapter)
     flash[:success] = '添加书签成功'
+    redirect_to book_book_chapter_path(@book, @book_chapter)
+  end
+
+  def delete_behind
+    @book.book_chapters.where("id > ?", @book_chapter.id).delete_all
+    UpdateBookWorker.perform_async(@book.id)
+
+    flash[:success] = '修改成功'
     redirect_to book_book_chapter_path(@book, @book_chapter)
   end
 

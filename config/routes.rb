@@ -48,7 +48,7 @@ Rails.application.routes.draw do
         get :get_chapter
       end
       member do
-        get :big_show, :turn_js_show, :book_marks
+        get :big_show, :turn_js_show, :book_marks, :delete_behind
       end
     end
     resources :book_volumes, path: :volumes do
