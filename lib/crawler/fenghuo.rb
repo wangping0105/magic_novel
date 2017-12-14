@@ -1,3 +1,5 @@
+
+# Crawler::Fenghuo.get_novel
 module Crawler
   class Fenghuo
     include UtilsHelper
@@ -31,18 +33,16 @@ module Crawler
         end
       end
 
-      # 根据系统里面存在的某本小说进行 更新
-      def get_novel(book_name)
-        book = Book.find_by(title: book_name)
-        lastest_download_url = book.lastest_download_url
-        return "#{book_name}不存在" unless book && lastest_download_url.present?
-
+      def update_books
         @agent = Mechanize.new
-        @book_chapter_exist_count = {}
-        page = @agent.get(lastest_download_url)
-        chapter_list(book, page)
+        Book.serial_books.find_each do |book|
+          deal_update_book(book)
+        end
+      end
 
-        puts "#{book_name}下载完毕。。。"
+      def update_book(book)
+        @agent = Mechanize.new
+        deal_update_book(book)
       end
 
       # 关于章节出错， 链接上一章下一章
@@ -65,39 +65,6 @@ module Crawler
         end
       end
 
-      def update_books
-        @agent = Mechanize.new
-        Book.serial_books.find_each do |book|
-          deal_update_book(book)
-        end
-      end
-
-      def update_book(book)
-        @agent = Mechanize.new
-        deal_update_book(book)
-      end
-
-      # 必须要有的实例变量 @agent
-      def deal_update_book(book)
-        @book_chapter_exist_count = {}
-
-        book_chapter = book.newest_chapter
-        if book_chapter.download_url
-          puts "begin fetch #{book.title}"
-
-          url = if book_chapter.download_url.match(/http:\/\//)
-            book_chapter.download_url
-          else
-            "#{get_host}/#{book_chapter.download_url}"
-          end
-
-          page = @agent.get(url)
-          next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && l.to_s == "下一章"}.first
-          save_chapter_form_next_page(book, next_page)
-        else
-          put_logs "章节 #{book_chapter.title}[##{book_chapter.id}] download_url 不存在！"
-        end
-      end
 
       # demo: http://book.fenghuo.in/readbook.php?aid=38076&xu=2&pno=0
       ########
@@ -108,7 +75,30 @@ module Crawler
         @book_chapter_exist_count = {}
         process_book_by(chapter_url)
       end
+
       private
+
+      # 必须要有的实例变量 @agent
+      def deal_update_book(book)
+        @book_chapter_exist_count = {}
+
+        book_chapter = book.newest_chapter
+        if book_chapter && book_chapter.download_url
+          puts "begin fetch #{book.title}"
+
+          url = if book_chapter.download_url.match(/http:\/\//)
+                  book_chapter.download_url
+                else
+                  "#{get_host}/#{book_chapter.download_url}"
+                end
+
+          page = @agent.get(url)
+          next_page = page.links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && l.to_s == "下一章"}.first
+          save_chapter_form_next_page(book, next_page)
+        else
+          put_logs "章节 #{book_chapter.title}[##{book_chapter.id}] download_url 不存在！"
+        end
+      end
 
       def process_single_book(book)
         @book_chapter_exist_count = {}
@@ -152,71 +142,34 @@ module Crawler
             book_volume = book.book_volumes.new(title: '正文', book_id: book.id)
             book_volume.save
           end
-        end
 
-        lastest_download_url = book.lastest_download_url
-        if lastest_download_url.present?
-          page =  @agent.get(lastest_download_url)
-        end
-
-        chapter_list(book, page)
-
-        put_logs("#{book_name}下载完毕。。。", error_type = 'info')
-        puts "#{book_name}下载完毕。。。"
-      end
-
-      def chapter_list(book, page)
-        next_page = page
-        while next_page.present?
-          url = next_page.try(:uri).to_s
-          @lastest_download_url = url
-
-          links = next_page.links
-          all_chapters = links.select{ |l|
+          # 本页所有的章节
+          all_chapters = page.links.select{ |l|
             flag = true
 
             if @skip_titles.present?
               flag = !l.to_s.in?(@skip_titles)
             end
 
-            l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && flag
+            l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && flag && check_page_exist?(l)
           }
 
-          all_chapters.each do |chapter_link|
-            chapter_name = chapter_link.to_s
-            if @book_chapter_exist_count[book.id].to_i > BOOK_CHAPTER_LIMIT
-              break
-            end
+          chapter_page = all_chapters.first.click
+          chapter_list_new(book, chapter_page)
 
-            begin
-              chapter_page = chapter_link.click
-            rescue
-              sleep 5
-              chapter_page = chapter_link.click
-            end
-
-            title = chapter_page.search(".//*[@id='daohang']//text()").find{|c| c.present?}.to_s
-            content = chapter_page.search(".//*[@id='zhengwen']/table/tr/td").children.to_html
-            begin
-              save_chapter_info(book, chapter_title: title, content: content, download_url: chapter_page.uri.to_s)
-            rescue
-              put_logs(content, "error_content")
-              save_chapter_info(book, chapter_title: title, content: convert_string(content), download_url: chapter_page.uri.to_s)
-            end
-
-          end
-
-          if @book_chapter_exist_count[book.id].to_i > BOOK_CHAPTER_LIMIT
-            put_logs("章节存在数量超限 #{@book_chapter_exist_count[book.id].to_i}, 请人人工核查！", error_type = 'chapter_exist')
-
-            break
-          end
-
-          puts url
-
-          next_page = links.find{ |l| l.href && l.href.match(/readbook_next.php/) && l.to_s == "下页"}
-          next_page = next_page.click if next_page
+          put_logs("#{book_name}下载完毕。。。", error_type = 'info')
+          puts "#{book_name}下载完毕。。。"
+        else
+          update_book(book)
         end
+      end
+
+      def check_page_exist?(l)
+        chapter_page = l.click
+        title = chapter_page.search(".//*[@id='daohang']//text()").find{|c| c.present?}.to_s
+        content = chapter_page.search(".//*[@id='zhengwen']/table/tr/td").children.to_html
+
+        title.present? || content.present?
       end
 
       # If can, replace the `chapter_list` method
