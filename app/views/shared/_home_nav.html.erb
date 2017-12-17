@@ -21,9 +21,6 @@
             <li class="<%="active" if "#{controller_name}" == "request_logs" %>"><a href="/request_logs">魔·日志</a></li>
           <%end %>
           <li class="<%="active" if "#{controller_path}" == "notifications" %>"><a href="/notifications" data-no-turbolink="true">魔·消息 <i id="msg_count" class="color-red"><%= @notification_count unless @notification_count.to_i <= 0 %></i></a></li>
-          <% if Rails.env.development? %>
-            <li class="<%="active" if "#{controller_path}" == "bteras" %>"><a href="/bteras" data-no-turbolink="true">魔·比特</a></li>
-          <%end %>
         <%end %>
       </ul>
 
