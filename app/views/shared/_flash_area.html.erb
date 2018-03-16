@@ -9,7 +9,7 @@
 
 <% if @lastest_chapter %>
     <div class="alert alert-info" role="alert">
-      <a href="#" class="close" data-dismiss="alert">&times;</a>
+      <a href="javascript:void(0)" class="close" data-dismiss="alert">&times;</a>
       您上次阅读到章节: <%= link_to @lastest_chapter.title, book_book_chapter_path(@lastest_chapter.book, @lastest_chapter) %>
     </div>
 <%end %>
