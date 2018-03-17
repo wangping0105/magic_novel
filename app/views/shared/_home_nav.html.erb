@@ -13,10 +13,10 @@
       <ul class="nav navbar-nav">
         <li class="<%="active" if "#{controller_name}" == "homes" && action_name == "index" %>"><a href="/" data-no-turbolink="true">首页</a></li>
         <li class="<%="active" if "#{controller_path}" == "books" %>"><a href="/books" data-no-turbolink="true">魔·书库</a></li>
-        <li class="<%="active" if "#{controller_path}" == "homes" && action_name == "react_demo" %>"><a href="/homes/react_demo" data-no-turbolink="true">吐槽区 <i id="talk_count" class="color-red"></i></a></li>
         <%if current_user%>
           <li class="<%="active" if "#{controller_path}" == "user_home/books" %>"><a href="/user_home/books">我的书架</a></li>
           <%if current_user.admin? %>
+            <li class="<%="active" if "#{controller_path}" == "homes" && action_name == "react_demo" %>"><a href="/homes/react_demo" data-no-turbolink="true">吐槽区 <i id="talk_count" class="color-red"></i></a></li>
             <li class="<%="active" if "#{controller_name}" == "managements" %>"><a href="/managements">魔·管理</a></li>
             <li class="<%="active" if "#{controller_name}" == "request_logs" %>"><a href="/request_logs">魔·日志</a></li>
           <%end %>
