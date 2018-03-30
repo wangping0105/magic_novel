@@ -1,0 +1,42 @@
+<div class="container">
+  <h1>
+    <%= params[:quote].upcase %> <%= link_to '更新价格', 'javascript:void(0);', id: 'update_price' %>
+  </h1>
+  <div class="symbol_list">
+    <% ['main', 'innovation'].each do |name| %>
+      <h2><%= name.camelize %></h2>
+      <% @huobi_symbols[name].each do |huobi_symbol| %>
+          <ul>
+            <li data-symbol="<%= huobi_symbol["base-currency"] %><%= huobi_symbol["quote-currency"] %>">
+              <span class="symbol-area" style="width: 100px;display: inline-block;"><%= huobi_symbol["base-currency"].upcase %></span>
+              <span class="price">最新价格</span>
+            </li>
+          </ul>
+      <%end %>
+    <%end %>
+  </div>
+</div>
+
+<script>
+  function update(){
+      $.each($(".symbol_list li"), function(index, obj){
+          get_trade($(obj).attr('data-symbol'), obj);
+      });
+  }
+  function get_trade(symbol, obj) {
+      $.ajax({
+          url: '/block_chain/homes/trade?symbol=' + symbol,
+          type: 'get',
+          success: function(data){
+              if(data.status == "ok"){
+                $(obj).find(".price").html(data.tick.data[0].price)
+              }
+          }
+      })
+
+//      setTimeout(get_trade(symbol, obj), 10000);
+  }
+
+  $("#update_price").click(update);
+  update();
+</script>

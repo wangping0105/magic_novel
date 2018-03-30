@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta content="max-age=0" http-equiv="Cache-Control">
+  <meta content="no-cache" http-equiv="pragma">
+  <meta content="0" http-equiv="Expires">
+  <meta content="initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="魔书网, magic books, magic novels" name="keywords">
+  <meta content="魔书网, 新一代的网络小说阅读，体验极致阅读。" name="description">
+  <meta content="2015-08-19" name="publishdate">
+  <meta content="王平 jack" name="author">
+  <title><%= @page_title %></title>
+  <%= stylesheet_link_tag    'bootstrap', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <% if content_for?(:js_in_head) %>
+      <%= yield(:js_in_head) %>
+  <% end %>
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= render 'layouts/block_chain/home_nav' %>
+<%= render 'shared/flash_area' %>
+<%= yield %>
+<%= render 'layouts/back_to_top' %>
+</body>
+
+<% if content_for?(:js_in_footer) %>
+    <%= yield(:js_in_footer) %>
+<% end %>
+</html>

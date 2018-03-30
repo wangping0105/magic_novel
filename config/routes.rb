@@ -6,6 +6,7 @@ end
 Rails.application.routes.draw do
   draw :api
   draw :hybird
+  draw :block_chain
 
   # sidekiq
   require 'sidekiq/web'
