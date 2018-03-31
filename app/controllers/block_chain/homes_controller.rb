@@ -1,5 +1,6 @@
 class BlockChain::HomesController < BlockChain::ApplicationController
   def index
+    @page_title = '火币网价格'
     params[:quote] ||= 'usdt'
     @huobi_symbols = BlockChain.huobi_symbols
     @huobi_symbols = @huobi_symbols.select{|s| s["quote-currency"] == params[:quote]}.group_by{|s| s['symbol-partition']}
