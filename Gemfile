@@ -99,6 +99,8 @@ gem 'newrelic_rpm'
 
 gem 'paperclip'
 
+gem 'omniauth-github'
+
 group :development do
   gem 'rspec-rails'
   gem 'pry-remote'
