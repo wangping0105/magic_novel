@@ -31,5 +31,6 @@ config/unicorn/*.rb
 #config/logrotate.conf
 #config/newrelic.yml
 #config/app.god
-
+node_modules/
+*.DS_Store
 .~lock.魔书网.doc#

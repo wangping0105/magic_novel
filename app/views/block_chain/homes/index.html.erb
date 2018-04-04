@@ -1,42 +1,363 @@
+<script src=""></script>
 <div class="container">
   <h1>
     <%= params[:quote].upcase %> <%= link_to '更新价格', 'javascript:void(0);', id: 'update_price' %>
   </h1>
-  <div class="symbol_list">
+  <div class="symbol_list col-md-3">
     <% ['main', 'innovation'].each do |name| %>
       <h2><%= name.camelize %></h2>
       <% @huobi_symbols[name].each do |huobi_symbol| %>
           <ul>
-            <li data-symbol="<%= huobi_symbol["base-currency"] %><%= huobi_symbol["quote-currency"] %>">
-              <span class="symbol-area" style="width: 100px;display: inline-block;"><%= huobi_symbol["base-currency"].upcase %></span>
-              <span class="price">最新价格</span>
-            </li>
+            <a href="/block_chain?symbol=<%= huobi_symbol["base-currency"] %><%= huobi_symbol["quote-currency"] %>" data-turbolinks="false">
+              <li data-symbol="<%= huobi_symbol["base-currency"] %><%= huobi_symbol["quote-currency"] %>">
+                <span class="symbol-area" style="width: 100px;display: inline-block;"><%= huobi_symbol["base-currency"].upcase %></span>
+                <span class="price">最新价格</span>
+              </li>
+            </a>
           </ul>
       <%end %>
     <%end %>
   </div>
+
+  <div id="graphic" class="col-md-9" style="padding: 10px">
+    <div>
+      <button type="button" class="btn btn-sm btn-success" onclick="refresh(true)">刷 新</button>
+      <span class="text-primary">切换主题</span>
+      <select id="theme-select"></select>
+
+      <span id='wrong-message' style="color:red"></span>
+    </div>
+    <div id="main" style="width: 100%;height:500px;"></div>
+  </div>
 </div>
 
-<script>
-  function update(){
-      $.each($(".symbol_list li"), function(index, obj){
-          get_trade($(obj).attr('data-symbol'), obj);
-      });
-  }
-  function get_trade(symbol, obj) {
-      $.ajax({
-          url: '/block_chain/homes/trade?symbol=' + symbol,
-          type: 'get',
-          success: function(data){
-              if(data.status == "ok"){
-                $(obj).find(".price").html(data.tick.data[0].price)
-              }
-          }
-      })
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    //数组处理
+    function splitData(rawData) {
+        var datas = [];
+        var times = [];
+        var vols = [];
+        var macds = []; var difs = []; var deas = [];
+        for (var i = 0; i < rawData.length; i++) {
+            datas.push(rawData[i]);
+            times.push(rawData[i].splice(0, 1)[0]);
+            vols.push(rawData[i][4]);
+            macds.push(rawData[i][6]);
+            difs.push(rawData[i][7]);
+            deas.push(rawData[i][8]);
+        }
+        return {
+            datas: datas,
+            times: times,
+            vols: vols,
+            macds: macds,
+            difs: difs,
+            deas: deas
+        };
+    }
+
+    //分段计算
+    function fenduans(data){
+        var markLineData = [];
+        var idx = 0; var tag = 0; var vols = 0;
+        for (var i = 0; i < data.times.length; i++) {
+            //初始化数据
+            if(data.datas[i][5] != 0 && tag == 0){
+                idx = i; vols = data.datas[i][4]; tag = 1;
+            }
+            if(tag == 1){ vols += data.datas[i][4]; }
+            if(data.datas[i][5] != 0 && tag == 1){
+                markLineData.push([{
+                    xAxis: idx,
+                    yAxis: data.datas[idx][1]>data.datas[idx][0]?(data.datas[idx][3]).toFixed(2):(data.datas[idx][2]).toFixed(2),
+                    value: vols
+                }, {
+                    xAxis: i,
+                    yAxis: data.datas[i][1]>data.datas[i][0]?(data.datas[i][3]).toFixed(2):(data.datas[i][2]).toFixed(2)
+                }]);
+                idx = i; vols = data.datas[i][4]; tag = 2;
+            }
+
+            //更替数据
+            if(tag == 2){ vols += data.datas[i][4]; }
+            if(data.datas[i][5] != 0 && tag == 2){
+                markLineData.push([{
+                    xAxis: idx,
+                    yAxis: data.datas[idx][1]>data.datas[idx][0]?(data.datas[idx][3]).toFixed(2):(data.datas[idx][2]).toFixed(2),
+                    value: (vols/(i-idx+1)).toFixed(2)+' M'
+                }, {
+                    xAxis: i,
+                    yAxis: data.datas[i][1]>data.datas[i][0]?(data.datas[i][3]).toFixed(2):(data.datas[i][2]).toFixed(2)
+                }]);
+                idx = i; vols = data.datas[i][4];
+            }
+        }
+        return markLineData;
+    }
+
+    //MA计算公式
+    function calculateMA(dayCount, data) {
+        var result = [];
+        for (var i = 0, len = data.times.length; i < len; i++) {
+            if (i < dayCount) {
+                result.push('-');
+                continue;
+            }
+            var sum = 0;
+            for (var j = 0; j < dayCount; j++) {
+                sum += data.datas[i - j][1];
+            }
+            result.push((sum / dayCount).toFixed(2));
+        }
+        return result;
+    }
+
+    function genernate_kline(original_data){
+        //数据模型 time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
+        //['2015-10-19',18.56,18.25,18.19,18.56,55.00,0,-0.00,0.08,0.09]
+        var data = splitData(original_data);
+
+        var option = {
+            title: {
+                text: 'K线周期图表' + current_symbol,
+                left: 0
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'line'
+                }
+            },
+            legend: {
+                data: ['KLine', 'MA5']
+            },
+            grid: [           {
+                left: '5%',
+                right: '2%',
+                height: '60%'
+            },{
+                left: '5%',
+                right: '2%',
+                top: '75%',
+                height: '5%'
+            },{
+                left: '5%',
+                right: '2%',
+                top: '80%',
+                height: '14%'
+            }],
+            xAxis: [{
+                type: 'category',
+                data: data.times,
+                scale: true,
+                boundaryGap: false,
+                axisLine: { onZero: false },
+                splitLine: { show: false },
+                splitNumber: 20,
+                min: 'dataMin',
+                max: 'dataMax'
+            },{
+                type: 'category',
+                gridIndex: 1,
+                data: data.times,
+                axisLabel: {show: false}
+            },{
+                type: 'category',
+                gridIndex: 2,
+                data: data.times,
+                axisLabel: {show: false}
+            }],
+            yAxis: [{
+                scale: true,
+                splitArea: {
+                    show: false
+                }
+            },{
+                gridIndex: 1,
+                splitNumber: 3,
+                axisLine: {onZero: false},
+                axisTick: {show: false},
+                splitLine: {show: false},
+                axisLabel: {show: true}
+            },{
+                gridIndex: 2,
+                splitNumber: 4,
+                axisLine: {onZero: false},
+                axisTick: {show: false},
+                splitLine: {show: false},
+                axisLabel: {show: true}
+            }],
+            dataZoom: [{
+                type: 'inside',
+                xAxisIndex: [0, 0],
+                start: 90,
+                end: 100
+            },{
+                show: true,
+                xAxisIndex: [0, 1],
+                type: 'slider',
+                top: '95%',
+                start: 90,
+                end: 100
+            },{
+                show: false,
+                xAxisIndex: [0, 2],
+                type: 'slider',
+                start: 90,
+                end: 100
+            }],
+            series: [{
+                name: '最大值',
+                type: 'candlestick',
+                data: data.datas,
+                itemStyle: {
+                    normal: {
+                        color: '#ef232a',
+                        color0: '#14b143',
+                        borderColor: '#ef232a',
+                        borderColor0: '#14b143'
+                    }
+                },
+                markArea: {
+                    silent: true,
+                    itemStyle: {
+                        normal: {
+                            color: 'Honeydew'
+                        }
+                    },
+                    data: fenduans(data)
+                },
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    label: {
+                        normal: {
+                            position: 'middle',
+                            textStyle:{color:'Blue',fontSize: 15}
+                        }
+                    },
+                    data: fenduans(data),
+                    symbol: ['circle', 'none']
+
+                }
+            }, {
+                name: 'MA5',
+                type: 'line',
+                data: calculateMA(5, data),
+                smooth: true,
+                lineStyle: {
+                    normal: {
+                        opacity: 0.5
+                    }
+                }
+            },{
+                name: 'Volumn',
+                type: 'bar',
+                xAxisIndex: 1,
+                yAxisIndex: 1,
+                data: data.vols,
+                itemStyle: {
+                    normal: {
+                        color: function(params) {
+                            var colorList;
+                            if (data.datas[params.dataIndex][1]>data.datas[params.dataIndex][0]) {
+                                colorList = '#ef232a';
+                            } else {
+                                colorList = '#14b143';
+                            }
+                            return colorList;
+                        },
+                    }
+                }
+            },{
+                name: 'MACD',
+                type: 'bar',
+                xAxisIndex: 2,
+                yAxisIndex: 2,
+                data: data.macds,
+                itemStyle: {
+                    normal: {
+                        color: function(params) {
+                            var colorList;
+                            if (params.data >= 0) {
+                                colorList = '#ef232a';
+                            } else {
+                                colorList = '#14b143';
+                            }
+                            return colorList;
+                        },
+                    }
+                }
+            },{
+                name: 'DIF',
+                type: 'line',
+                xAxisIndex: 2,
+                yAxisIndex: 2,
+                data: data.difs
+            },{
+                name: 'DEA',
+                type: 'line',
+                xAxisIndex: 2,
+                yAxisIndex: 2,
+                data: data.deas
+            }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+    var current_symbol = "<%= params[:symbol] || "btcusdt"%>";
+    function get_kline(symbol) {
+        $.ajax({
+            url: '/block_chain/homes/kline?symbol=' + symbol,
+            type: 'get',
+            success: function(data){
+                if(data.status == "ok"){
+                    genernate_kline(data.datas)
+                }
+            }
+        });
+
+
+        setTimeout(function(){
+            console.log("update k line");
+            get_kline(symbol)
+        }, 10000);
+    }
+
+    get_kline(current_symbol)
+
+
+    function get_trade(symbol, obj) {
+        $.ajax({
+            url: '/block_chain/homes/trade?symbol=' + symbol,
+            type: 'get',
+            success: function(data){
+                if(data.status == "ok"){
+                    $(obj).find(".price").html(data.tick.data[0].price)
+                }
+            }
+        })
 
 //      setTimeout(get_trade(symbol, obj), 10000);
-  }
+    }
 
-  $("#update_price").click(update);
-  update();
+    function update(){
+        $.each($(".symbol_list li"), function(index, obj){
+            get_trade($(obj).attr('data-symbol'), obj);
+        });
+    }
+
+    $("#update_price").click(update);
+    update();
+
 </script>

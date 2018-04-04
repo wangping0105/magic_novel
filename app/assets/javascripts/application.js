@@ -23,6 +23,7 @@
 //= require jquery-ui
 //= require jquery-ui-slide.min
 //= require jquery-ui-timepicker-addon
+//= require echarts.min
 //= require_tree .
 
 function withFayeClient(callback) {

@@ -5,9 +5,11 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
-		"bundle-ios":"node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.jsbundle --assets-dest ./ios/bundle"
+		"bundle-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.jsbundle --assets-dest ./ios/bundle"
 	},
 	"dependencies": {
+		"echarts": "^4.0.4",
+		"echarts-gl": "^1.1.0",
 		"react": "16.0.0",
 		"react-native": "0.50.3",
 		"react-native-vector-icons": "^4.4.2",
