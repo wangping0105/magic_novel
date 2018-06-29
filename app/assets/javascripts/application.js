@@ -69,3 +69,12 @@ scrollBottomTest =function(callback){
         }
     });
 }
+
+
+function show_flash_msg(msg, key){
+    var html = '<div class="alert alert-' + key + '" role="alert">\n' +
+        '<a href="#" class="close" data-dismiss="alert">&times;</a>\n' + msg +
+        '</div>'
+
+    $(".flash_area").html(html)
+}

@@ -5,5 +5,5 @@ $(function() {
             .val('')
             .removeAttr('checked')
             .removeAttr('selected');
-    })
+    });
 })

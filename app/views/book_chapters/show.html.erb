@@ -33,7 +33,7 @@
     <% end %>
 
     <%= link_to '20章连读', big_show_book_book_chapter_path(@book, @book_chapter), 'data-no-turbolink' => true, class: 'btn btn-sm btn-primary'%>
-    <%= link_to '添加书签', book_marks_book_book_chapter_path(@book, @book_chapter), class: 'btn btn-sm btn-primary'%>
+    <%= link_to '添加书签', book_marks_book_book_chapter_path(@book, @book_chapter), class: 'btn btn-sm btn-primary', remote: true%>
     <% if current_user && current_user.admin? %>
         <%= link_to '删除后续',
                     delete_behind_book_book_chapter_path(@book, @book_chapter),
