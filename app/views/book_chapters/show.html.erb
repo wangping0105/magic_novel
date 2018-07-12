@@ -57,6 +57,16 @@
   </div>
   <%=render 'page'  %>
 
+  <div id="money-area">
+    <p>敲代码不易，如果觉得可以就支持一下哦~</p>
+    <span class="money-area-img">
+      <img src="/my_wechat.jpg">
+    </span>
+    <span class="money-area-img">
+      <img src="/my_alipay.jpg">
+    </span>
+  </div>
+
   <div>
     <h3>阅读设置</h3>
     <%= form_for(:user, url: user_settings_users_path, method: :get) do%>
