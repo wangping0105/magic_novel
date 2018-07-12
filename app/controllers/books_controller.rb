@@ -4,6 +4,7 @@ class BooksController < ApplicationController
   ]
 #  before_action :authenticate_user!
   def index
+    set_page_title('魔·书库')
     @books = Book.online_books.includes(:author, :classification)
     @books = filter_params(@books)
     @books = filter_page(@books)
@@ -31,6 +32,7 @@ class BooksController < ApplicationController
   end
 
   def show
+    set_page_title(@book.title)
     @book_chapters = @book.book_chapters.includes(:book_volume).order(book_volume_id: :asc).order(id: :asc).page(params[:page]).per(128)
     # @book_volumns = @book.book_volumes.includes(:book_chapters)
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
