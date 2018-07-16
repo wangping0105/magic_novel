@@ -50,7 +50,7 @@
     <h4 class="tag">上一页(快捷键:↑) 下一页(快捷键:↓) 上一章(快捷键←) 下一章(快捷键→)</h4>
     <span class="turn_message color-red float-r margint--30px"></span>
     <div id="_book_chapter_content" class="col-sm-12 bg-white pad-5 book-content"
-         style="line-height: 1.5;font-size: <%= @font_settings[:font_size].to_i == 0 ? 14: @font_settings[:font_size].to_i%>px;background: #<%= @font_settings[:color] %>;">
+         style="line-height: 1.5;font-size: <%= @font_settings[:font_size].to_i == 0 ? 14: @font_settings[:font_size].to_i%>px;background: <%= "##{@font_settings[:color]}" %>;">
         <%=raw @book_chapter.content %>
         <p>更多爽文-尽在<a href="http://magicbooks.cn">魔书网</a></p>
     </div>
@@ -58,12 +58,12 @@
   <%=render 'page'  %>
 
   <div id="money-area">
-    <p>敲代码不易，如果觉得可以就支持一下哦~</p>
+    <p>如果觉得可以就支持一下哦~</p>
     <span class="money-area-img">
-      <img src="/my_wechat.jpg">
+      <img src="/my_wechat.jpg" style="height: 155px;">
     </span>
     <span class="money-area-img">
-      <img src="/my_alipay.jpg">
+      <img src="/my_alipay.jpg" style="height: 155px;">
     </span>
   </div>
 
