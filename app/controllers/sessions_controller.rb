@@ -42,7 +42,6 @@ class SessionsController < ApplicationController
       flash[:error] = "注册失败,验证码错误"
       render 'sessions/new'
     end
-
   end
 
   def signout
