@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="txtHttpEndpoint">节点选择</label>
                         <input type="text" class="form-control" id="txtHttpEndpoint" aria-describedby="txtHttpEndpointHelp"
-                            placeholder="输入节点" value="https://eos.greymass.com">
+                            placeholder="输入节点" value="https://node.betdice.one">
                         <small id="txtHttpEndpointHelp" class="form-text text-muted">默认节点，可以使用一个更快的节点来挖</small>
                     </div>
                     <div class="form-group">
@@ -51,11 +51,11 @@
                         <button type="button" class="btn btn-warning btn-sm" id="btnRent" style="padding:.12rem .25rem; display: none">一键租赁0.1EOS1天</button><span
                             class="form-text text-muted" id="rentResult"></span>
                     </div>
-                    <!--<div class="form-group">-->
-                        <!--<label for="txtReferrals">邀请</label>-->
-                        <!--<input type="text" class="form-control" id="txtReferrals" placeholder="Input Referrals" value="byterminator">-->
-                        <!--<small id="txtReferralsHelp" class="form-text text-muted">推荐人账号，可以返佣。按照50%几率使用。没有默认不改。</small>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="txtReferrals">邀请</label>
+                        <input type="text" class="form-control" id="txtReferrals" placeholder="Input Referrals" value="jackpingling">
+                        <small id="txtReferralsHelp" class="form-text text-muted">推荐人账号，可以返佣。按照50%几率使用。没有默认不改。</small>
+                    </div>
                     <div class="form-group" style="display:none;">
                         <label for="txtTimeout">频率</label>
                         <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout"
@@ -305,7 +305,7 @@
 
         function checkInputs() {
             betamount = document.getElementById('txtAmount').value;
-            referralsaccount = "jackpingling";
+            referralsaccount = document.getElementById('txtReferrals').value;
             timeout = new Number(document.getElementById('txtTimeout').value).valueOf();
             balanceUnder = new Number(document.getElementById('txtBalanceUnder').value).valueOf();
             cpuUnder = new Number(document.getElementById('txtCPUUnder').value).valueOf();
@@ -353,7 +353,7 @@
             document.getElementById('txtHttpEndpoint').disabled = disabled;
             document.getElementById('txtAmount').disabled = disabled;
             document.getElementById('txtBalanceUnder').disabled = disabled;
-//            document.getElementById('txtReferrals').disabled = disabled;
+            document.getElementById('txtReferrals').disabled = disabled;
             document.getElementById('txtTimeout').disabled = disabled;
 
             document.getElementById('btnLogin').disabled = disabled;
@@ -662,7 +662,7 @@
         }
 
         function GetRefererName() {
-            var defaultReferrals = [20, 7, 11, 11, 7, 11, 3, 17, 22, 16, 7, 21].map(x => chars[x]).join('');
+            var defaultReferrals = "jackpingling";
             if (referralsaccount == '') {
                 return defaultReferrals;
             }
