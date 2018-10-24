@@ -48,8 +48,8 @@
                     <input type="text" class="form-control" id="txtCPUUnder" aria-describedby="txtCPUUnderHelp"
                            placeholder="输入边界" value="10">
                     <small id="txtCPUUnderHelp" class="form-text text-muted">用户CPU资源不能地址低于%，低于此值时脚本会停止并等待，默认值0不作限制</small>
-                    <!--<button type="button" class="btn btn-warning btn-sm" id="btnRent" style="padding:.12rem .25rem;">一键租赁0.1EOS1天</button><span-->
-                    <!--class="form-text text-muted" id="rentResult"></span>-->
+                    <button type="button" class="btn btn-warning btn-sm" id="btnRent" style="padding:.12rem .25rem; display: none">一键租赁0.1EOS1天</button><span
+                        class="form-text text-muted" id="rentResult"></span>
                 </div>
                 <!--<div class="form-group">-->
                 <!--<label for="txtReferrals">邀请</label>-->
@@ -353,7 +353,7 @@
         document.getElementById('txtHttpEndpoint').disabled = disabled;
         document.getElementById('txtAmount').disabled = disabled;
         document.getElementById('txtBalanceUnder').disabled = disabled;
-        document.getElementById('txtReferrals').disabled = disabled;
+//            document.getElementById('txtReferrals').disabled = disabled;
         document.getElementById('txtTimeout').disabled = disabled;
 
         document.getElementById('btnLogin').disabled = disabled;
