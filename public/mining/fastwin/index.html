@@ -22,8 +22,19 @@
             <button type="button" class="btn btn-success btn-sm" id="btnLogin">点击登录</button>
             <button type="button" class="btn btn-success btn-sm" style="display:none;" id="btnLogout">退出</button>
           </div>
+
           <div class="form-group">
-            <label for="txtAmount">下注eos数（< 96 模式）</label>
+            <label for="txtAmount">范围选择</label>
+            96 <input type="radio" name="dice_count" value="96" checked/>
+            95 <input type="radio" name="dice_count" value="95"/>
+            94 <input type="radio" name="dice_count" value="94"/>
+            93 <input type="radio" name="dice_count" value="93"/>
+            92 <input type="radio" name="dice_count" value="92"/>
+            91 <input type="radio" name="dice_count" value="91"/>
+          </div>
+
+          <div class="form-group">
+            <label for="txtAmount">下注eos数（ < <span id="count_area">96</span>）</label>
             <input type="text" class="form-control" id="txtAmount" placeholder="输入注数" value="0.1000 EOS">
             <button type="button" class="btn btn-success btn-sm" id="btnUpdateAmount5">X2
               EOS</button>
@@ -59,7 +70,7 @@
             </div>
             <div class="form-group">
               <label for="txtTimeout">频率</label>
-              <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout" aria-describedby="txtTimeoutHelp" value="3000">
+              <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout" aria-describedby="txtTimeoutHelp" value="2000">
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout1">100</button>
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout4">X2</button>
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout5">1/2</button>
@@ -98,3 +109,9 @@
 
 
 </body></html>
+
+<script>
+  $("input[name=dice_count]").on("change", function(){
+      $("#count_area").html($(this).val());
+  })
+</script>
