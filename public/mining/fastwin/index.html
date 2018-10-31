@@ -14,33 +14,29 @@
     <div class="row">
       <div class="col-sm-12 col-md-6">
         <a href="/mining/poker.html"> Pocker 挖矿</a>
-        <a href="/mining/endless/index.html"> Endless 挖矿</a>
         <a href="/mining/fastwin/index.html"> FastWin 挖矿</a>
         <form>
           <div class="form-group">
-            <label for="txtAccount">账号</label>
             <span id="lbUserName"></span>
+            <button type="button" class="btn btn-success btn-sm" id="btnLogin">点击登录</button>
+            <button type="button" class="btn btn-success btn-sm" style="display:none;" id="btnLogout">退出</button>
           </div>
           <div class="form-group">
-            <button type="button" class="btn btn-info btn-sm" id="btnLogin">登陆</button>
-            <button type="button" class="btn btn-info btn-sm" style="display:none;" id="btnLogout">退出</button>
-          </div>
-          <div class="form-group">
-            <label for="txtAmount">下注（< 96 模式）</label>
+            <label for="txtAmount">下注数量（< 96 模式）</label>
             <input type="text" class="form-control" id="txtAmount" placeholder="输入注数" value="0.1000 EOS">
-            <button type="button" class="btn btn-info btn-sm" id="btnUpdateAmount5">X2
+            <button type="button" class="btn btn-success btn-sm" id="btnUpdateAmount5">X2
               EOS</button>
-            <button type="button" class="btn btn-info btn-sm" id="btnUpdateAmount6">1/2
+            <button type="button" class="btn btn-success btn-sm" id="btnUpdateAmount6">1/2
               EOS</button>
           </div>
           <div class="form-group">
-            <label for="txtReferrals">邀请</label>
+            <label for="txtReferrals">邀请人</label>
             <input type="text" class="form-control" id="txtReferrals" placeholder="Input Referrals" value="jackpingling">
-            <small id="txtReferralsHelp" class="form-text text-muted">推荐人账号，可以返佣。60%几率使用你填写的。</small>
+            <small id="txtReferralsHelp" class="form-text text-muted">60%几率使用你填写的邀请人。</small>
           </div>
           <div class="form-group">
-            <button type="button" class="btn btn-primary btn-sm" id="btnStart">开始</button>
-            <button type="button" class="btn btn-default btn-sm" id="btnStop">停止</button>
+            <button type="button" class="btn btn-primary btn-sm" id="btnStart">开始挖矿</button>
+            <button type="button" class="btn btn-danger btn-sm" id="btnStop">结束挖矿</button>
             <button type="button" class="btn btn-default btn-sm" id="btnToggleSetup" style="display:none;">高级设置</button>
           </div>
           <div id="panelSetup" style="display:none;">
@@ -62,7 +58,7 @@
             </div>
             <div class="form-group">
               <label for="txtTimeout">频率</label>
-              <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout" aria-describedby="txtTimeoutHelp" value="3000">
+              <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout" aria-describedby="txtTimeoutHelp" value="5000">
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout1">100</button>
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout4">X2</button>
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout5">1/2</button>
@@ -74,8 +70,8 @@
       <div class="col-sm-12 col-md-6">
         <form>
           <div class="form-group">
-            <label for="txtResults">监视面板</label>
-            <div>当前余额：<span id="lbBalance"> EOS</span>，CPU可用百分比：<span id="lbCPUAvailable">%</span></div>
+            <div style="    border: solid gray 1px;    border-radius: 5px;">当前余额：<span id="lbBalance"> EOS</span>，CPU可用百分比：<span id="lbCPUAvailable">%</span></div>
+            <label for="txtResults">历史记录</label>
             <textarea id="txtResults" class="form-control" style="height:605px; font-size:12px; " readonly="readonly"></textarea>
           </div>
         </form>
@@ -83,12 +79,12 @@
     </div>
     <div class="row">
       <div class="col text-center">
-        页面脚本集成了Scatter插件，玩家登陆继续挖矿，更加安全可靠。
+        页面脚本集成了Scatter插件，请放心使用。
       </div>
     </div>
     <div class="raw">
       <div class="col text-center">
-        © 2018 win96.me admin@win96.me
+        © 2018 jackwp@dingtalk.com
       </div>
     </div>
   </div>
