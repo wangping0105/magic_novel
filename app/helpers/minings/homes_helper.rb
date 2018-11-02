@@ -1,0 +1,2 @@
+module Minings::HomesHelper
+end

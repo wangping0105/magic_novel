@@ -1,0 +1,126 @@
+
+<!-- saved from url=(0036)http://win96.me/endless.scatter.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Fastwin DICE挖矿</title>
+  <link rel="shortcut icon" href="http://win96.me/favicon.ico">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+
+<body>
+<div class="container" style="padding-top: 5px;">
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <a href="/mining/poker.html"> Pocker 挖矿</a>
+      <a href="/mining/fastwin/index.html"> FastWin 挖矿</a>
+      <a href="/mining/eosdice/index.html"> Eosdice 挖矿</a>
+      <form>
+        <div class="form-group">
+          <span id="lbUserName"></span>
+          <button type="button" class="btn btn-success btn-sm" id="btnLogin">点击登录</button>
+          <button type="button" class="btn btn-success btn-sm" style="display:none;" id="btnLogout">退出</button>
+        </div>
+
+        <div class="form-group">
+          <label for="txtAmount">范围选择</label>
+          96 <input type="radio" name="dice_count" value="96" checked/>
+          95 <input type="radio" name="dice_count" value="95"/>
+          94 <input type="radio" name="dice_count" value="94"/>
+          93 <input type="radio" name="dice_count" value="93"/>
+          92 <input type="radio" name="dice_count" value="92"/>
+          91 <input type="radio" name="dice_count" value="91"/>
+        </div>
+
+        <div class="form-group">
+          <label for="txtAmount">下注eos数（ < <span id="count_area">96</span>）</label>
+          <input type="text" class="form-control" id="txtAmount" placeholder="输入注数" value="0.1000 EOS">
+          <button type="button" class="btn btn-success btn-sm" id="btnUpdateAmount5">X2
+            EOS</button>
+          <button type="button" class="btn btn-success btn-sm" id="btnUpdateAmount6">1/2
+            EOS</button>
+          目前eos挖fast比例是 1:150
+        </div>
+
+        <div class="form-group">
+          <label for="txtAmount">押注次数达到自动停止</label>
+          <input type="number" class="form-control" id="stop_count" placeholder="输入数字，不填则默认不停止。">
+        </div>
+
+        <div class="form-group">
+          <label for="txtReferrals">邀请人</label>
+          <input type="text" class="form-control" id="txtReferrals" placeholder="Input Referrals" value="jackpingling">
+          <!--<small id="txtReferralsHelp" class="form-text text-muted">60%几率使用你填写的邀请人。</small>-->
+        </div>
+
+        <div id="panelSetup">
+          <div class="form-group"  style="display:none;">
+            <label for="txtHttpEndpoint">节点</label>
+            <input type="text" class="form-control" id="txtHttpEndpoint" aria-describedby="txtHttpEndpointHelp" placeholder="输入节点" value="https://api1.eosasia.one">
+            <small id="txtHttpEndpointHelp" class="form-text text-muted">官方默认节点，可以使用一个更快的节点来挖</small>
+          </div>
+          <div class="form-group"  style="display:none;">
+            <label for="txtBalanceUnder">余额下限</label>
+            <input type="text" class="form-control" id="txtBalanceUnder" aria-describedby="txtBalanceUnderHelp" placeholder="输入边界" value="0">
+            <small id="txtBalanceUnderHelp" class="form-text text-muted">低于这个下限不再挖矿，用户CPU资源不能地址10%，低于此值时脚本会停止并等待，默认值0不作限制</small>
+          </div>
+          <div class="form-group"  style="display:none;">
+            <label for="txtCPUUnder">CPU限制(%)</label>
+            <input type="text" class="form-control" id="txtCPUUnder" aria-describedby="txtCPUUnderHelp" placeholder="输入边界" value="10">
+            <small id="txtCPUUnderHelp" class="form-text text-muted">用户CPU资源不能地址低于%，低于此值时脚本会停止并等待，默认值0不作限制</small>
+            <button type="button" class="btn btn-warning btn-sm" style="padding:.12rem .25rem;" id="btnRent">一键租赁0.1EOS1天</button><span class="form-text text-muted" id="rentResult"></span>
+          </div>
+          <div class="form-group">
+            <label for="txtTimeout">时间间隔(毫秒-ms)</label>
+            <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout" aria-describedby="txtTimeoutHelp" value="800">
+            <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout1">100</button>
+            <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout4">X2</button>
+            <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout5">1/2</button>
+            <small id="txtTimeoutHelp" class="form-text text-muted">1秒=1000毫秒</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-primary btn-sm" id="btnStart">开始挖矿</button>
+          <button type="button" class="btn btn-danger btn-sm" id="btnStop">结束挖矿</button>
+          <button type="button" class="btn btn-default btn-sm" id="btnToggleSetup" style="display:none;">高级设置</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <form>
+        <div class="form-group">
+          <div style="    border: solid gray 1px;    border-radius: 5px;">当前余额：<span id="lbBalance"> EOS</span>，CPU可用百分比：<span id="lbCPUAvailable">%</span></div>
+          <label for="txtResults">历史记录：(已经押注次数 <span id="yz_count">0</span>)</label>
+          <textarea id="txtResults" class="form-control" style="height:605px; font-size:12px; " readonly="readonly"></textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center">
+      页面脚本集成了Scatter插件，请放心使用。
+    </div>
+  </div>
+  <div class="raw">
+    <div class="col text-center">
+      © 2018 jackwp@dingtalk.com
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.6/lib/eos.min.js"></script>
+<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-core.min.js"></script>
+<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-plugin-eosjs.min.js"></script>
+<script src="jquery.min.js"></script>
+<script src="sha1.min.js"></script>
+<script src="fastwin.min.js"></script>
+
+
+</body></html>
+
+<script>
+    $("input[name=dice_count]").on("change", function(){
+        $("#count_area").html($(this).val());
+    })
+</script>

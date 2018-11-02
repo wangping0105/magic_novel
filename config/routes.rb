@@ -4,6 +4,10 @@ class ActionDispatch::Routing::Mapper
   end
 end
 Rails.application.routes.draw do
+  namespace :minings do
+    get 'homes/index'
+  end
+
   draw :api
   draw :hybird
   draw :block_chain
