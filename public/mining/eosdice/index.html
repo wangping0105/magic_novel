@@ -18,8 +18,8 @@
         <a href="/mining/eosdice/index.html"> Eosdice 挖矿</a>
         <form>
           <div class="form-group">
-            <span id="lbUserName"><h1>Eosdice 升级中。。。。</h1></span>
-            <!--<button type="button" class="btn btn-success btn-sm" id="btnLogin">点击登录</button>-->
+            <span id="lbUserName"><h1>Eosdice 挖矿</h1></span>
+            <button type="button" class="btn btn-success btn-sm" id="btnLogin">点击登录</button>
             <button type="button" class="btn btn-success btn-sm" style="display:none;" id="btnLogout">退出</button>
           </div>
           <div class="form-group">
@@ -35,23 +35,19 @@
             <input type="text" class="form-control" id="txtReferrals" placeholder="Input Referrals" value="jackpingling">
             <!--<small id="txtReferralsHelp" class="form-text text-muted">60%几率使用你填写的邀请人。</small>-->
           </div>
-          <div class="form-group">
-            <button type="button" class="btn btn-primary btn-sm" id="btnStart">开始挖矿</button>
-            <button type="button" class="btn btn-danger btn-sm" id="btnStop">结束挖矿</button>
-            <button type="button" class="btn btn-default btn-sm" id="btnToggleSetup" style="display:none;">高级设置</button>
-          </div>
-          <div id="panelSetup" style="display:none;">
-            <div class="form-group">
+
+          <div id="panelSetup" >
+            <div class="form-group" style="display:none;">
               <label for="txtHttpEndpoint">节点</label>
               <input type="text" class="form-control" id="txtHttpEndpoint" aria-describedby="txtHttpEndpointHelp" placeholder="输入节点" value="https://api1.eosasia.one">
               <small id="txtHttpEndpointHelp" class="form-text text-muted">官方默认节点，可以使用一个更快的节点来挖</small>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
               <label for="txtBalanceUnder">余额下限</label>
               <input type="text" class="form-control" id="txtBalanceUnder" aria-describedby="txtBalanceUnderHelp" placeholder="输入边界" value="0">
               <small id="txtBalanceUnderHelp" class="form-text text-muted">低于这个下限不再挖矿，用户CPU资源不能地址10%，低于此值时脚本会停止并等待，默认值0不作限制</small>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
               <label for="txtCPUUnder">CPU限制(%)</label>
               <input type="text" class="form-control" id="txtCPUUnder" aria-describedby="txtCPUUnderHelp" placeholder="输入边界" value="10">
               <small id="txtCPUUnderHelp" class="form-text text-muted">用户CPU资源不能地址低于%，低于此值时脚本会停止并等待，默认值0不作限制</small>
@@ -59,12 +55,18 @@
             </div>
             <div class="form-group">
               <label for="txtTimeout">频率</label>
-              <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout" aria-describedby="txtTimeoutHelp" value="0">
+              <input type="text" class="form-control" id="txtTimeout" placeholder="Input txtTimeout" aria-describedby="txtTimeoutHelp" value="1000">
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout1">100</button>
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout4">X2</button>
               <button type="button" class="btn btn-info btn-sm" id="btnUpdateTimeout5">1/2</button>
-              <small id="txtTimeoutHelp" class="form-text text-muted">频率，单位毫秒，1秒=1000毫秒，默认1200毫秒</small>
+              <small id="txtTimeoutHelp" class="form-text text-muted">频率，单位毫秒，1秒=1000毫秒</small>
             </div>
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn btn-primary btn-sm" id="btnStart">开始挖矿</button>
+            <button type="button" class="btn btn-danger btn-sm" id="btnStop">结束挖矿</button>
+            <button type="button" class="btn btn-default btn-sm" id="btnToggleSetup" style="display:none;">高级设置</button>
           </div>
         </form>
       </div>
