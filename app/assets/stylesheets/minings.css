@@ -10,16 +10,7 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require bootstrap/css/bootstrap.min
+ *= require bootstrap-4.0.0/css/bootstrap.css
  *= require jquery-ui.min
- *= require_tree .
- *= require_self
+ *= require_tree './minings'
  */
-
-* {
-    word-break:break-all; /*支持IE，chrome，FF不支持*/
-    word-wrap:break-word;/*支持IE，chrome，FF*/
-}
-img {
-	max-width: 100%
-}

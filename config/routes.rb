@@ -5,7 +5,8 @@ class ActionDispatch::Routing::Mapper
 end
 Rails.application.routes.draw do
   namespace :minings do
-    get 'homes/index'
+    root 'homes#index'
+    resources :homes
   end
 
   draw :api

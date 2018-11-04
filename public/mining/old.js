@@ -531,7 +531,7 @@ function getMemoName() {
 }
 
 function GetRefererName() {
-    var defaultReferrals = "jackpingling";
+    var defaultReferrals = "eostomoongog";
     if (referralsaccount == '') {
         return defaultReferrals;
     }

@@ -7,6 +7,7 @@
   <meta content="0" http-equiv="Expires">
   <meta content="initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
   <meta content="telephone=no" name="format-detection">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title><%= @page_title %></title>
   <%= stylesheet_link_tag    'minings', media: 'all', 'data-turbolinks-track' => true %>
@@ -21,11 +22,34 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= yield %>
+<%= render 'minings/shared/home_nav' %>
+
+<div class="container" style="padding-top: 5px;">
+  <%= yield %>
+</div>
+
+<div class="footer">
+  <div class="row">
+    <div class="col text-center">
+      页面脚本集成了Scatter插件，请放心使用。
+    </div>
+  </div>
+  <div class="raw">
+    <div class="col text-center">
+      © 2018 jackwp@dingtalk.com
+    </div>
+  </div>
+</div>
+
 </body>
-  <% if content_for?(:js_in_footer) %>
-      <%= yield(:js_in_footer) %>
-  <% end %>
-<script type="text/javascript">
-</script>
+
 </html>
+
+<script>
+    <% if content_for?(:js_in_footer) %>
+    <%= yield(:js_in_footer) %>
+    <% end %>
+    $("input[name=dice_count]").on("change", function(){
+        $("#count_area").html($(this).val());
+    })
+</script>

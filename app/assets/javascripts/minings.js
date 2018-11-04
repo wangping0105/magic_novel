@@ -11,7 +11,8 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap/js/bootstrap.min
+//= require bootstrap-4.0.0/js/bootstrap.min
+//= require_tree './minings'
 
 function show_flash_msg(msg, key){
     var html = '<div class="alert alert-' + key + '" role="alert">\n' +
