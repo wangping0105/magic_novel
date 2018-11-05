@@ -6,7 +6,11 @@ end
 Rails.application.routes.draw do
   namespace :minings do
     root 'homes#index'
-    resources :homes
+    resources :homes do
+      collection do
+        get :eosdice
+      end
+    end
   end
 
   draw :api
