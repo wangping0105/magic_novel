@@ -20,6 +20,37 @@
   <% end %>
 
   <%= csrf_meta_tags %>
+
+  <script>
+      function save_records(referrer, from, to, quantity, memo, transaction_id) {
+          var data = {
+              category: $("#mining_category").val(),
+              referrer: referrer,
+              from:  from,
+              to:  to,
+              quantity:  quantity,
+              memo:  memo,
+              transaction_id:  transaction_id,
+          }
+
+          if ($("#mining_category").val() != ""){
+              $.ajax({
+                  url: '<%= minings_records_path %>',
+                  data: data,
+                  type: 'post',
+                  success: function(d){
+                      if(d.code == 0){
+                          console.log("record success")
+                      }else{
+                          console.log("error:" + d.message)
+                      }
+                  }
+
+              })
+          }
+
+      }
+  </script>
 </head>
 <body>
 <%= render 'minings/shared/home_nav' %>
@@ -49,4 +80,7 @@
     <% if content_for?(:js_in_footer) %>
     <%= yield(:js_in_footer) %>
     <% end %>
+    $(function(){
+
+    })
 </script>

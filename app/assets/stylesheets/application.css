@@ -12,7 +12,13 @@
  *
  *= require bootstrap/css/bootstrap.min
  *= require jquery-ui.min
- *= require_tree .
+ *= require books
+ *= require custome
+ *= require flash
+ *= require homes
+ *= require jq_ui
+ *= require util
+ *= require pagination
  *= require_self
  */
 

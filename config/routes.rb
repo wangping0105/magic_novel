@@ -4,8 +4,11 @@ class ActionDispatch::Routing::Mapper
   end
 end
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
   namespace :minings do
     root 'homes#index'
+    resources :records
     resources :homes do
       collection do
         get :eosdice, :endless

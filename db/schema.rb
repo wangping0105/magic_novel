@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027073048) do
+ActiveRecord::Schema.define(version: 20181105144312) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -206,6 +206,28 @@ ActiveRecord::Schema.define(version: 20171027073048) do
     t.datetime "updated_at",              null: false
     t.index ["parent_id"], name: "index_classifications_on_parent_id", using: :btree
     t.index ["pinyin"], name: "index_classifications_on_pinyin", using: :btree
+  end
+
+  create_table "eos_minings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "eos_user_id"
+    t.string   "referrer"
+    t.string   "transaction_id"
+    t.float    "account",        limit: 24
+    t.string   "from"
+    t.string   "to"
+    t.string   "quantity"
+    t.text     "memo",           limit: 65535
+    t.string   "category",       limit: 50
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["category"], name: "index_eos_minings_on_category", using: :btree
+    t.index ["eos_user_id"], name: "index_eos_minings_on_eos_user_id", using: :btree
+  end
+
+  create_table "eos_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "account"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

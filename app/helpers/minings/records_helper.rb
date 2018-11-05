@@ -1,0 +1,2 @@
+module Minings::RecordsHelper
+end

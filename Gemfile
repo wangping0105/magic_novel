@@ -100,6 +100,7 @@ gem 'newrelic_rpm'
 gem 'paperclip'
 
 gem 'omniauth-github'
+gem 'rails_admin'
 
 group :development do
   gem 'rspec-rails'

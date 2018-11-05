@@ -19,12 +19,15 @@
 //= require react_ujs
 //= require antd/antd
 //= require components
+//= require custome
+//= require utils
+//= require homes.coffee
 //= require remarkable/remarkable.js
 //= require jquery-ui
 //= require jquery-ui-slide.min
 //= require jquery-ui-timepicker-addon
 //= require echarts.min
-//= require_tree .
+//= require_self
 
 function withFayeClient(callback) {
     var init_faye = function () {
