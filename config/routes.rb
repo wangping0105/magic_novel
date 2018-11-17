@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :records
     resources :homes do
       collection do
-        get :eosdice, :endless
+        get :eosdice, :endless, :eosdicejacks
       end
     end
   end

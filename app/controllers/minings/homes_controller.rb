@@ -14,6 +14,11 @@ class Minings::HomesController < Minings::ApplicationController
     @mining_category = "eosdice"
   end
 
+  def eosdicejacks
+    @page_title = "EosdiceJacks挖矿"
+    @mining_category = "eosdicejacks"
+  end
+
   def endless
     @page_title = "Endless 挖矿"
     @mining_category = "endless"
