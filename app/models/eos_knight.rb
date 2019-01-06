@@ -9,7 +9,7 @@ class EosKnight < ApplicationRecord
   class << self
 
     # 获取数据
-    def fetch_data(set_time)
+    def fetch_data(set_time, repeat_end: true)
       module_name = "account"
       action = "get_account_related_trx_info"
       account = "eosknightsio"
@@ -26,10 +26,14 @@ class EosKnight < ApplicationRecord
             if infos.first == "eosknights"
 
               if EosKnight.find_by(trx_id: trace[:trx_id])
-                puts "记录重复，结束！"
-                flag = false
+                if repeat_end
+                  puts "记录重复，结束！"
+                  flag = false
 
-                break
+                  break
+                else
+                  puts "记录重复，跳过！"
+                end
               else
                 trx_time = Time.parse(trace[:timestamp])
 
