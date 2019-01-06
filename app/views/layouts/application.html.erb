@@ -29,12 +29,16 @@
   <% end %>
 
   <%= csrf_meta_tags %>
+  <style>
+
+  </style>
 </head>
 <body>
 <div class="flash_area"></div>
 
 <%= render 'shared/home_nav' %>
 <%= render 'shared/flash_area' %>
+<div style="margin-top: 40px"></div>
 <%= yield %>
 <%= render 'layouts/back_to_top' %>
 </body>

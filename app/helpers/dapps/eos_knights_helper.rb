@@ -1,0 +1,2 @@
+module Dapps::EosKnightsHelper
+end

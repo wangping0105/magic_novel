@@ -99,4 +99,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :dapps do
+    resources :eos_knights
+  end
 end
