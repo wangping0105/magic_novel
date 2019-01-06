@@ -10,12 +10,12 @@ class EosKnight < ApplicationRecord
 
     # EosKnight.fetch_data("2019-01-01 00:00:00", repeat_end: false)
     # 获取数据
-    def fetch_data(set_time, repeat_end: true)
+    def fetch_data(set_time, repeat_end: true, dpage: 1)
       module_name = "account"
       action = "get_account_related_trx_info"
       account = "eosknightsio"
 
-      page = 1
+      page = dpage
       flag = true
       while flag
         puts '开始。。。。。。'
