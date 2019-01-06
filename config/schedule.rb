@@ -17,3 +17,10 @@ every :day, :at => '1:45am', :roles => [:whenever] do
   rake ' mechanize:update_books'
   task_logger %{update_books FINISHED}
 end
+
+
+every '1.minute', :roles => [:whenever] do
+  task_logger %{update_books BEGIN}
+  rake 'eosknights:async'
+  task_logger %{update_books FINISHED}
+end
