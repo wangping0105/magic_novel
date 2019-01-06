@@ -95,7 +95,8 @@ class EosKnight < ApplicationRecord
           account:account,
           page: page,
           size: size,
-          transaction_type: transaction_type
+          transaction_type: transaction_type,
+          sort: "DESC"
       }
 
       p "https://api.eospark.com/api?#{attrs.to_query}"
