@@ -25,6 +25,15 @@ class EosKnight < ApplicationRecord
           resp[:data][:trace_list].each do |trace|
             infos = trace[:memo].split(":")
             if infos.first == "eosknights"
+              trx_time = Time.parse(trace[:timestamp])
+
+              p trx_time, set_time
+              if trx_time <= set_time
+                puts "达到设定时间，结束！"
+                flag = false
+
+                break
+              end
 
               if EosKnight.find_by(trx_id: trace[:trx_id])
                 if repeat_end
@@ -36,16 +45,6 @@ class EosKnight < ApplicationRecord
                   puts "记录重复，跳过！"
                 end
               else
-                trx_time = Time.parse(trace[:timestamp])
-
-                p trx_time, set_time
-                if trx_time <= set_time
-                  puts "达到设定时间，结束！"
-                  flag = false
-
-                  break
-                end
-
                 category =if infos[1] == "material-sale"
                   :material_sale
                 elsif infos[1] == "item-sale"
