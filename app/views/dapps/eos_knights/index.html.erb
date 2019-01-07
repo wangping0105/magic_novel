@@ -32,11 +32,15 @@
             <%
               if eos_knight.item_sale?
                 image_path = "/eos_knights/items/item_#{eos_knight.category_id}.png"
+                obj_filter = "category_id=#{eos_knight.category_id}"
               else
                 image_path = "/eos_knights/materials/rm_#{eos_knight.category_id}.png"
+                obj_filter = "category_id=#{eos_knight.category_id}"
               end
             %>
-            <img src="<%= image_path %>" style="width: 40px;"/>
+            <a href="/dapps/eos_knights?<%= obj_filter %>">
+              <img src="<%= image_path %>" style="width: 40px;"/>
+            </a>
             <span style="color: red">
               <%= eos_knight.quantity > 0.0065 ? (eos_knight.quantity/0.97).round(4) : (eos_knight.quantity+0.0001).round(4) %> EOS
             </span>

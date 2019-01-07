@@ -106,5 +106,20 @@ class EosKnight < ApplicationRecord
     rescue
       {}
     end
+
+    def total_fee(start_at, end_at)
+      total = 0.0
+      EosKnight.where(trx_time: start_at..end_at).find_each do |eos_knight|
+        fee = if eos_knight.quantity > 0.0065
+          (eos_knight.quantity/0.97 * 0.03).round(4)
+        else
+          0.0001
+        end
+
+        total += fee
+      end
+
+      total
+    end
   end
 end
