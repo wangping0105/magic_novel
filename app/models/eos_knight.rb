@@ -10,13 +10,14 @@ class EosKnight < ApplicationRecord
 
     # EosKnight.fetch_data("2019-01-01 00:00:00", repeat_end: false)
     # 获取数据
-    def fetch_data(set_time, repeat_end: true, dpage: 1)
+    def fetch_data(set_time, repeat_end: true, dpage: 1, max_count: 5000)
       module_name = "account"
       action = "get_account_related_trx_info"
       account = "eosknightsio"
 
       page = dpage
       flag = true
+      index = 0
       while flag
         puts '开始。。。。。。'
         resp = sync_eos_transactions(module_name, action, account, page)
@@ -25,11 +26,19 @@ class EosKnight < ApplicationRecord
           resp[:data][:trace_list].each do |trace|
             infos = trace[:memo].split(":")
             if infos.first == "eosknights"
+              index += 1
               trx_time = Time.parse(trace[:timestamp])
 
               p trx_time, set_time
               if trx_time <= set_time
                 puts "达到设定时间，结束！"
+                flag = false
+
+                break
+              end
+
+              if index >= max_count
+                puts "达到最大数量，结束！"
                 flag = false
 
                 break
