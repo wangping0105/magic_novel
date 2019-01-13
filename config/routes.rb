@@ -101,6 +101,10 @@ Rails.application.routes.draw do
   end
 
   namespace :dapps do
-    resources :eos_knights
+    resources :eos_knights do
+      collection do
+        get :rank
+      end
+    end
   end
 end

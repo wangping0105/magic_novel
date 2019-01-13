@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta content="max-age=0" http-equiv="Cache-Control">
+  <meta content="no-cache" http-equiv="pragma">
+  <meta content="0" http-equiv="Expires">
+  <meta content="initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title><%= @page_title %></title>
+  <%= stylesheet_link_tag    'dapps', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'dapps', 'data-turbolinks-track' => true %>
+  <!--<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.6/lib/eos.min.js"></script>-->
+  <!--<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-core.min.js"></script>-->
+  <!--<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-plugin-eosjs.min.js"></script>-->
+  <% if content_for?(:js_in_head) %>
+      <%= yield(:js_in_head) %>
+  <% end %>
+
+  <%= csrf_meta_tags %>
+
+  <script>
+
+  </script>
+</head>
+<body>
+<%= render 'dapps/shared/home_nav' %>
+
+<div class="container" style="padding-top: 5px;">
+  <%= yield %>
+</div>
+
+<div class="footer">
+
+  <div class="row">
+    <div class="col text-center">
+      数据开始于 2019-01-06 14:00:02<br/>欢迎打赏，eos账户 jackpingling
+      <!--页面脚本集成了Scatter插件，请放心使用。-->
+    </div>
+  </div>
+  <div class="raw">
+    <div class="col text-center">
+      © 2019 jackwp@dingtalk.com
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>
+
+<script>
+    <% if content_for?(:js_in_footer) %>
+    <%= yield(:js_in_footer) %>
+    <% end %>
+</script>

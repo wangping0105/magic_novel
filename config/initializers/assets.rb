@@ -15,5 +15,6 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'antd'
 Rails.application.config.assets.precompile += %w( *.otf *.eot *.svg *.ttf *.woff *.woff2)
 Rails.application.config.assets.precompile += %w( bootstrap.css )
 Rails.application.config.assets.precompile += %w( minings.css minings.js )
+Rails.application.config.assets.precompile += %w( dapps.css dapps.js )
 
 

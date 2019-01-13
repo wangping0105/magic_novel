@@ -4,13 +4,13 @@
   <div class="query_area row">
     <%= form_for( '', method: 'GET', html: {class: 'form-group'}) do %>
         <div class="form-group row">
-          <label class="col-sm-1 control-label">买入人：</label>
-          <div class="col-sm-3">
+          <label class="col-sm-2 control-label">买入人：</label>
+          <div class="col-sm-4">
             <%= text_field_tag :buyer, params[:buyer], class:"form-control" %>
           </div>
 
-          <label class="col-sm-1 control-label">卖出人：</label>
-          <div class="col-sm-3">
+          <label class="col-sm-2 control-label">卖出人：</label>
+          <div class="col-sm-4">
             <%= text_field_tag :receiver, params[:receiver], class:"form-control" %>
           </div>
         </div>
@@ -27,8 +27,8 @@
 
   <div class="book_list row">
     <% @eos_knights.each  do |eos_knight| %>
-        <div class="panel panel-default">
-          <div class="panel-heading">
+        <div class="card" style="width: 22rem;margin: 5px">
+          <div class="card-header">
             <%
               if eos_knight.item_sale?
                 image_path = "/eos_knights/items/item_#{eos_knight.category_id}.png"
@@ -49,7 +49,7 @@
             </span>
           </div>
 
-          <div class="panel-body">
+          <div class="card-body">
             <div>
               卖出者 <%= eos_knight.receiver %> [<%= eos_knight.quantity %> EOS]
             </div>
@@ -60,9 +60,7 @@
         </div>
     <% end %>
   </div>
-  <div style="text-align: center;">
-    数据开始于 2019-01-06 14:00:02<br/>欢迎打赏，eos账户 jackpingling
-  </div>
+
   <%= paginate @eos_knights %>
 </div>
 

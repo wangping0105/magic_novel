@@ -1,4 +1,4 @@
-class Dapps::EosKnightsController < ApplicationController
+class Dapps::EosKnightsController < Dapps::ApplicationController
   def index
     @eos_knights = EosKnight.order(trx_time: :desc).page(params[:page])
 
@@ -17,5 +17,17 @@ class Dapps::EosKnightsController < ApplicationController
     if params[:category_id].present?
       @eos_knights = @eos_knights.where(category_id: params[:category_id])
     end
+  end
+
+  def rank
+    @eos_knights = EosKnight.select("count(id) c, category_id, category")
+
+    if params[:category].present?
+      @eos_knights = @eos_knights.where(category: params[:category])
+    end
+
+    @eos_knights = @eos_knights.group(:category_id, :category).
+        where("trx_time >= ?", Time.now - 9.hour ).
+        order("count(id) desc" ).limit(15)
   end
 end

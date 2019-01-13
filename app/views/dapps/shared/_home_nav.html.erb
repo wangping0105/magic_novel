@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">EOS Dapps</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item <%="active" if controller_name == "eos_knights" && action_name == "index" %>">
+        <a class="nav-link" href="/dapps/eos_knights" data-no-turbolink="true">Eosknights</a>
+      </li>
+
+      <li class="nav-item <%="active" if controller_name == "eos_knights" && action_name == "rank" %>">
+        <a class="nav-link" href="/dapps/eos_knights/rank" data-no-turbolink="true">交易排行</a>
+      </li>
+    </ul>
+  </div>
+</nav>
