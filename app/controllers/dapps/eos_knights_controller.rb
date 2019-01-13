@@ -28,6 +28,6 @@ class Dapps::EosKnightsController < Dapps::ApplicationController
 
     @eos_knights = @eos_knights.group(:category_id, :category).
         where("trx_time >= ?", Time.now - 9.hour ).
-        order("count(id) desc" ).limit(15)
+        order("count(id) desc, category_id asc" ).limit(15)
   end
 end

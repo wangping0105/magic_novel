@@ -1,5 +1,21 @@
 <div class="container">
   <h1>1小时内热门交易-前15名</h1>
+  <div class="query_area row">
+    <%= form_for( '', method: 'GET', html: {class: 'form-group', style: 'width: 100%;'}) do %>
+        <div class="form-group row">
+          <label class="col-sm-2 control-label">类别：</label>
+          <div class="col-sm-3">
+            <%= select_tag :category, options_for_select([['全部', ''], ['材料', 'material_sale'], ['装备', 'item_sale']], params[:category]), class:"form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <%= submit_tag '搜索', class: 'btn btn-sm btn-primary' %>
+          </div>
+        </div>
+    <%end %>
+  </div>
 
   <div class="book_list row">
     <% @eos_knights.each  do |eos_knight| %>
