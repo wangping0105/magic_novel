@@ -30,7 +30,7 @@ class EosKnight < ApplicationRecord
               trx_time = Time.parse(trace[:timestamp])
 
               p trx_time, set_time
-              if trx_time <= set_time
+              if trx_time < set_time
                 puts "达到设定时间，结束！"
                 flag = false
 
