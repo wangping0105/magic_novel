@@ -6,6 +6,13 @@ class EosKnight < ApplicationRecord
       item_sale: 1,
   }
 
+  def get_original_quantity
+    limit = 0.0066
+    rate = 1 - current_fee
+
+    quantity > limit ? (quantity/rate).round(4) : (quantity + 0.0001).round(4)
+  end
+
   class << self
 
     # EosKnight.fetch_data("2019-01-01 00:00:00", repeat_end: false)
@@ -60,6 +67,9 @@ class EosKnight < ApplicationRecord
                   :item_sale
                 end
 
+                eosknights_fee = Setting.find_or_create_by(var: "eosknights_fee", target_type: "System", target_id: 0)
+                current_fee = (eosknights_fee.value || 0.3).to_f
+
                 attrs = {
                     block_num: trace[:block_num],
                     data_md5: trace[:data_md5],
@@ -75,7 +85,8 @@ class EosKnight < ApplicationRecord
                     category: category,
                     category_id: infos[2],
                     sell_id: infos[3],
-                    buyer: infos.last
+                    buyer: infos.last,
+                    current_fee: current_fee
                 }
 
                 EosKnight.create!(attrs)

@@ -42,7 +42,7 @@
               <img src="<%= image_path %>" style="width: 40px;"/>
             </a>
             <span style="color: red">
-              <%= eos_knight.quantity > 0.0065 ? (eos_knight.quantity/0.97).round(4) : (eos_knight.quantity+0.0001).round(4) %> EOS
+              <%= eos_knight.get_original_quantity%> EOS
             </span>
             <span>
               <%= (eos_knight.trx_time + 8.hours).strftime("%F %T") %>
@@ -51,7 +51,7 @@
 
           <div class="card-body">
             <div>
-              卖出者 <%= eos_knight.receiver %> [<%= eos_knight.quantity %> EOS]
+              卖出者 <%= eos_knight.receiver %> [+<%= eos_knight.quantity %> EOS]
             </div>
             <div>
               买入者 <%= eos_knight.buyer %>
@@ -63,4 +63,3 @@
 
   <%= paginate @eos_knights %>
 </div>
-

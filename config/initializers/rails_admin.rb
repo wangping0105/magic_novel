@@ -15,7 +15,9 @@ RailsAdmin.config do |config|
   ## To disable Gravatar integration in Navigation Bar set to false
   # config.show_gravatar = true
   config.included_models = [
+      "Setting",
       "EosUser",
+      "EosKnight",
       "EosMining"
   ]
 
