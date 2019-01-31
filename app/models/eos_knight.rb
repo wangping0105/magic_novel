@@ -68,7 +68,7 @@ class EosKnight < ApplicationRecord
                 end
 
                 eosknights_fee = Setting.find_or_create_by(var: "eosknights_fee", target_type: "System", target_id: 0)
-                current_fee = (eosknights_fee.value || 0.3).to_f
+                current_fee = (eosknights_fee.value || 0.03).to_f
 
                 attrs = {
                     block_num: trace[:block_num],
