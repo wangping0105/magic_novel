@@ -7,7 +7,11 @@ class EosKnight < ApplicationRecord
   }
 
   def get_original_quantity
-    limit = 0.004
+    if current_fee == 0.03
+      limit = 0.0066
+    else
+      limit = 0.004
+    end
     rate = 1 - current_fee
 
     quantity >= limit ? (quantity/rate).round(4) : (quantity + 0.0001).round(4)
