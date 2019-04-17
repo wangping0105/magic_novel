@@ -1,0 +1,19 @@
+## 参考网站
+
+- https://eeeooosss.com/2-3-%E5%90%8C%E6%AD%A5%E4%B8%BB%E7%BD%91%E6%95%B0%E6%8D%AE/
+- https://developers.eos.io/eosio-nodeos/reference#get_account
+
+nodeos --config-dir /home/dev/eos/contracts/config --genesis-json /home/dev/eos/contracts/config/genesis.json
+
+
+mkdir /home/dev/eos/contracts/config
+cp config.ini /home/dev/eos/contracts/config/config.ini
+cp genesis.json /home/dev/eos/contracts/config/genesis.json
+
+
+
+curl --request POST \
+  --url http://localhost:8888/v1/chain/get_account \
+  --header 'accept: application/json' \
+  --header 'content-type: application/json' \
+  --data '{"account_name":"jackpingling"}'

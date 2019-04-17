@@ -10,3 +10,4 @@ require "errors/errors"
 require "errors/error_codes"
 
 require "crawler/fenghuo"
+require "crawler/yiren"
