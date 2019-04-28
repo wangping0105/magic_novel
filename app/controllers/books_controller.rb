@@ -33,7 +33,13 @@ class BooksController < ApplicationController
 
   def show
     set_page_title(@book.title)
-    @book_chapters = @book.book_chapters.includes(:book_volume).order(book_volume_id: :asc).order(id: :asc).page(params[:page]).per(128)
+    @book_chapters = @book.book_chapters.includes(:book_volume).page(params[:page]).per(128)
+    if params[:order_type] == "desc"
+      @book_chapters = @book_chapters.order(book_volume_id: :desc).order(id: :desc)
+    else
+      @book_chapters = @book_chapters.order(book_volume_id: :asc).order(id: :asc)
+    end
+
     # @book_volumns = @book.book_volumes.includes(:book_chapters)
     @collection = BookRelation.find_by(book: @book, user: current_user, relation_type: BookRelation.relation_type_options.select{|a| a[0]=='收藏'}[0][1])
   end
