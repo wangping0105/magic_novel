@@ -31,22 +31,23 @@
           <div class="card-header">
             <%
               if eos_sanguo.item_sale?
-                image_path = "/eos_sanguos/items/item_#{eos_sanguo.category_id}.png"
+                image_path = "/eos_sanguos/items/#{eos_sanguo.category_id}.jpeg"
                 obj_filter = "category_id=#{eos_sanguo.category_id}"
                 name = "装备"
               else
-                image_path = "/eos_sanguos/materials/rm_#{eos_sanguo.category_id}.png"
+                image_path = "/eos_sanguos/materials/#{eos_sanguo.category_id}.jpeg"
                 obj_filter = "category_id=#{eos_sanguo.category_id}"
                 name = "材料"
               end
-              image_path = if File.exists?("#{Rails.root}/public/#{image_path}")
+
+              image_path = if File.exists?("#{Rails.root}/public#{image_path}")
                 image_path
               else
                 nil
               end
             %>
             <a href="/dapps/eos_sanguos?<%= obj_filter %>">
-              <% if image_path %>
+              <% if image_path.present? %>
                 <img src="<%= image_path %>" style="width: 40px;"/>
               <% else %>
                 [<%= "#{name}#{eos_sanguo.category_id}" %>]
