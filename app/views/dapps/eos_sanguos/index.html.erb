@@ -33,9 +33,11 @@
               if eos_sanguo.item_sale?
                 image_path = "/eos_sanguos/items/item_#{eos_sanguo.category_id}.png"
                 obj_filter = "category_id=#{eos_sanguo.category_id}"
+                name = "装备"
               else
                 image_path = "/eos_sanguos/materials/rm_#{eos_sanguo.category_id}.png"
                 obj_filter = "category_id=#{eos_sanguo.category_id}"
+                name = "材料"
               end
               image_path = if File.exists?("#{Rails.root}/public/#{image_path}")
                 image_path
@@ -47,7 +49,7 @@
               <% if image_path %>
                 <img src="<%= image_path %>" style="width: 40px;"/>
               <% else %>
-                <%= [eos_sanguo.category_id] %>
+                [<%= "#{name}#{eos_sanguo.category_id}" %>]
               <% end %>
             </a>
             <span style="color: red">
