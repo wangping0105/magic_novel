@@ -362,7 +362,7 @@ function loginGame() {
         }, function (error) {
             log('登陆出错：' + JSON.stringify(error) + '，请关闭重新打开或者刷新本页面');
         });
-});
+    });
 }
 
 function logoutGame() {
