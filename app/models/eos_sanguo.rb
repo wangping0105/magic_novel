@@ -34,7 +34,8 @@ class EosSanguo < ApplicationRecord
         resp = sync_eos_transactions(module_name, action, account, page)
 
         if resp[:errno].to_i == 0
-          resp[:data][:trace_list].each do |trace|
+          if resp[:data].present? && resp[:data][:trace_list].present?
+            resp[:data][:trace_list].each do |trace|
             infos = trace[:memo].split(":")
             if infos.first == "eosdynasty"
               index += 1
@@ -98,6 +99,7 @@ class EosSanguo < ApplicationRecord
             end
 
             print "."
+          end
           end
           page +=1
         else
