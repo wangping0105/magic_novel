@@ -106,5 +106,11 @@ Rails.application.routes.draw do
         get :rank
       end
     end
+
+    resources :eos_sanguos do
+      collection do
+        get :rank
+      end
+    end
   end
 end

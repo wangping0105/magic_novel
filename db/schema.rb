@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190127111255) do
+ActiveRecord::Schema.define(version: 20190806072623) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -249,6 +249,33 @@ ActiveRecord::Schema.define(version: 20190127111255) do
     t.datetime "updated_at",                   null: false
     t.index ["category"], name: "index_eos_minings_on_category", using: :btree
     t.index ["eos_user_id"], name: "index_eos_minings_on_eos_user_id", using: :btree
+  end
+
+  create_table "eos_sanguos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "block_num"
+    t.string   "trx_id",      limit: 64
+    t.string   "data_md5"
+    t.datetime "trx_time"
+    t.string   "receiver",    limit: 20
+    t.string   "sender",      limit: 20
+    t.string   "code"
+    t.string   "memo"
+    t.string   "symbol"
+    t.string   "status"
+    t.float    "quantity",    limit: 24
+    t.integer  "category"
+    t.integer  "category_id"
+    t.integer  "sell_id"
+    t.string   "buyer"
+    t.float    "current_fee", limit: 24, default: 0.03
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.index ["block_num"], name: "index_eos_sanguos_on_block_num", using: :btree
+    t.index ["category"], name: "index_eos_sanguos_on_category", using: :btree
+    t.index ["category_id"], name: "index_eos_sanguos_on_category_id", using: :btree
+    t.index ["receiver"], name: "index_eos_sanguos_on_receiver", using: :btree
+    t.index ["sender"], name: "index_eos_sanguos_on_sender", using: :btree
+    t.index ["trx_id"], name: "index_eos_sanguos_on_trx_id", using: :btree
   end
 
   create_table "eos_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

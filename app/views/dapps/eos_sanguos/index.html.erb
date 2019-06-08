@@ -1,0 +1,74 @@
+<div class="container">
+  <h1>交易记录</h1>
+
+  <div class="query_area row">
+    <%= form_for( '', method: 'GET', html: {class: 'form-group'}) do %>
+        <div class="form-group row">
+          <label class="col-sm-2 control-label">买入人：</label>
+          <div class="col-sm-4">
+            <%= text_field_tag :buyer, params[:buyer], class:"form-control" %>
+          </div>
+
+          <label class="col-sm-2 control-label">卖出人：</label>
+          <div class="col-sm-4">
+            <%= text_field_tag :receiver, params[:receiver], class:"form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <%= submit_tag '搜索', class: 'btn btn-sm btn-primary' %>
+            <%= button_tag '清空', type: 'button',class: 'form_reset btn btn-sm btn-primary' %>
+          </div>
+        </div>
+    <%end %>
+  </div>
+
+
+  <div class="book_list row">
+    <% @eos_sanguos.each  do |eos_sanguo| %>
+        <div class="card" style="width: 22rem;margin: 5px">
+          <div class="card-header">
+            <%
+              if eos_sanguo.item_sale?
+                image_path = "/eos_sanguos/items/item_#{eos_sanguo.category_id}.png"
+                obj_filter = "category_id=#{eos_sanguo.category_id}"
+              else
+                image_path = "/eos_sanguos/materials/rm_#{eos_sanguo.category_id}.png"
+                obj_filter = "category_id=#{eos_sanguo.category_id}"
+              end
+              image_path = if File.exists?("#{Rails.root}/public/#{image_path}")
+                image_path
+              else
+                nil
+              end
+            %>
+            <a href="/dapps/eos_sanguos?<%= obj_filter %>">
+              <% if image_path %>
+                <img src="<%= image_path %>" style="width: 40px;"/>
+              <% else %>
+                <%= [eos_sanguo.category_id] %>
+              <% end %>
+            </a>
+            <span style="color: red">
+              <%= eos_sanguo.get_original_quantity%> EOS
+            </span>
+            <span>
+              <%= (eos_sanguo.trx_time + 8.hours).strftime("%F %T") %>
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div>
+              卖出者 <%= eos_sanguo.receiver %> [+<%= eos_sanguo.quantity %> EOS]
+            </div>
+            <div>
+              买入者 <%= eos_sanguo.buyer %>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+
+  <%= paginate @eos_sanguos %>
+</div>

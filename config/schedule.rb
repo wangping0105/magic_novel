@@ -19,8 +19,8 @@ every :day, :at => '1:45am', :roles => [:whenever] do
 end
 
 
-every 1.hour, :roles => [:whenever] do
+every 10.mintues, :roles => [:whenever] do
   task_logger %{eosknights BEGIN}
-  rake 'eosknights:async'
+  rake 'eossanguos:async'
   task_logger %{eosknights FINISHED}
 end
