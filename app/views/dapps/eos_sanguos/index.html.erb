@@ -59,6 +59,13 @@
             <span>
               <%= (eos_sanguo.trx_time + 8.hours).strftime("%F %T") %>
             </span>
+            <% unless image_path.present? %>
+              <span>
+                <form>
+                <input id='upload_file' type=file name=file >
+              </form>
+              </span>
+            <% end %>
           </div>
 
           <div class="card-body">
@@ -75,3 +82,9 @@
 
   <%= paginate @eos_sanguos %>
 </div>
+
+<script type="text/javascript">
+  $("#upload_file").change(function(){
+    $(this).submit();
+  })
+</script>
