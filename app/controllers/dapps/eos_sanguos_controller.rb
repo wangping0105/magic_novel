@@ -38,9 +38,10 @@ class Dapps::EosSanguosController < Dapps::ApplicationController
     category = params[:category]
     path = "#{Rails.root}/public/eos_sanguos/#{category}/#{category_id}.jpeg"
 
-    `cp #{file.tempfile.path} #{path}`
+    file1 = File.open(path, "w+")
+    FileUtils.copy_stream(file.tempfile, file1)
 
-    redirect_to dapps_eos_sanguos_path(params: params)
+    redirect_to dapps_eos_sanguos_path(buyer: params[:buyer], receiver: params[:receiver])
   end
 
 end
