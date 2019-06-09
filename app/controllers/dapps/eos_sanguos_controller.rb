@@ -36,10 +36,11 @@ class Dapps::EosSanguosController < Dapps::ApplicationController
 
     category_id = params[:category_id]
     category = params[:category]
+    path = "#{Rails.root}/public/eos_sanguos/#{category}/#{category_id}.jpeg"
 
-    FileUtils.cp(file.tempfile, "#{Rails.root}/public/eos_sanguos/#{category}/#{category_id}.jpeg")
+    `cp #{file.tempfile.path} #{path}`
 
-    redirect_to dapps_eos_sanguos_path
+    redirect_to dapps_eos_sanguos_path(params: params)
   end
 
 end

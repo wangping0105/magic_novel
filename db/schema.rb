@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190806072623) do
+ActiveRecord::Schema.define(version: 20190806072624) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -249,6 +249,18 @@ ActiveRecord::Schema.define(version: 20190806072623) do
     t.datetime "updated_at",                   null: false
     t.index ["category"], name: "index_eos_minings_on_category", using: :btree
     t.index ["eos_user_id"], name: "index_eos_minings_on_eos_user_id", using: :btree
+  end
+
+  create_table "eos_records", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "eos_user_id"
+    t.integer  "types",                  default: 0
+    t.float    "quantity",    limit: 24
+    t.string   "memo"
+    t.string   "code"
+    t.string   "symbol"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.index ["eos_user_id"], name: "index_eos_records_on_eos_user_id", using: :btree
   end
 
   create_table "eos_sanguos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

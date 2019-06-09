@@ -65,6 +65,8 @@
                 <form action="/dapps/eos_sanguos/upload_file" method='post' enctype="multipart/form-data">
                   <input type=hidden name='category_id' value=<%= eos_sanguo.category_id %> />
                   <input type=hidden name='category' value='<%= eos_sanguo.item_sale? ? 'items' : 'materials' %>' />
+                  <input type=hidden name='buyer' value='<%= params[:buyer] %>' />
+                  <input type=hidden name='receiver' value='<%= params[:receiver] %>' />
 
                   <input class='upload_file' type=file name=file />
                 </form>
