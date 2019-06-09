@@ -4,21 +4,22 @@
   <div class="query_area row">
     <%= form_for( '', method: 'GET', html: {class: 'form-group'}) do %>
         <div class="form-group row">
-          <label class="col-sm-2 control-label">买入人：</label>
-          <div class="col-sm-4">
+          <div class="col-sm-5 control-label" style="display: flex;margin-top: 5px">
+            <span style="width: 100px">买入人：</span>
             <%= text_field_tag :buyer, params[:buyer], class:"form-control" %>
           </div>
 
-          <label class="col-sm-2 control-label">卖出人：</label>
-          <div class="col-sm-4">
+          <div class="col-sm-6 control-label" style="display: flex;margin-top: 5px">
+            <span style="width: 100px">卖出人：</span>
             <%= text_field_tag :receiver, params[:receiver], class:"form-control" %>
-          </div>
+            </div>
         </div>
 
         <div class="form-group row">
           <div class="col-sm-12">
             <%= submit_tag '搜索', class: 'btn btn-sm btn-primary' %>
-            <%= button_tag '清空', type: 'button',class: 'form_reset btn btn-sm btn-primary' %>
+            <%= button_tag '清空', type: 'button', class: 'form_reset btn btn-sm btn-primary', onclick: '$(this).parents("form")[0].reset()' %>
+            <%= button_tag '打赏0.1EOS', type: 'button',class: 'btn btn-sm btn-primary sent_money' %>
           </div>
         </div>
     <%end %>
@@ -85,9 +86,3 @@
 
   <%= paginate @eos_sanguos %>
 </div>
-
-<script type="text/javascript">
-  $("#upload_file").change(function(){
-    $(this).parent().submit();
-  })
-</script>

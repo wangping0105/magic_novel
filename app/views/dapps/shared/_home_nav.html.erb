@@ -1,3 +1,32 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+  <h5 class="my-0 mr-md-auto font-weight-normal">EOS Dapps</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="/dapps/eos_sanguos" data-no-turbolink="true">EOS三国</a>
+    <a class="p-2 text-dark" href="/dapps/eos_sanguos/rank" data-no-turbolink="true">交易排行</a>
+  </nav>
+  <div class="">
+    <label for="txtAccount"></label>
+    <span id="lbUserName"></span>
+    <button type="button" class="btn btn-info btn-sm" id="btnLogin">登陆</button>
+    <button type="button" class="btn btn-info btn-sm" style="display:none;" id="btnLogout">退出</button>
+  </div>
+</div>
+<div  style="display: none;">
+  <div class="form-group">
+    <label for="txtHttpEndpoint">节点</label>
+    <input type="text" class="form-control" id="txtHttpEndpoint" aria-describedby="txtHttpEndpointHelp" placeholder="输入节点" value="https://node.betdice.one">
+    <small id="txtHttpEndpointHelp" class="form-text text-muted">官方默认节点</small>
+  </div>
+
+  <div class="form-group">
+    <label for="txtResults">监视面板</label>
+    <div>当前余额：<span id="lbBalance"> EOS</span>，CPU可用百分比：<span id="lbCPUAvailable">%</span></div>
+    <textarea id="txtResults" class="form-control" style="height:605px; font-size:12px; " readonly="readonly"></textarea>
+  </div>
+</div>
+
+
+<!--
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">EOS Dapps</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,13 +35,13 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <!--<li class="nav-item <%="active" if controller_name == "eos_knights" && action_name == "index" %>">-->
-        <!--<a class="nav-link" href="/dapps/eos_knights" data-no-turbolink="true">Eosknights</a>-->
-      <!--</li>-->
+      <li class="nav-item <%="active" if controller_name == "eos_knights" && action_name == "index" %>">
+        <a class="nav-link" href="/dapps/eos_knights" data-no-turbolink="true">Eosknights</a>
+      </li>
 
-      <!--<li class="nav-item <%="active" if controller_name == "eos_knights" && action_name == "rank" %>">-->
-        <!--<a class="nav-link" href="/dapps/eos_knights/rank" data-no-turbolink="true">交易排行</a>-->
-      <!--</li>-->
+      <li class="nav-item <%="active" if controller_name == "eos_knights" && action_name == "rank" %>">
+        <a class="nav-link" href="/dapps/eos_knights/rank" data-no-turbolink="true">交易排行</a>
+      </li>
 
       <li class="nav-item <%="active" if controller_name == "eos_knights" && action_name == "index" %>">
         <a class="nav-link" href="/dapps/eos_sanguos" data-no-turbolink="true">EOS三国</a>
@@ -23,196 +52,5 @@
       </li>
     </ul>
   </div>
-
-  <div>
-    <div class="form-group" style="display: none;">
-      <label for="txtHttpEndpoint">节点</label>
-      <input type="text" class="form-control" id="txtHttpEndpoint" aria-describedby="txtHttpEndpointHelp" placeholder="输入节点" value="https://node.betdice.one">
-      <small id="txtHttpEndpointHelp" class="form-text text-muted">官方默认节点</small>
-    </div>
-    <div class="form-group">
-      <label for="txtAccount">账号</label>
-      <span id="lbUserName"></span>
-    </div>
-    <div class="form-group">
-      <button type="button" class="btn btn-info btn-sm" id="btnLogin">登陆</button>
-      <button type="button" class="btn btn-info btn-sm" style="display:none;" id="btnLogout">退出</button>
-    </div>
-  </div>
 </nav>
-
-<script>
-    var chainId = 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906';
-
-    var eos = null;
-    var betstate = 0;
-    var betamount = '';
-    var referralsaccount = '';
-    var timeout = 0;
-    var memo = '';
-    var balance = -1;
-    var balanceUnder = 0;
-    var checkTokenQuantityTimeout = 2000;
-    var hasCPU = false;
-    var cpuAvailable = '';
-    var network = null;
-    var identity = null;
-    var cpuUnder = 0;
-    var betaccount = '';
-    var eosing = false;//eos是否在请求中
-    var chars = 'abcefghijlmnopqrstuvwxyz-';
-
-    function getAccountName() {
-        if (identity == null || identity.accounts == null || identity.accounts.length == 0)
-            return betaccount;
-        const account = identity.accounts.find(x => x.blockchain === network.blockchain);
-        return account.name;
-    }
-
-    function isRunning() {
-        return betstate == 1;
-    }
-
-    function CheckAccount() {
-        if (getAccountName() == '') {
-            setTimeout(CheckAccount, 1200);
-            return;
-        }
-
-        try {
-            eos.getAccount({ account_name: getAccountName() }).then(res => {
-                var cb = res.core_liquid_balance;
-                balance = res.length == 0 ? 0 : new Number(cb.split(' ')[0]).valueOf();
-                var cl = res.cpu_limit;
-                cpuAvailable = document.getElementById('lbCPUAvailable').innerHTML = new Number((cl.available * 100 / cl.max)).toFixed(2) + '%';
-                hasCPU = cl.available > 0 && ((cl.available * 100 / cl.max) >= cpuUnder);
-                setTimeout(CheckAccount, 1200);
-            }).catch(err => {
-                log('检查账号出错：' + JSON.stringify(err));
-                setTimeout(CheckAccount, 1200);
-            });
-        } catch (error) {
-            log('检查账号出错：' + JSON.stringify(error));
-            setTimeout(CheckAccount, 1200);
-        }
-    }
-
-    function openScatter(successCallback, errorCallbak) {
-        if (!hasScatter()) {
-            errorCallbak("scatter required");
-            return;
-        }
-        checkoutNetworks();
-        scatter.suggestNetwork(network).then(() => {
-            const requirements = { accounts: [network] };
-            scatter.getIdentity(requirements).then(
-                function (i) {
-                    if (!i) {
-                        return errorCallbak(null);
-                    }
-                    identity = i;
-                    document.getElementById('lbUserName').innerHTML = identity.accounts[0].name;
-                    successCallback();
-                }
-            ).catch(error => {
-                errorCallbak(error);
-            });
-        }).catch(error => {
-            errorCallbak(error);
-        });
-    }
-
-    function transfer(recipient, amount, memo, successCallback, errorCallback) {
-        if (identity == null) {
-            openScatter(() => {
-                transfer(recipient, amount, memo, successCallback, errorCallback);
-            }, errorCallback);
-        } else {
-            const account = identity.accounts.find(x => x.blockchain === network.blockchain);
-            const transactionOptions = { authorization: [account.name + '@' + account.authority], broadcast: true, sign: true };
-            eos.transfer(account.name, recipient, amount, memo, transactionOptions).then(trx => {
-                successCallback(trx);
-            }).catch(error => {
-                errorCallback(error);
-            });
-        }
-    }
-
-    function loginGame() {
-        if (!hasScatter()) {
-            alert('scatter required');
-            return;
-        }
-        scatter.connect('DICEEOSHELPER').then(connected => {
-            openScatter(function () {
-                document.getElementById('btnLogin').style.display = 'none';
-                document.getElementById('btnLogout').style.display = '';
-//                sockerLogin();
-                log('登陆成功：' + JSON.stringify(identity));
-            }, function (error) {
-                log('登陆出错：' + JSON.stringify(error) + '，请关闭重新打开或者刷新本页面');
-            });
-        });
-    }
-
-    function logoutGame() {
-        if (isRunning()) {
-            alert("请先停止脚本");
-            return;
-        }
-        if (identity) {
-            identity = null;
-            if (hasScatter()) {
-                scatter.forgetIdentity().then(() => {
-                    document.getElementById('lbUserName').innerHTML = '';
-                    document.getElementById('btnLogin').style.display = '';
-                    document.getElementById('btnLogout').style.display = 'none';
-                });
-            }
-        }
-    }
-
-    function hasScatter() {
-        return scatter !== undefined;
-    }
-
-    function checkoutNetworks() {
-        var httpEndpoint = document.getElementById('txtHttpEndpoint').value.split('://');
-        var host = httpEndpoint[1].split(':');
-
-        network = {
-            blockchain: 'eos',
-            host: host[0],
-            port: host.length > 1 ? host[0] : (httpEndpoint[0].toLowerCase() == 'https' ? 443 : 80),
-            chainId: chainId,
-            protocol: httpEndpoint[0],
-        };
-
-        eos = scatter.eos(network, Eos, { expireInSeconds: 60 }, "https");
-        log('网络参数：' + JSON.stringify(network));
-    }
-
-
-    //日志:
-    function log(msg) {
-        console.log(msg);
-//        var txtResults = document.getElementById('txtResults');
-//        var html = txtResults.innerHTML;
-//        var items = html == '' ? [] : html.split('\n');
-//        var overflow = items.length - 100;
-//        if (overflow > 0) {
-//            items.splice(0, overflow);
-//        }
-//        items.push(msg);
-//        txtResults.innerHTML = items.join('\n');
-//        txtResults.scrollTop = txtResults.scrollHeight;
-    }
-    setTimeout(CheckAccount, 100);
-
-    function init() {
-        document.getElementById('btnLogin').addEventListener('click', loginGame);
-        document.getElementById('btnLogout').addEventListener('click', logoutGame);
-    }
-
-    init();
-</script>
+-->

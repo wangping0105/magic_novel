@@ -19,7 +19,7 @@ class EosSanguo < ApplicationRecord
 
   class << self
 
-    # EosSanguo.fetch_data("2019-06-01 00:00:00", repeat_end: false, max_count: 20000, dpage: 1391)
+    # EosSanguo.fetch_data("2019-06-01 00:00:00", repeat_end: false, max_count: 100000)
     # 获取数据
     def fetch_data(set_time, repeat_end: true, dpage: 1, max_count: 5000)
       module_name = "account"
