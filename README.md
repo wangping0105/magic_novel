@@ -1,3 +1,6 @@
+# 从服务器同步图片
+scp -r dev@47.91.157.26:/home/dev/rails_projects/magic_novel_production/current/public/eos_sanguos /Users/devloper/rails_projects/magic_novel/public/
+
 # Magic book
 魔书网，体验极致小说阅读.
 
