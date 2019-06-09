@@ -110,6 +110,7 @@ Rails.application.routes.draw do
     resources :eos_sanguos do
       collection do
         get :rank
+        post :upload_file
       end
     end
   end

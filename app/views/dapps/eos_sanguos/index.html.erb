@@ -61,9 +61,12 @@
             </span>
             <% unless image_path.present? %>
               <span>
-                <form>
-                <input id='upload_file' type=file name=file >
-              </form>
+                <form action="/dapps/eos_sanguos/upload_file" method='post' enctype="multipart/form-data">
+                  <input type=hidden name='category_id' value=<%= eos_sanguo.category_id %> />
+                  <input type=hidden name='category' value='<%= eos_sanguo.item_sale? ? 'items' : 'materials' %>' />
+
+                  <input id='upload_file' type=file name=file />
+                </form>
               </span>
             <% end %>
           </div>
@@ -85,6 +88,6 @@
 
 <script type="text/javascript">
   $("#upload_file").change(function(){
-    $(this).submit();
+    $(this).parent().submit();
   })
 </script>

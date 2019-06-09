@@ -30,4 +30,16 @@ class Dapps::EosSanguosController < Dapps::ApplicationController
         where("trx_time >= ?", Time.now - 9.hour ).
         order("count(id) desc, category_id asc" ).limit(15)
   end
+
+  def upload_file
+    file = params[:file]
+
+    category_id = params[:category_id]
+    category = params[:category]
+
+    FileUtils.cp(file.tempfile, "#{Rails.root}/public/eos_sanguos/#{category}/#{category_id}.jpeg")
+
+    redirect_to dapps_eos_sanguos_path
+  end
+
 end
