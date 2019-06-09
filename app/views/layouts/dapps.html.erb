@@ -58,5 +58,251 @@
     <% if content_for?(:js_in_footer) %>
     <%= yield(:js_in_footer) %>
     <% end %>
+
+    var chainId = 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906';
+
+    var eos = null;
+    var state = 0;
+
+    var referralsaccount = '';
+    var timeout = 0;
+    var memo = '';
+    var balance = -1;
+    var balanceUnder = 0;
+    var checkTokenQuantityTimeout = 2000;
+    var hasCPU = false;
+    var cpuAvailable = '';
+    var network = null;
+    var identity = null;
+    var cpuUnder = 0;
+    var betaccount = '';
+    var eosing = false;//eos是否在请求中
+    var chars = 'abcefghijlmnopqrstuvwxyz-';
+
+    $(function(){
+        function getAccountName() {
+            if (identity == null || identity.accounts == null || identity.accounts.length == 0)
+                return betaccount;
+            const account = identity.accounts.find(x => x.blockchain === network.blockchain);
+            return account.name;
+        }
+
+        function isRunning() {
+            return state == 1;
+        }
+
+        function CheckAccount() {
+            if (getAccountName() == '') {
+                setTimeout(CheckAccount, 1200);
+                return;
+            }
+
+//        try {
+            eos.getAccount({ account_name: getAccountName() }).then(res => {
+                var cb = res.core_liquid_balance;
+                balance = res.length == 0 ? 0 : new Number(cb.split(' ')[0]).valueOf();
+                var cl = res.cpu_limit;
+                cpuAvailable = document.getElementById('lbCPUAvailable').innerHTML = new Number((cl.available * 100 / cl.max)).toFixed(2) + '%';
+                hasCPU = cl.available > 0 && ((cl.available * 100 / cl.max) >= cpuUnder);
+                setTimeout(CheckAccount, 1200);
+            }).catch(err => {
+                log('检查账号出错：' + JSON.stringify(err));
+                setTimeout(CheckAccount, 1200);
+            });
+//        } catch (error) {
+//            log('检查账号出错：' + JSON.stringify(error));
+//            setTimeout(CheckAccount, 1200);
+//        }
+        }
+
+        function openScatter(successCallback, errorCallbak) {
+            if (!hasScatter()) {
+                errorCallbak("scatter required");
+                return;
+            }
+            checkoutNetworks();
+            scatter.suggestNetwork(network).then(function() {
+                const requirements = { accounts: [network] };
+                scatter.getIdentity(requirements).then(
+                    function (i) {
+                        if (!i) {
+                            return errorCallbak(null);
+                        }
+                        identity = i;
+                        document.getElementById('lbUserName').innerHTML = identity.accounts[0].name;
+                        successCallback();
+                    }
+                ).catch(error => {
+                    errorCallbak(error);
+                });
+            }).catch(error => {
+                errorCallbak(error);
+            });
+        }
+
+        function transfer(recipient, amount, memo, successCallback, errorCallback) {
+            if (identity == null) {
+                openScatter(function() {
+                    transfer(recipient, amount, memo, successCallback, errorCallback);
+                }, errorCallback);
+            } else {
+                const account = identity.accounts.find(x => x.blockchain === network.blockchain);
+                const transactionOptions = { authorization: [account.name + '@' + account.authority], broadcast: true, sign: true };
+                eos.transfer(account.name, recipient, amount, memo, transactionOptions).then(trx => {
+                    successCallback(trx);
+                }).catch(error => {
+                    errorCallback(error);
+                });
+            }
+        }
+
+        function loginGame() {
+            if (!hasScatter()) {
+                alert('scatter required');
+                return;
+            }
+            scatter.connect('DICEEOSHELPER').then(connected => {
+                openScatter(function () {
+                    document.getElementById('btnLogin').style.display = 'none';
+                    document.getElementById('btnLogout').style.display = '';
+
+                    log('登陆成功：' + JSON.stringify(identity));
+                }, function (error) {
+                    log('登陆出错：' + JSON.stringify(error) + '，请关闭重新打开或者刷新本页面');
+                });
+            });
+        }
+
+        function logoutGame() {
+            if (isRunning()) {
+                alert("请先停止脚本");
+                return;
+            }
+            if (identity) {
+                identity = null;
+                if (hasScatter()) {
+                    scatter.forgetIdentity().then(function() {
+                        document.getElementById('lbUserName').innerHTML = '';
+                        document.getElementById('btnLogin').style.display = '';
+                        document.getElementById('btnLogout').style.display = 'none';
+                    });
+                }
+            }
+        }
+
+        function hasScatter() {
+            return scatter !== undefined;
+        }
+
+        function checkoutNetworks() {
+            var httpEndpoint = document.getElementById('txtHttpEndpoint').value.split('://');
+            var host = httpEndpoint[1].split(':');
+
+            network = {
+                blockchain: 'eos',
+                host: host[0],
+                port: host.length > 1 ? host[0] : (httpEndpoint[0].toLowerCase() == 'https' ? 443 : 80),
+                chainId: chainId,
+                protocol: httpEndpoint[0],
+            };
+
+            eos = scatter.eos(network, Eos, { expireInSeconds: 60 }, "https");
+            log('网络参数：' + JSON.stringify(network));
+        }
+
+
+//日志:
+        function log(msg) {
+            console.log(msg);
+//        var txtResults = document.getElementById('txtResults');
+//        var html = txtResults.innerHTML;
+//        var items = html == '' ? [] : html.split('\n');
+//        var overflow = items.length - 100;
+//        if (overflow > 0) {
+//            items.splice(0, overflow);
+//        }
+//        items.push(msg);
+//        txtResults.innerHTML = items.join('\n');
+//        txtResults.scrollTop = txtResults.scrollHeight;
+        }
+        setTimeout(CheckAccount, 100);
+
+        function init() {
+            document.getElementById('btnLogin').addEventListener('click', loginGame);
+            document.getElementById('btnLogout').addEventListener('click', logoutGame);
+        }
+
+        init();
+
+
+        // 打赏
+        function sent_money(callback, onError) {
+            if (identity == null) {
+                openScatter(function() {
+                    sent_money(callback, onError);
+                }, onError);
+            } else {
+                var accountName = getAccountName();
+                try {
+                    var params = [{
+                        account: 'eosio.token',  //合约账号
+                        name: 'transfer',
+                        authorization: [{ actor: accountName, permission: 'active' }],
+                        data: {
+                            from: accountName,
+                            to: 'jackpingling',
+                            quantity: "0.1000 EOS",
+                            memo: 'donate'
+                        }
+                    }];
+
+                    eos.transaction({
+                        actions: params
+                    }).then(res => {
+                        console.log(res + ' 捐赠成功')
+                        callback();
+                    }).catch((err) => {
+                        console.log(err + ' 捐赠失败')
+                        onError();
+                    });
+                }
+                catch (e) {
+                    console.log(e + ' ')
+                    onError();
+                }
+            }
+        }
+
+        $(".sent_money").click(function () {
+            sent_money(function () {
+
+            },function () {
+
+            });
+        });
+
+        // 上传图片
+        $("#upload_file").change(function () {
+            if (identity == null) {
+                openScatter(function() {
+                    var accountName = getAccountName();
+
+                    $(this).parent().submit();
+                }, function(){});
+            } else {
+                $(this).parent().submit();
+            }
+        });
+
+        setTimeout(function () {
+            openScatter(function() {
+                getAccountName()
+                document.getElementById('btnLogin').style.display = 'none';
+                document.getElementById('btnLogout').style.display = '';
+                log('登陆成功：' + JSON.stringify(identity));
+            }, function(){})
+        }, 1000)
+    })
+
 </script>
 
