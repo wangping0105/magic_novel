@@ -14,12 +14,16 @@ end
 
 every :day, :at => '1:45am', :roles => [:whenever] do
   task_logger %{update_books BEGIN}
-  rake ' mechanize:update_books'
+  rake 'mechanize:update_books'
   task_logger %{update_books FINISHED}
 end
+every :day, :at => '0:30am', :roles => [:whenever] do
+  task_logger %{eossanguos every_day BEGIN}
+  rake 'eossanguos:every_day'
+  task_logger %{eossanguos  every_day FINISHED}
+end
 
-
-every 15.minute, :roles => [:whenever] do
+every 10.minute, :roles => [:whenever] do
   task_logger %{eosknights BEGIN}
   rake 'eossanguos:async'
   task_logger %{eosknights FINISHED}
