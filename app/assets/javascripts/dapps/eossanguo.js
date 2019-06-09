@@ -60,7 +60,7 @@ $(function(){
             return;
         }
         checkoutNetworks();
-        scatter.suggestNetwork(network).then(() => {
+        scatter.suggestNetwork(network).then(function() {
             const requirements = { accounts: [network] };
             scatter.getIdentity(requirements).then(
                 function (i) {
@@ -81,7 +81,7 @@ $(function(){
 
     function transfer(recipient, amount, memo, successCallback, errorCallback) {
         if (identity == null) {
-            openScatter(() => {
+            openScatter(function() {
                 transfer(recipient, amount, memo, successCallback, errorCallback);
             }, errorCallback);
         } else {
@@ -120,7 +120,7 @@ $(function(){
         if (identity) {
             identity = null;
             if (hasScatter()) {
-                scatter.forgetIdentity().then(() => {
+                scatter.forgetIdentity().then(function() {
                     document.getElementById('lbUserName').innerHTML = '';
                     document.getElementById('btnLogin').style.display = '';
                     document.getElementById('btnLogout').style.display = 'none';
@@ -177,7 +177,7 @@ $(function(){
     // 打赏
     function sent_money(callback, onError) {
         if (identity == null) {
-            openScatter(() => {
+            openScatter(function() {
                 sent_money(callback, onError);
             }, onError);
         } else {
@@ -218,21 +218,20 @@ $(function(){
         },function () {
 
         });
-    })
-
+    });
 
     // 上传图片
     $("#upload_file").change(function () {
         if (identity == null) {
-            openScatter(() => {
+            openScatter(function() {
                 var accountName = getAccountName();
 
                 $(this).parent().submit();
-            }, ()=>{});
+            }, function(){});
         } else {
             $(this).parent().submit();
         }
-    })
+    });
 
     setTimeout(function () {
         openScatter(function() {
@@ -240,6 +239,6 @@ $(function(){
             document.getElementById('btnLogin').style.display = 'none';
             document.getElementById('btnLogout').style.display = '';
             log('登陆成功：' + JSON.stringify(identity));
-        }, ()=>{})
+        }, function(){})
     }, 1000)
 })
