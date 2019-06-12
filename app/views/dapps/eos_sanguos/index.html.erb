@@ -32,11 +32,11 @@
           <div class="card-header">
             <%
               if eos_sanguo.item_sale?
-                image_path = "/eos_sanguos/items/#{eos_sanguo.category_id}.jpeg"
+                image_path = "/eos_sanguos/items/#{eos_sanguo.category_id}.png"
                 obj_filter = "category_id=#{eos_sanguo.category_id}"
                 name = "装备"
               else
-                image_path = "/eos_sanguos/materials/#{eos_sanguo.category_id}.jpeg"
+                image_path = "/eos_sanguos/materials/#{eos_sanguo.category_id}.png"
                 obj_filter = "category_id=#{eos_sanguo.category_id}"
                 name = "材料"
               end

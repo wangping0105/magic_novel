@@ -36,7 +36,7 @@ class Dapps::EosSanguosController < Dapps::ApplicationController
 
     category_id = params[:category_id]
     category = params[:category]
-    path = "#{Rails.root}/public/eos_sanguos/#{category}/#{category_id}.jpeg"
+    path = "#{Rails.root}/public/eos_sanguos/#{category}/#{category_id}.png"
 
     file1 = File.open(path, "w+")
     FileUtils.copy_stream(file.tempfile, file1)
