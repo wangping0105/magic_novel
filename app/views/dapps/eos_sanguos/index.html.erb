@@ -49,7 +49,7 @@
             %>
             <a href="/dapps/eos_sanguos?<%= obj_filter %>">
               <% if image_path.present? %>
-                <img src="<%= image_path %>" style="width: 40px;"/>
+                <img src="<%= image_path %>" style="width: 40px; background: url('/eos_sanguos/i-bg.png'); <%= get_border_style(eos_sanguo.category_id)%>"/>
               <% else %>
                 [<%= "#{name}#{eos_sanguo.category_id}" %>]
               <% end %>
