@@ -2,6 +2,10 @@ class Dapps::EosSanguosController < Dapps::ApplicationController
   def index
     @eos_sanguos = EosSanguo.order(trx_time: :desc).page(params[:page])
 
+    begin_time = Date.today.at_beginning_of_day - 8.hour
+    end_time = Date.today.at_end_of_day - 8.hour
+    @eos_sanguos_today = EosSanguo.where(trx_time: begin_time..end_time)
+
     if params[:category].present?
       @eos_sanguos = @eos_sanguos.where(category: params[:category])
     end

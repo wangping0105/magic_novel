@@ -2,6 +2,10 @@ class Dapps::EosKnightsController < Dapps::ApplicationController
   def index
     @eos_knights = EosKnight.order(trx_time: :desc).page(params[:page])
 
+    begin_time = Date.today.at_beginning_of_day - 8.hour
+    end_time = Date.today.at_end_of_day - 8.hour
+    @eos_knights_today = EosKnight.where(trx_time: begin_time..end_time)
+
     if params[:category].present?
       @eos_knights = @eos_knights.where(category: params[:category])
     end

@@ -2,7 +2,12 @@
   <h1>交易记录</h1>
 
   <div class="query_area row">
+
+
     <%= form_for( '', method: 'GET', html: {class: 'form-group'}) do %>
+        <div>
+          官方今日收入约：<%= (@eos_knights_today.map{|ekt| ekt.get_original_quantity }.sum - @eos_knights_today.sum(:quantity)).round(4) %> EOS
+        </div>
         <div class="form-group row">
           <label class="col-sm-2 control-label">买入人：</label>
           <div class="col-sm-4">
@@ -42,7 +47,7 @@
               <img src="<%= image_path %>" style="width: 40px;"/>
             </a>
             <span style="color: red">
-              <%= eos_knight.get_original_quantity%> EOS
+              <%= eos_knight.get_original_quantity %> EOS
             </span>
             <span>
               <%= (eos_knight.trx_time + 8.hours).strftime("%F %T") %>

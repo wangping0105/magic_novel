@@ -3,6 +3,9 @@
 
   <div class="query_area row">
     <%= form_for( '', method: 'GET', html: {class: 'form-group'}) do %>
+        <div>
+          官方今日收入约：<%= (@eos_sanguos_today.map{|ekt| ekt.get_original_quantity }.sum - @eos_sanguos_today.sum(:quantity)).round(4) %> EOS
+        </div>
         <div class="form-group row">
           <div class="col-sm-5 control-label" style="display: flex;margin-top: 5px">
             <span style="width: 100px">买入人：</span>
