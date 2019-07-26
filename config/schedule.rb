@@ -30,8 +30,8 @@ every :day, :at => '0:35am', :roles => [:whenever] do
   task_logger %{eosknights  every_day FINISHED}
 end
 
-every 10.minute, :roles => [:whenever] do
-  task_logger %{eosknights BEGIN}
-  rake 'eossanguos:async'
-  task_logger %{eosknights FINISHED}
-end
+# every 10.minute, :roles => [:whenever] do
+#   task_logger %{eosknights BEGIN}
+#   rake 'eossanguos:async'
+#   task_logger %{eosknights FINISHED}
+# end
