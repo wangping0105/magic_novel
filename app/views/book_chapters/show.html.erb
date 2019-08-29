@@ -103,7 +103,7 @@
 -->
 <script type="text/javascript">
   $(function() {
-  <%if Rails.env.development? %>
+  <% if Rails.env.development? %>
 //    document.writeln("语言版本: "+browser.language);
 //    document.writeln("<br>是否为移动终端: "+ browser.versions.mobile);
 //    document.writeln("<br>ios终端: "+ browser.versions.ios);
@@ -113,7 +113,7 @@
 //    document.writeln("<br>是否为iPhone: "+ browser.versions.iPhone);
 //    document.writeln("<br>是否iPad: "+ browser.versions.iPad);
 //    document.writeln("<br>完整信息："+navigator.userAgent);
-  <%end %>
+  <% end %>
 
 
     $("h4[class=tag]").remove();
@@ -123,6 +123,7 @@
       if (e.keyCode == 37){
         location.href = '<%= book_book_chapter_path(@book, @book_chapter.prev_chapter_id) if @book_chapter.prev_chapter_id.to_i != 0 %>'
       }
+
       else if (e.keyCode==39){
         location.href = '<%= book_book_chapter_path(@book, @book_chapter.next_chapter_id) if @book_chapter.next_chapter_id.to_i != 0 %>'
       }

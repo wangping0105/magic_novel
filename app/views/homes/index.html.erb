@@ -52,25 +52,41 @@
           <div class="panel-heading">友情社区</div>
           <div class="panel-body">
             <ul class="list-group" style="text-align: center;">
-               <li class="list-group-item"><a href="https://ruby-china.org" rel="nofollow" title="RubyChina 社区" target="_blank"><img src="https://o4j806krb.qnssl.com/public/images/ruby-china-20150529.png" style="width:130px; "></a></li>
-               <li class="list-group-item"><a href="http://cnodejs.org" rel="nofollow" title="CNode 社区" target="_blank"><img src="//ruby-china-files.b0.upaiyun.com/photo/2016/d427ef3efd33b57721df152c2aa1735e.png" style="width:130px; "></a></li>
-               <li class="list-group-item"><a href="https://laravel-china.org" target="_blank" rel="nofollow"><img src="//ruby-china-files.b0.upaiyun.com/photo/2016/d7782871f3fac7e85a95d20c74046909.png" style="width:130px; "></a></li>
-               <li class="list-group-item"><a href="http://elixir-cn.com" target="_blank" rel="nofollow"><img src="//ruby-china-files.b0.upaiyun.com/photo/2015/f65fb5a10d3392a1db841c85716dd8f6.png" style="width: 140px; "></a></li>
-               <li class="list-group-item"><a href="http://ionichina.com/" target="_blank" rel="nofollow"><img src="//ruby-china-files.b0.upaiyun.com/photo/2016/62e5d33d4f90ead9e798e3f8ae085f16.png" style="width: 140px;"></a></li>
-               <li class="list-group-item"><a href="https://testerhome.com/" target="_blank" rel="nofollow"><img src="//ruby-china-files.b0.upaiyun.com/photo/2016/5cd78b730062ab3c768bcc2592c5c7fa.png" style="width: 150px;"></a></li>
+               <li class="list-group-item">
+                 <a href="https://ruby-china.org" rel="nofollow" title="RubyChina 社区" target="_blank" class="ruby-china">
+                   <b style="color: #EB5424;">Ruby</b> China
+                 </a>
+               </li>
+               <li class="list-group-item">
+                 <a href="http://cnodejs.org" rel="nofollow" title="CNode 社区" target="_blank">
+                   <%= image_tag("cnode.png", class: 'cnode')%>
+                 </a>
+               </li>
+
+               <li class="list-group-item">
+                 <a href="https://laravel-china.org" target="_blank" rel="nofollow">
+                   <%= image_tag("Laravel.png", class: 'laravel')%>
+                   <span class="site-name">Laravel</span>
+                 </a></li>
+               <li class="list-group-item">
+                 <a href="https://testerhome.com/" target="_blank" rel="nofollow" class="testhome">TesterHome</a>
+               </li>
             </ul>
           </div>
         </div>
         </div>
 
-        <div class="panel panel-default">
-          <div class="panel-heading">Statistics</div>
-          <div class="panel-body">
-            <p>小说数量: <%= Book.count%> </p>
-            <p>用户数量: <%= User.count%> </p>
-            <p>总阅读量: <%= Book.pluck("sum(click_count)").first%> </p>
+      <% if current_user && current_user.admin? %>
+          <div class="panel panel-default">
+            <div class="panel-heading">Statistics</div>
+            <div class="panel-body">
+              <p>小说数量: <%= Book.count%> </p>
+              <p>用户数量: <%= User.count%> </p>
+              <p>总阅读量: <%= Book.pluck("sum(click_count)").first%> </p>
+            </div>
           </div>
-        </div>
+      <% end %>
+
       </div>
     </div>
   </div>
