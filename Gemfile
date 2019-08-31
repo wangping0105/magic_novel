@@ -87,8 +87,6 @@ gem 'mini_magick'
 
 gem 'rest-client'
 
-gem 'faye', '~> 1.2'
-
 gem 'settingslogic'
 
 gem "redis-rails"

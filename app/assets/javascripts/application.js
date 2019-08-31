@@ -29,28 +29,6 @@
 //= require echarts.min
 //= require_self
 
-function withFayeClient(callback) {
-    var init_faye = function () {
-        if(!window.initFaye) {
-            console.log(window.faye_client_js_url)
-            console.log(window.faye_push_url)
-
-            window.initFaye = $.ajax({
-                url: window.faye_client_js_url,
-                cache: true,
-                dataType: "script"
-            }).done(function() {
-                window.fayeClient = new Faye.Client(window.faye_push_url + "/faye");
-                console.log(window.fayeClient, 1112222333)
-            });
-        }
-
-        window.initFaye.done(callback);
-    }
-
-    setTimeout(init_faye, 400);
-}
-
 function S4() {
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 }

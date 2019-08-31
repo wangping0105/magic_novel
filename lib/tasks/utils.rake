@@ -30,7 +30,7 @@ namespace :utils do
       Notification.create(user_id: u.id, title: "欢迎你来到魔书网!", body: "详细信息!")
     end
 
-    FayeClient.send_message("/notifications/broadcast", {text: "欢迎你来到魔书网!"})
+    # FayeClient.send_message("/notifications/broadcast", {text: "欢迎你来到魔书网!"})
   end
 
   desc '铜价信息'
@@ -74,7 +74,7 @@ namespace :utils do
 
       if user
         notification = user.notifications.create(title: title, body: "\n#{str}")
-        FayeClient.send_message("/notifications/#{user.api_key.access_token}#{user.id}", { notification: { title: notification.title } })
+        # FayeClient.send_message("/notifications/#{user.api_key.access_token}#{user.id}", { notification: { title: notification.title } })
       end
     end
   end
