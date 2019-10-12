@@ -110,7 +110,7 @@ module Crawler
       # @agent = Mechanize.new
       # @book_chapter_exist_count = {}
       def process_book_by(chapter_url)
-        introduction_url = chapter_url.gsub("readbook", "articleinfo").gsub("aid", "id")
+        introduction_url = chapter_url.gsub("readbook.asp", "articleinfo.php").gsub("aid", "id")
 
         # 某一本小说
         page = @agent.get(chapter_url)
@@ -151,10 +151,15 @@ module Crawler
               flag = !l.to_s.in?(@skip_titles)
             end
 
-            l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/).to_s.present? && flag && check_page_exist?(l)
+            if l.href.match(/read_sql.php|read_sql.asp|read.asp/).to_s.present?
+              l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp/).to_s.present? && flag #&& check_page_exist?(l)
+            else
+              false
+            end
           }
 
-          chapter_page = all_chapters.first.click
+          puts all_chapters
+          chapter_page = all_chapters.first
           chapter_list_new(book, chapter_page)
 
           put_logs("#{book_name}下载完毕。。。", error_type = 'info')
@@ -179,17 +184,18 @@ module Crawler
           url = chapter_list_page.try(:uri).to_s
           book.update(lastest_download_url: url)
 
-          links = chapter_list_page.links
-
-          # this is first chapter
-          next_page = links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/)}.first
-          save_chapter_form_next_page(book, next_page)
+          # links = chapter_list_page.links
+          #
+          # # this is first chapter
+          # next_page = links.select{ |l| l.href && l.href.match(/read_sql.php|read_sql.asp|read.asp|/)}.first
+          save_chapter_form_next_page(book, page)
         end
 
       end
 
       def save_chapter_form_next_page(book, next_page)
         chapter_page = nil
+        # 遍历
         while next_page.present?
           begin
             chapter_page = next_page.click
