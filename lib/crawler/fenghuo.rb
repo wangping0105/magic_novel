@@ -251,6 +251,7 @@ module Crawler
               book.save
 
               puts "#{chapter_title} 章节下载完毕"
+              book.update(chapter_updated_date: Date.today)
             else
               puts("章节下载失败！ #{book_chapter.errors.full_messages}")
             end
