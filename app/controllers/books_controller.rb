@@ -33,7 +33,7 @@ class BooksController < ApplicationController
 
   def show
     set_page_title(@book.title)
-    @book_chapters = @book.book_chapters.includes(:book_volume).page(params[:page]).per(128)
+    @book_chapters = @book.book_chapters.where("id > 0").includes(:book_volume).page(params[:page]).per(128)
     if params[:order_type] == "desc"
       @book_chapters = @book_chapters.order(book_volume_id: :desc).order(id: :desc)
     else

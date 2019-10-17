@@ -21,7 +21,7 @@ class BookChaptersController < ApplicationController
     @font_settings = get_font_color_and_size
     save_request_logs(last_chapter_id: @book_chapter.id)
 
-    # 使用悲观锁
+    # 使用悲观锁 锁行
     @book.with_lock do
       @book.click_count += 1
       @book.save!
