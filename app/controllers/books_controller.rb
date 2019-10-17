@@ -11,10 +11,10 @@ class BooksController < ApplicationController
     @books = filter_order(@books)
 
     @classifications = Rails.cache.fetch("classification_counts", expires_in: 1.seconds) do
-      @classifications = Classification.all
-      # class_arr = Book.online_books.group(:classification_id).pluck("books.classification_id, count(*) total_count").to_h
-      @classifications.map{|c|
-        book_count = 0 #class_arr[c.id].to_i
+      classifications = Classification.all
+      class_arr = Book.online_books.group(:classification_id).pluck("books.classification_id, count(*) total_count").to_h
+      classifications.map{|c|
+        book_count = class_arr[c.id].to_i
         [c.name, c.id, book_count]
       }
     end
