@@ -243,7 +243,7 @@ GEM
     puma (3.7.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
-    rack (2.0.1)
+    rack (2.0.7)
     rack-mini-profiler (0.10.2)
       rack (>= 1.2.0)
     rack-pjax (1.0.0)
