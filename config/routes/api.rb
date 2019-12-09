@@ -1,4 +1,10 @@
 namespace :api, defaults: { format: :json } do
+  resources :activities do
+    collection do
+      get :record
+    end
+  end
+
 	namespace :v1 do
 		resources :auth, only: [] do
 			collection do
