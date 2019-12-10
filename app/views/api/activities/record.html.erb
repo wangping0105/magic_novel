@@ -1,2 +1,32 @@
-<iframe src="https://item.jd.com/883594.html" style="width: 100%;height: 100%;border: 0">
-</iframe>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+<script>
+    function downloadApp(){
+        var u = navigator.userAgent;
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var src=""
+        if(ua.match(/MicroMessenger/i)=="micromessenger") { //微信内置浏览器
+            $(".wx-header").show();
+        }else{
+            if(isiOS){
+                src = 'https://item.m.jd.com/product/883594.html';
+            }else if(isAndroid){
+                src= 'https://item.m.jd.com/product/883594.html'
+            }else {
+                src= 'https://item.jd.com/883594.html'
+            }
+
+            console.log(1111)
+            console.log(src)
+            $('body').append("<iframe id='if' src=\""+src+"\" style=\"width: 100%;height: 100%;border: 0\"></iframe>")
+        }
+    }
+
+    $(document).ready(function(){
+        downloadApp();
+    });
+
+
+</script>
