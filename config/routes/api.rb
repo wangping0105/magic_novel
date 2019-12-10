@@ -1,11 +1,11 @@
-namespace :api, defaults: { format: :json } do
+namespace :api do
   resources :activities do
     collection do
       get :record
     end
   end
 
-	namespace :v1 do
+	namespace :v1, defaults: { format: :json } do
 		resources :auth, only: [] do
 			collection do
 				post :login, :logout, :code_login, :sign_up

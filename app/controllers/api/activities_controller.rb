@@ -19,7 +19,7 @@ class Api::ActivitiesController < ApplicationController
         activity.save!
       end
 
-      redirect_to activity.url
+      render layout:false
     else
       render json: {error: "invalid arg", message: '请传入正确的id'}, status: 400
     end
