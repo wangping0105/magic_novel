@@ -12,16 +12,16 @@ class Api::ActivitiesController < ApplicationController
   end
 
   def record
-    if params[:url].present?
-      activity = Activity.find_or_create_by(source: :default, url: params[:url])
+    if params[:id].present?
+      activity = Activity.find(params[:id])
       activity.with_lock do
         activity.count += 1
         activity.save!
       end
 
-      redirect_to params[:url]
+      redirect_to activity.url
     else
-      render json: {error: "invalid arg", message: '请传入正确的url'}, status: 401
+      render json: {error: "invalid arg", message: '请传入正确的id'}, status: 400
     end
   end
 end
