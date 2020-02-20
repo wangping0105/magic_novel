@@ -32,8 +32,8 @@
       gtag('js', new Date());
 
       gtag('config', 'UA-158765827-2', {
-          'page_title' : 'videos_show',
-          'page_path': 'videos_show',
+          'page_title' : '<%= @page_title %>',
+          'page_path': '<%= "#{controller_name}_#{action_name}" %>',
           'user_id': '<%= current_user.try(:id) %>'
       });
   </script>
