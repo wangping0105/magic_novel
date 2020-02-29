@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
   resource :homes do
     collection do
-      get :tab_books, :react_demo, :uuid, :cache_demo
+      get :tab_books, :react_demo, :uuid, :cache_demo, :demo_page
       post :create_payment
     end
   end

@@ -73,4 +73,8 @@ class HomesController < ApplicationController
   def cache_demo
 
   end
+
+  def demo_page
+
+  end
 end
