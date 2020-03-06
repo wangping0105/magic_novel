@@ -1,4 +1,6 @@
 default: &default
+  github_key: '6aa9accab7c4892c65ce'
+  github_secret: '7738f4c55859a4d385c2244fe8ab4b0665af3a14'
   redis:
     host: localhost
     port: 6379
