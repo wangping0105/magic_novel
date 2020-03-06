@@ -240,7 +240,7 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
-    puma (3.7.0)
+    puma (3.12.4)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.1)
@@ -459,7 +459,7 @@ DEPENDENCIES
   pry-nav
   pry-rails
   pry-remote
-  puma (= 3.7.0)
+  puma (= 3.12.4)
   pundit
   rack-mini-profiler
   rails (= 5.0.1)
