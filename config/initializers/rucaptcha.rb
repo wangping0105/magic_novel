@@ -11,5 +11,5 @@ RuCaptcha.configure do
   # 但如果是 [:null_store, :memory_store, :file_store] 之类的，你可以通过下面的配置项单独给 RuCaptcha 配置 cache_store
   # sidekiq
   # self.cache_store = :mem_cache_store
-  self.cache_store = :file_store
+  self.cache_store = :redis_store
 end

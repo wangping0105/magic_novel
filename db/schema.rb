@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191209152125) do
+ActiveRecord::Schema.define(version: 20200306171431) do
 
   create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "source",     default: 0
@@ -395,15 +395,20 @@ ActiveRecord::Schema.define(version: 20191209152125) do
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email"
-    t.string   "phone",                                             comment: "手机"
+    t.string   "phone",                                                   comment: "手机"
     t.string   "name"
     t.datetime "activated"
     t.boolean  "admin",                default: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.string   "authentication_token"
     t.string   "password_digest"
     t.integer  "deleted_at"
+    t.string   "provider",             default: "magicbook"
+    t.string   "provider_uid"
+    t.string   "avatar_url"
+    t.index ["email"], name: "index_users_on_email", using: :btree
+    t.index ["phone"], name: "index_users_on_phone", using: :btree
   end
 
 end

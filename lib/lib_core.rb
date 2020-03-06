@@ -4,6 +4,7 @@ require 'download_file'
 require 'server_auth'
 require 'identification_of_mrz'
 require 'onlinepay'
+require 'github'
 
 require "errors/errors"
 require "errors/error_codes"

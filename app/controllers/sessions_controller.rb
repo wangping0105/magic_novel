@@ -1,19 +1,29 @@
 class SessionsController < ApplicationController
   skip_before_action :store_location
   layout 'layouts/sessions'
+
   def index
     @user = User.new
   end
 
   def create
-    login = params[:login].match(/w*@w*/) ? "email" : "phone"
-    @user = User.find_by(login => params[:login])
+    puts auth_hash
 
-    if @user && @user.authenticate(user_params[:password])
+    if auth_hash.present?
+      @user = User.find_or_create_by(provider: params[:provider], provider_uid: auth_hash[:uid])
+      @user.update(auth_hash[:info].to_h)
       sign_in(@user)
       flash[:success] = '登录成功'
     else
-      flash[:danger] = '账户密码不正确，请重试!'
+      login = params[:login].match(/w*@w*/) ? "email" : "phone"
+      @user = User.find_by(login => params[:login])
+
+      if @user && @user.authenticate(user_params[:password])
+        sign_in(@user)
+        flash[:success] = '登录成功'
+      else
+        flash[:danger] = '账户密码不正确，请重试!'
+      end
     end
 
     redirect_back_or root_path
@@ -48,6 +58,12 @@ class SessionsController < ApplicationController
     sign_out
     flash[:success] = '退出成功'
     redirect_back_or root_path
+  end
+
+  protected
+
+  def auth_hash
+    @auth_hash ||= request.env['omniauth.auth']
   end
 
   private

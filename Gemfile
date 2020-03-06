@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-# source 'https://gems.ruby-china.com'
+#source 'https://rubygems.org'
+ source 'https://gems.ruby-china.com'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.1'
@@ -87,6 +87,7 @@ gem 'mini_magick'
 
 gem 'rest-client'
 
+# 一些配置 service.yml
 gem 'settingslogic'
 
 gem "redis-rails"
@@ -97,7 +98,8 @@ gem 'newrelic_rpm'
 
 gem 'paperclip'
 
-gem 'omniauth-github'
+gem 'omniauth-oauth2'
+# gem 'omniauth-github'
 gem 'rails_admin'
 
 group :development do
