@@ -60,6 +60,12 @@ class SessionsController < ApplicationController
     redirect_back_or root_path
   end
 
+  def failure
+    flash[:danger] = "登陆失败 #{params[:message]}"
+
+    redirect_back_or root_path
+  end
+
   protected
 
   def auth_hash

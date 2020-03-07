@@ -1,3 +1,6 @@
+# oauth 登陆
+- 本地启动 9000 端口， 然后配置在 config/service.yml里面
+
 # 从服务器同步图片
 scp -r dev@47.91.157.26:/home/dev/rails_projects/magic_novel_production/current/public/eos_sanguos /Users/devloper/rails_projects/magic_novel/public/
 
