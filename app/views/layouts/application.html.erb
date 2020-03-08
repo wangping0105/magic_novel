@@ -21,6 +21,7 @@
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <script src="/assets/kindeditor/kindeditor.js" ></script>
+
   <% if content_for?(:js_in_head) %>
       <%= yield(:js_in_head) %>
   <% end %>
@@ -64,3 +65,4 @@
       <%= yield(:js_in_footer) %>
   <% end %>
 </html>
+

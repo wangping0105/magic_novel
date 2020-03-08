@@ -219,8 +219,11 @@ class BooksController < ApplicationController
   end
 
   def filter_params(relation)
-    relation = relation.joins("inner join authors a on a.id=books.author_id ").where("a.name like :name", name: "%#{params[:author_name]}%").distinct if params[:author_name].present?
-    relation = relation.where("title like :title or pinyin like :title ", title: "%#{params[:title]}%") if params[:title].present?
+    if params[:title].present?
+      relation = relation.joins("inner join authors a on a.id=books.author_id ")
+      relation = relation.where("a.name like :title or title like :title or pinyin like :title ", title: "%#{params[:title]}%")
+    end
+
     relation = relation.where(classification: params[:classification]) if params[:classification].present?
 
     relation

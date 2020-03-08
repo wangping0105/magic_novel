@@ -1,36 +1,41 @@
-<div class="container">
+<%= content_for(:js_in_head) do %>
+<!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<% end %>
+
+<div id="app" class="container">
   <h1>书籍列表</h1>
   <div class="query_area row">
     <%= form_for( books_path, method: 'GET', html: {class: 'form-group'}) do %>
-      <div class="form-group row">
-        <label class="col-sm-1 control-label">书籍名：</label>
-        <div class="col-sm-3">
-          <%= text_field_tag :title, params[:title], class:"form-control" %>
-        </div>
 
-        <label class="col-sm-1 control-label">作者名：</label>
+      <div class="form-group row">
+        <label class="col-sm-1 control-label">搜索：</label>
         <div class="col-sm-3">
-          <%= text_field_tag :author_name, params[:author_name], class:"form-control" %>
+          <%= text_field_tag :title, params[:title], plcaeholder: '输入作者名', class:"form-control" %>
         </div>
       </div>
 
       <div class="form-group row">
         <label class="col-sm-1 control-label">分类：</label>
         <div class="col-sm-11">
-          <% @classifications.insert(0, ["全部", "", @all_book_count]).each do |theme| %>
-            <% if theme[2] > 0 %>
-              <%= radio_button_tag 'classification', theme[1], params[:classification].to_s == theme[1].to_s %> <%= theme[0] %>
-            <% end %>
-          <% end %>
+          <template>
+            <%= hidden_field_tag :classification, params[:classification] %>
+            <el-select v-model="classification" filterable placeholder="请选择" @change="getClassificationValue">
+              <el-option v-for="item in classification_options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+          </template>
         </div>
       </div>
 
       <div class="form-group row">
         <label class="col-sm-1 control-label">排序：</label>
         <div class="col-sm-11">
-          <% [['书籍热门排行', 'click_count'], [ '最新书籍', 'id'], ['书籍收藏排行', 'collection_count'], ['书籍推荐排行', 'recommend_count']].each do |theme| %>
-            <%= radio_button_tag 'sort', theme[1], params[:sort] == theme[1] %> <%= theme[0] %>
-          <% end %>
+          <template>
+            <%= hidden_field_tag :sort, params[:sort] %>
+            <el-select v-model="sort" filterable placeholder="请选择" @change="getSortValue">
+              <el-option v-for="item in sort_options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+          </template>
         </div>
       </div>
 
@@ -84,4 +89,44 @@
   <%= paginate @books %>
 </div>
 
-
+<%= content_for(:js_in_footer) do %>
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    classification_options: [
+                        <% @classifications.insert(0, ["全部", "", @all_book_count]).each do |theme| %>
+                        <% if theme[2] > 0 %>
+                        {
+                            value: '<%= theme[1] %>',
+                            label: '<%= theme[0] %>'
+                        },
+                        <% end %>
+                        <% end %>
+                    ],
+                    classification: '<%= params[:classification] %>',
+                    sort_options: [
+                        <% [['书籍热门排行', 'click_count'], [ '最新书籍', 'id'], ['书籍收藏排行', 'collection_count'], ['书籍推荐排行', 'recommend_count']].each do |theme| %>
+                        {
+                            value: '<%= theme[1] %>',
+                            label: '<%= theme[0] %>'
+                        },
+                        <% end %>
+                    ],
+                    sort: '<%= params[:sort] %>',
+                    getClassificationValue: function(obj){
+                        $("#classification").val(obj);
+                    },
+                    getSortValue: function(obj){
+                        $("#sort").val(obj);
+                    }
+                }
+            }
+        });
+    </script>
+<% end %>
