@@ -1,8 +1,8 @@
 # oauth 登陆
 - 本地启动 9000 端口， 然后配置在 config/service.yml里面
 
-# 从服务器同步图片
-scp -r dev@47.91.157.26:/home/dev/rails_projects/magic_novel_production/current/public/eos_sanguos /Users/devloper/rails_projects/magic_novel/public/
+# 从服务器同步图片 文件夹
+scp -r dev@www.block-lian.com/:ssss ssss
 
 # Magic book
 魔书网，体验极致小说阅读.
@@ -21,15 +21,5 @@ ps: server is in HK.
 - god -c config/app.god
 
 # Add redis
-
-# Add c9.io 添加数据库用户 if use
-## Run the MySQL interactive shell
-$ mysql-ctl cli
-https://docs.c9.io/docs/setting-up-mysql
-
-SHOW GRANTS FOR 'root'@'localhost';
-CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root');   
 
 # 安装 membercache（可以不装）
