@@ -35,7 +35,10 @@ module Crawler
 
       def update_books
         @agent = Mechanize.new
-        Book.where(source: "fenghuo").serial_books.find_each do |book|
+        all_books = Book.where(source: "fenghuo").serial_books
+        Rails.logger.info("今日待自动更新小说数量：#{all_books.count}")
+
+        all_books.find_each do |book|
           deal_update_book(book)
         end
       end

@@ -12,6 +12,7 @@ namespace :mechanize do
     Crawler::Fenghuo.get_novels(sortid: 14)
   end
 
+  # cap production deploy:runrake task=mechanize:update_books
   # rake mechanize:update_books
   desc '爬虫 更新全部小说'
   task :update_books => :environment do
