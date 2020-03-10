@@ -5,6 +5,7 @@ class ActionDispatch::Routing::Mapper
 end
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  mount Sidekiq::Web => '/sidekiq'
 
   namespace :minings do
     root 'homes#index'
@@ -19,13 +20,6 @@ Rails.application.routes.draw do
   draw :api
   draw :hybird
   draw :block_chain
-
-  # sidekiq
-  require 'sidekiq/web'
-  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    username == 'sidekiqadmin' && password == '5529d99a'
-  end if Rails.env.production?
-  mount Sidekiq::Web => '/sidekiq'
 
   root to: "homes#index"
   get '/58countries'=> "homes#show"
