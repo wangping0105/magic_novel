@@ -140,7 +140,8 @@ module Crawler
               author_id: author.id,
               status: book_info[:status],
               introduction: book_info[:introduction] || "暂无简介",
-              words: book_info[:word_count]
+              words: book_info[:word_count],
+              source: "fenghuo"
              })
             book_volume = book.book_volumes.new(title: '正文', book_id: book.id)
             book_volume.save
