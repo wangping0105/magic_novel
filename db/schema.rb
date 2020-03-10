@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200306171431) do
+ActiveRecord::Schema.define(version: 20200310170203) do
 
   create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "source",     default: 0
@@ -164,13 +164,14 @@ ActiveRecord::Schema.define(version: 20200306171431) do
     t.integer  "book_volumes_count",                                default: 0
     t.integer  "book_chapters_count",                               default: 0
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.datetime "created_at",                                                               null: false
+    t.datetime "updated_at",                                                               null: false
     t.integer  "classification_id"
     t.integer  "operator_id"
     t.string   "lastest_download_url"
     t.integer  "lastest_chapter_id"
     t.date     "chapter_updated_date"
+    t.string   "source",                                            default: "magicbooks"
     t.index ["author_id"], name: "index_books_on_author_id", using: :btree
     t.index ["book_type"], name: "index_books_on_book_type", using: :btree
   end

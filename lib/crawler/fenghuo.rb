@@ -35,7 +35,7 @@ module Crawler
 
       def update_books
         @agent = Mechanize.new
-        Book.serial_books.find_each do |book|
+        Book.where(source: "fenghuo").serial_books.find_each do |book|
           deal_update_book(book)
         end
       end
