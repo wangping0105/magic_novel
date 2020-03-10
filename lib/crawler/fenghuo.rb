@@ -197,12 +197,7 @@ module Crawler
         chapter_page = nil
         # 遍历
         while next_page.present?
-          begin
-            chapter_page = next_page.click
-          rescue
-            sleep 5
-            chapter_page = next_page.click
-          end
+          chapter_page = get_the_page(next_page, i)
 
           if @book_chapter_exist_count[book.id].to_i > BOOK_CHAPTER_LIMIT
             put_logs("章节存在数量超限 #{@book_chapter_exist_count[book.id].to_i}, 请人人工核查！", error_type = 'chapter_exist')
@@ -326,6 +321,21 @@ module Crawler
         t_now = Time.now.to_f
         @time_all += ((t_now-time_i.to_i)*1000).round(1)
         ((t_now-time_i.to_i)*1000).round(1)
+      end
+
+      def get_the_page(page, i)
+        data = nil
+        begin
+          data = page.click
+        rescue Exception => e
+          if i < 10
+            data = get_the_page(page, i + 1)
+          else
+            raise e
+          end
+        end
+
+        data
       end
     end
   end
