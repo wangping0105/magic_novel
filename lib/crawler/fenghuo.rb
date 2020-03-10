@@ -197,7 +197,7 @@ module Crawler
         chapter_page = nil
         # 遍历
         while next_page.present?
-          chapter_page = get_the_page(next_page, i)
+          chapter_page = get_the_page(next_page, 1)
 
           if @book_chapter_exist_count[book.id].to_i > BOOK_CHAPTER_LIMIT
             put_logs("章节存在数量超限 #{@book_chapter_exist_count[book.id].to_i}, 请人人工核查！", error_type = 'chapter_exist')
