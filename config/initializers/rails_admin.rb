@@ -18,7 +18,11 @@ RailsAdmin.config do |config|
       "Setting",
       "EosUser",
       "EosKnight",
-      "EosMining"
+      "EosMining",
+      "Book",
+      "BookChapter",
+      "BookVolume",
+      "BookMark"
   ]
 
   config.actions do

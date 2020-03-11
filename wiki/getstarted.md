@@ -45,3 +45,6 @@ init
 testing env
 
 database: vcooline_ikcrm_testing
+
+# 如何删除git大文件
+- https://www.jianshu.com/p/fe3023bdc825s
