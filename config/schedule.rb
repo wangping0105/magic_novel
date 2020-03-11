@@ -13,9 +13,9 @@ set :task_log_head, %Q{magicnovel schedule job }
 # end
 #
 every :day, :at => '1:45am', :roles => [:whenever] do
-  task_logger %{update_books BEGIN}
+  # task_logger %{update_books BEGIN}
   rake 'mechanize:update_books'
-  task_logger %{update_books FINISHED}
+  # task_logger %{update_books FINISHED}
 end
 
 # eospark 网站出问题了
