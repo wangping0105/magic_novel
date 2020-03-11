@@ -1,5 +1,7 @@
+require 'ruby-pinyin'
+
 class Book < ActiveRecord::Base
-  require 'ruby-pinyin'
+  has_many :book_tag_relations
   has_many :tags, through: :book_tag_relations
   has_many :book_chapters, dependent: :destroy
   has_many :book_volumes, dependent: :destroy

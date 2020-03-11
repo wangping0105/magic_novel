@@ -16,6 +16,9 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
   config.included_models = [
       "Setting",
+      "Classification",
+      "Author",
+      "Operator",
       "EosUser",
       "EosKnight",
       "EosMining",
