@@ -31,8 +31,12 @@ module SessionsHelper
 
   def current_author
     if current_user.present?
-      return Author.create(user_id: current_user.id, name: current_user.name) unless current_user.author.present?
-      @current_author ||= current_user.author
+      author = current_user.author
+      unless current_user.author.present?
+        author = Author.find_or_create_by(user_id: current_user.id)
+        author.update(name: current_user.name)
+      end
+      @current_author ||= author
     else
       nil
     end
