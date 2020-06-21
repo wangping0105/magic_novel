@@ -5,7 +5,8 @@
 
       <div class="row">
         <div class="col-sm-8">
-          <%= f.text_area :body, class: 'form-control', rows: 5, placeholder: t('homeland.topics.type_reply') %>
+          <%= f.hidden_field :body%>
+          <trix-editor input="reply_body" placeholder="<%= t('homeland.topics.type_reply') %>" ></trix-editor>
         </div>
         <div class="col-sm-2">
           <button type="submit" class="btn btn-primary"><%= t('homeland.submit') %></button>
