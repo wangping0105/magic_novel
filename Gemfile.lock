@@ -122,9 +122,13 @@ GEM
     ffi (1.9.18)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
+    font-awesome-sass-rails (3.0.2.2)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     friendly_id (5.2.0)
       activerecord (>= 4.0.0)
     geocoder (1.4.3)
+    github-markup (3.0.4)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     god (0.13.7)
@@ -133,6 +137,13 @@ GEM
       tilt
     hashie (3.5.7)
     hiredis (0.6.1)
+    homeland (1.0.1)
+      activerecord (>= 4.2.0, <= 5.1.0)
+      font-awesome-rails (>= 4.4.0.0)
+      jquery-rails (>= 4.0.0, <= 5.1.0)
+      rails (>= 4.2.0, <= 5.1.0)
+      redcarpet (>= 3.3.0)
+      will_paginate (>= 3.0.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httparty (0.14.0)
@@ -414,6 +425,7 @@ GEM
     websocket-extensions (0.1.2)
     whenever (0.9.7)
       chronic (>= 0.6.3)
+    will_paginate (3.3.0)
 
 PLATFORMS
   ruby
@@ -435,9 +447,12 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   dalli (~> 2.7.4)
   emojimmy
+  font-awesome-sass-rails
   friendly_id
   geocoder
+  github-markup
   god
+  homeland (= 1.0.1)
   httparty
   iconv
   jbuilder

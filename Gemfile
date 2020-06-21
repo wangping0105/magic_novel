@@ -155,3 +155,9 @@ end
 group :production do
   gem 'god'
 end
+
+ # Gemfile
+gem "homeland", '1.0.1'
+gem 'font-awesome-sass-rails'
+ # 如果你用其他 markup 可以不用依赖 github-markup
+gem 'github-markup'

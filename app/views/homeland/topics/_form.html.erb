@@ -1,0 +1,23 @@
+<%= form_for(@topic) do |f| %>
+  <%= render_errors @topic %>
+  <%= f.hidden_field :node_id %>
+  <div class="form-group">
+    <%= f.label :node %>
+    <%= f.select :node_id, Homeland::Node.all.collect { |n| [n.name, n.id] }, {}, { class: 'form-control' } %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :body %>
+    <%= f.text_area :body, class: "form-control", rows: "10" %>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary btn-lg" data-disable-with="<%= t('homeland.submiting') %>"><%= t('homeland.submit') %></button>
+    <a href="<%= @topic.id.blank? ? homeland.topics_path : homeland.topic_path(@topic) %>" class="btn btn-lg btn-default"><%= t('homeland.cancel') %></a>
+  </div>
+<% end %>

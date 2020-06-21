@@ -1,0 +1,17 @@
+<tr class="topic">
+  <td class="title">
+    <%= link_to topic.title, homeland.topic_path(topic) %>
+  </td>
+  <td class="node">
+    <%= node_tag(topic.node) %>
+  </td>
+  <td class="author">
+    <%= user_avatar_tag(topic) %>
+  </td>
+  <td class="replies">
+    <%= topic.replies_count %>
+  </td>
+  <td class="activity">
+    <%= timeago topic.activity_at %>
+  </td>
+</tr>

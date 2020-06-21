@@ -40,9 +40,11 @@
                  url = default_attachment_url
                  origin_url = att.file.url %>
 
-              <video width="200"controls autobuffer>
-                <source src="<%= origin_url %>" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'/>
-              </video>
+              <% if origin_url.match(/.mp4/) %>
+                <video width="200"controls autobuffer>
+                  <source src="<%= origin_url %>" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'/>
+                </video>
+              <% end %>
             <%end %>
             <br>
             <%= "#{file_name} #{(file_size/1000.0).round(2)}KB" %><br>
