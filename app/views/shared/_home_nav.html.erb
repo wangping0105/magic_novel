@@ -13,6 +13,7 @@
       <ul class="nav navbar-nav">
         <li class="<%="active" if "#{controller_name}" == "homes" && action_name == "index" %>"><a href="/" data-no-turbolink="true">首页</a></li>
         <li class="<%="active" if "#{controller_path}" == "books" %>"><a href="/books" data-no-turbolink="true">魔·书库</a></li>
+        <li><a href="/homeland" data-no-turbolink="true">魔·福利</a></li>
         <%if current_user%>
           <li class="<%="active" if "#{controller_path}" == "user_home/books" %>"><a href="/user_home/books">我的书架</a></li>
           <%if current_user.admin? %>

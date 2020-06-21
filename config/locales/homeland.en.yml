@@ -1,0 +1,45 @@
+en:
+  activerecord:
+    models:
+      homeland/topic: "Topic"
+      homeland/reply: "Reply"
+    attributes:
+      homeland/topic:
+        title: "Subject"
+        body: "Content"
+        node: "Channel"
+        replies_count: "Replies"
+        user: "Author"
+        activity: "Activity"
+      homeland/reply:
+        body: "Content"
+  homeland:
+    nav:
+      home: 'BlockLian'
+      latest: 'Latest'
+      features: 'Features'
+      recent: 'Recent'
+      node: "Channel"
+      new: "New Topic"
+    topics:
+      empty: 'Ther have no subject created.'
+      type_reply: 'Write your reply here...'
+      reply_to: "Reply To"
+    submiting: 'Submiting...'
+    submit: 'Submit'
+    cancel: 'Cancel'
+    reply: 'Reply'
+    new: "New"
+    edit: "Edit"
+    delete: "Delete"
+    access_denied: "Access denied."
+    are_you_sure_to_delete: "Are you sure to delete?"
+    topic_created: "Topic created success."
+    topic_updated: "Topic updated success."
+    topic_deleted: "Topic deleted success."
+    reply_created: "Reply created success."
+    reply_deleted: "Reply deleted success."
+    reply_updated: "Reply updated success."
+    node_created: "Channel created success."
+    node_updated: "Channel updated success."
+    node_deleted: "Channel deleted success."
