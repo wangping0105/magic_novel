@@ -119,7 +119,7 @@ GEM
     execjs (2.7.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.18)
+    ffi (1.13.1)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
     font-awesome-sass-rails (3.0.2.2)
