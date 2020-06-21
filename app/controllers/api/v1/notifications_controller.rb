@@ -3,7 +3,7 @@ class Api::V1::NotificationsController < Api::V1::BaseController
   before_action :set_default_page_params, only: [:index]
 
   def index
-    @notifications = current_user.notifications.order(id: :desc).page(params[:page]).per(params[:per_page])
+    @notifications = current_user.notifications.order(id: :desc).page(params[:page]).per_page(params[:per_page])
 
     render json: { code: 0, data: page_options(@notifications) }
   end

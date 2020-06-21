@@ -458,7 +458,6 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   jquery-validation-rails
-  kaminari
   ledermann-rails-settings
   listen (~> 3.0.5)
   mechanize
