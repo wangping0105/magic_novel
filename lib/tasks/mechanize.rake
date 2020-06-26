@@ -22,7 +22,7 @@ namespace :mechanize do
   # cap production deploy:runrake task=mechanize:update_books
   # rake mechanize:update_books
   desc '爬虫 更新 fulibus'
-  task :update_books => :environment do
+  task :update_fulibus => :environment do
     Crawler::Fulibus.get_posts
   end
 end

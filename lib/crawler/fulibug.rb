@@ -42,7 +42,7 @@ module Crawler
           node = Homeland::Node.create(name: category, color: '#0E76BD', description: category) unless node
 
           unless ht
-            Homeland::Topic.create!(title: title, body: content, created_at: Date.parse(post_date), user: @user, node: node)
+            Homeland::Topic.create!(title: title, body: convert_string(content), created_at: Date.parse(post_date), user: @user, node: node)
           end
 
           sleep 1
