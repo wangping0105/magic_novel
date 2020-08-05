@@ -25,11 +25,21 @@ class Api::V1::AttachmentsController < Api::V1::BaseController
       attr = attr.merge(attachmentable_type: attachmentable_type, attachmentable_id: attachmentable_id)
     end
 
-    attachment = Attachment.create(attr)
-    render json:{
-      code: 0,
-      data: AttachmentSerializer.new(attachment)
-    }
+    attachment = Attachment.new(attr)
+    if attachment.savee
+      render json:{
+        code: 0,
+        data: AttachmentSerializer.new(attachment)
+      }
+    else
+      render json:{
+          code: -1,
+          data: {
+              message: attachment.errors.full_messages,
+          }
+      }
+    end
+
   end
 
   # params do

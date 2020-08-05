@@ -1,0 +1,30 @@
+<div class="topics">
+  <%= render 'node_info' %>
+
+  <table class="table">
+    <thead class="thead-default">
+      <tr class="topic">
+        <th class="title"><%= t('activerecord.attributes.homeland/topic.title')%></th>
+        <th class="node"><%= t('activerecord.attributes.homeland/topic.node')%></th>
+        <th class="author"><%= t('activerecord.attributes.homeland/topic.user')%></th>
+        <th class="replies"><%= t('activerecord.attributes.homeland/topic.replies_count')%></th>
+        <th class="activity"><%= t('activerecord.attributes.homeland/topic.activity')%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @topics.blank? %>
+        <tr>
+          <th>
+            <span class="text-mutted">
+              <%= t('homeland.topics.empty') %>
+            </span>
+          </td>
+        </tr>
+      <% else %>
+        <%= render @topics %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= homeland_paginate @topics %>
+</div>

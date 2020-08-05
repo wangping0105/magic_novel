@@ -1,0 +1,17 @@
+<nav id="reply-panel">
+  <div class="container">
+    <%= form_for(Homeland::Reply.new, url: reply_topic_path(@topic.id)) do |f| %>
+      <%= f.hidden_field :reply_to_id %>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <%= f.hidden_field :body%>
+          <trix-editor input="reply_body" placeholder="<%= t('homeland.topics.type_reply') %>" ></trix-editor>
+        </div>
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-primary"><%= t('homeland.submit') %></button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</nav>

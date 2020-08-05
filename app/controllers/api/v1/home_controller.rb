@@ -9,7 +9,7 @@ class Api::V1::HomeController < Api::V1::BaseController
     @books = Book.online_books.includes(:classification, :author).book_type(params[:book_type]).
         order(collection_count: :desc).
         # order("(click_count/book_chapters_count) desc").
-        page(params[:page]).per(params[:per_page])
+        page(params[:page]).per_page(params[:per_page])
 
     books = @books.map do |book|
       {

@@ -10,14 +10,19 @@ class UserHome::AttachmentsController < ApplicationController
   def create
     @user ||= current_user
     @attachment = @user.attachments.new(note: params[:note])
-    if file_is_image?
-      @attachment.image = params[:file]
-    else
-      @attachment.file = params[:file]
-    end
 
-    unless params[:file] && @attachment.save
-      flash[:danger] = "文件不能为空" unless params[:file]
+    if params[:file].present?
+      flash[:danger] = "文件不能为空"
+    else
+      if file_is_image?
+        @attachment.image = params[:file]
+      else
+        @attachment.file = params[:file]
+      end
+
+      unless @attachment.save
+        flash[:danger] = @attachment.errors.full_messages
+      end
     end
 
     redirect_to user_home_attachments_path(token: params[:token])

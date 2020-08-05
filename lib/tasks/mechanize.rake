@@ -18,5 +18,12 @@ namespace :mechanize do
   task :update_books => :environment do
     Crawler::Fenghuo.update_books
   end
+
+  # cap production deploy:runrake task=mechanize:update_books
+  # rake mechanize:update_books
+  desc '爬虫 更新 fulibus'
+  task :update_fulibus => :environment do
+    Crawler::Fulibus.get_posts
+  end
 end
 

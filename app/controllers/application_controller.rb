@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
 
   def default_page_title
     @page_title ||= "魔书网"
+    params[:per_page] ||= 30
   end
 
   def set_page_title(title)
@@ -41,7 +42,7 @@ class ApplicationController < ActionController::Base
   end
 
   def filter_page(relation)
-    relation = relation.page(params[:page]).per(params[:per_page])
+    relation = relation.page(params[:page]).per_page(params[:per_page])
     relation
   end
 

@@ -5,6 +5,7 @@ class ActionDispatch::Routing::Mapper
 end
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  mount Homeland::Engine => '/homeland'
   mount Sidekiq::Web => '/sidekiq'
 
   namespace :minings do

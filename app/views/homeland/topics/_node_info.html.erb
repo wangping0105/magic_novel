@@ -1,0 +1,13 @@
+<% if @node %>
+<div class="card">
+  <div class="card-block">
+    <h4 class="card-title"><%= node_tag(@node) %></h4>
+    <p class="card-text"><%= simple_format @node.description %></p>
+    <% if admin? %>
+    <a class="btn-opt" href="<%= homeland.edit_node_path(@node) %>"><i class="fa fa-pencil"></i></a>
+
+    <a class="btn-opt" href="<%= homeland.node_path(@node) %>" data-method="DELETE" data-confirm="<%= t('homeland.are_you_sure_to_delete') %>"><i class="fa fa-trash"></i></a>
+    <% end %>
+  </div>
+</div>
+<% end %>

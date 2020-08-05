@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="topic-detail col-lg-9">
+    <h1>
+      <%= @topic.title %>
+      <%= node_tag(@topic.node) %>
+    </h1>
+
+    <div class="topic-content">
+      <%= render partial: 'homeland/replies/reply', locals: { reply: @topic } %>
+    </div>
+
+    <div class="replies">
+      <%= render @replies %>
+    </div>
+
+  </div>
+
+
+</div>
+
+<%= render 'reply_form' %>

@@ -186,7 +186,7 @@ class Api::V1::BookChaptersController <  Api::V1::BaseController
   end
 
   def filter_page(relation)
-    relation = relation.page(params[:page]).per(params[:per_page])
+    relation = relation.page(params[:page]).per_page(params[:per_page])
     relation
   end
 
