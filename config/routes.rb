@@ -8,19 +8,8 @@ Rails.application.routes.draw do
   mount Homeland::Engine => '/homeland'
   mount Sidekiq::Web => '/sidekiq'
 
-  namespace :minings do
-    root 'homes#index'
-    resources :records
-    resources :homes do
-      collection do
-        get :eosdice, :endless, :eosdicejacks
-      end
-    end
-  end
-
   draw :api
   draw :hybird
-  draw :block_chain
 
   root to: "homes#index"
   get '/58countries'=> "homes#show"
@@ -91,21 +80,6 @@ Rails.application.routes.draw do
     resource :emoticons do
       collection do
         get :rand_show
-      end
-    end
-  end
-
-  namespace :dapps do
-    resources :eos_knights do
-      collection do
-        get :rank
-      end
-    end
-
-    resources :eos_sanguos do
-      collection do
-        get :rank
-        post :upload_file
       end
     end
   end

@@ -43,14 +43,14 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 9000 }
   ActionMailer::Base.smtp_settings = {
       :address => "smtp.163.com",
       :port => 25,
-      :domain         => "www.163.com",
+      :domain => "www.163.com",
       :authentication => :login,
       :user_name => "15921076830@163.com",
-      :password => "wp13812388322",
+      :password => "TGBMPCNQJECYZQIQ",
       enable_starttls_auto: true
   }
 

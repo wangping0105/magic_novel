@@ -1,2 +1,0 @@
-class EosRecord < ApplicationRecord
-end

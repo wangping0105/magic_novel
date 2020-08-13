@@ -17,7 +17,6 @@ class ApplicationMailer < ActionMailer::Base
   # end
 
   def send_mail(params = {})
-    @url  = 'http://example.com/login'
     mail(:subject => params[:subject], :to => params[:to], :date => Time.now) do |format|
       format.text
     end
