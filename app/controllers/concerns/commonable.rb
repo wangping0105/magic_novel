@@ -5,9 +5,8 @@ module Commonable
   end
 
   def save_request_logs(last_chapter_id: nil)
-    ip = request.ip
+    ip = request.remote_ip
 
-    p "ip is #{ip}"
     request = RequestLog.where(ip: ip).last
     if request && request.time_diff_in
       request.with_lock do
