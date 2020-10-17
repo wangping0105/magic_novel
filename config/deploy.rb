@@ -35,7 +35,7 @@ set :repo_url, 'git@github.com:wangping0105/magic_novel.git'
 # set :keep_releases, 5
 set :linked_files, fetch(:linked_files, []).push(*%W{
   config/nginx.conf config/database.yml config/secrets.yml config/cross_sites.yml config/services.yml
-  config/app.god config/newrelic.yml config/puma.rb
+  config/newrelic.yml config/puma.rb
 })
 
 

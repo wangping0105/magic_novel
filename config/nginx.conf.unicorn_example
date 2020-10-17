@@ -1,48 +1,20 @@
-upstream magic_novel_production_unicorn {
-  server unix:/tmp/unicorn.magic_novel_production_unicorn.sock fail_timeout=0;
-}
+# 反向代理
 server {
-	listen 888;
-	#server_name test.dc.ikcrm.com;
+    listen 80;
+    listen 443 ssl;
+    server_name  www.block-lian.com;
+    index index.php index.html index.htm default.php default.htm default.html;
+    access_log  /var/log/nginx/magicbook.log;
+    error_log  /var/log/nginx/magicbook.error.log;
 
-  root /dyne/wp_apps/magic_novel_production/current/public;
-  # individual nginx logs for this magic_novel vhost
-  access_log  /var/log/nginx/magic_novel_production_access.log;
-  error_log   /var/log/nginx/magic_novel_production_error.log;
+    server_tokens	off;
+    ssl_certificate /etc/ssl/private/www.block-lian.com.pem;
+    ssl_certificate_key /etc/ssl/private/www.block-lian.com.key;
+    ssl_protocols			SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers				ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
 
-  location ^~ /assets/ {
-    gzip_static on;
-    expires max;
-    add_header Cache-Control public;
-  }
 
-  try_files $uri/index.html $uri @unicorn;
-
-  location @unicorn {
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Host $http_host;
-    proxy_redirect off;
-    proxy_pass http://magic_novel_production_unicorn;
-  }
-
-  error_page 500 502 503 504 /500.html;
-  client_max_body_size 4G;
-  keepalive_timeout 10;
+location   / {
+	        proxy_pass  http://121.46.238.155:3000;
+	}
 }
-
-# 步骤
-# include /etc/nginx/conf.d/*.conf;
-# sudo ln -nfs /dyne/wp_apps/magic_novel_production/shared/config/nginx.conf /etc/nginx/conf.d/magic_novel_production.config
-#sudo /etc/init.d/nginx reload
-
-
-#https://gitlab.com/gitlab-org/gitlab-ce/blob/master/README.md
-
-#sudo gitlab-ctl restart
-
-#sudo usermod -a -G gitlab nginx
-#sudo chmod g+rx /var/opt/gitlab/
-#sudo chmod g+rx /var/opt/gitlab/gitlab-rails/tmp/sockets
-
-#sudo usermod -aG gitlab nginx
-#sudo chmod 777 /var/opt/gitlab/gitlab-rails -R
