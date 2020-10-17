@@ -70,7 +70,7 @@ gem 'emojimmy'
 # To use debugger 调试
 # 我自己的一个gem
 gem 'alidayu_sms'
-gem 'puma', '3.12.4'
+gem 'puma', '3.12.6'
 # 时间统计
 gem 'rack-mini-profiler'
 gem 'request_store'
