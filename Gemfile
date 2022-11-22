@@ -76,7 +76,7 @@ gem 'rack-mini-profiler'
 gem 'request_store'
 
 # memberchche
-gem 'dalli', '~> 2.7.4', :platforms => :ruby
+gem 'dalli', '~> 3.2.3', :platforms => :ruby
 gem 'friendly_id'
 
 gem "bullet", :group => "development"
